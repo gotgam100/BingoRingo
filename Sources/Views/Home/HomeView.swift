@@ -136,6 +136,26 @@ struct HomeView: View {
                         GroupCard(group: group, memberID: memberID)
                     }
                     .buttonStyle(.plain)
+                    .contextMenu {
+                        Button {
+                            UIPasteboard.general.string = group.inviteCode
+                        } label: {
+                            Label("초대 코드 복사", systemImage: "doc.on.doc")
+                        }
+                        if group.leaderID == memberID {
+                            Button(role: .destructive) {
+                                Task { try? await FirestoreService.shared.deleteGroup(groupID: group.id) }
+                            } label: {
+                                Label("빙고 삭제", systemImage: "trash")
+                            }
+                        } else {
+                            Button(role: .destructive) {
+                                Task { try? await FirestoreService.shared.leaveGroup(groupID: group.id, memberID: memberID) }
+                            } label: {
+                                Label("빙고 나가기", systemImage: "rectangle.portrait.and.arrow.right")
+                            }
+                        }
+                    }
                 }
             }
         }

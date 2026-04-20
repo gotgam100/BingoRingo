@@ -53,6 +53,30 @@ final class FirestoreService {
         ])
     }
 
+    func updateGroupBoardID(groupID: String, boardID: String) async throws {
+        try await db.collection("groups").document(groupID).updateData([
+            "boardID": boardID
+        ])
+    }
+
+    func updateCellTitle(boardID: String, cellIndex: Int, title: String) async throws {
+        let board = try await db.collection("boards").document(boardID).getDocument(as: BingoBoard.self)
+        var cells = board.cells
+        cells[cellIndex].title = title
+        let encoded = try Firestore.Encoder().encode(cells)
+        try await db.collection("boards").document(boardID).updateData(["cells": encoded])
+    }
+
+    func deleteGroup(groupID: String) async throws {
+        try await db.collection("groups").document(groupID).delete()
+    }
+
+    func leaveGroup(groupID: String, memberID: String) async throws {
+        try await db.collection("groups").document(groupID).updateData([
+            "memberIDs": FieldValue.arrayRemove([memberID])
+        ])
+    }
+
     // MARK: - Cell
 
     func checkCell(boardID: String, cellID: String, memberID: String) async throws {
