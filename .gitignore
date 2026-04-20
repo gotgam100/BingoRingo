@@ -1,0 +1,17 @@
+# Xcode
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+DerivedData/
+build/
+*.ipa
+
+# Firebase
+GoogleService-Info.plist
+
+# macOS
+.DS_Store
+
+# SPM
+.build/
+.swiftpm/
