@@ -112,6 +112,7 @@
 				54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */,
 				54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */,
 				0A41335C4AF536BE62D88492 /* Sources */,
+				54F7B5142F96B8D400A46F0A /* Frameworks */,
 				E3ECBD469F6F4C72BC646159 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +133,13 @@
 				E5FA958139F36B835378A024 /* OnboardingView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		54F7B5142F96B8D400A46F0A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		5FBE4286734FC9EF71F286A8 /* Board */ = {
