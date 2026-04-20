@@ -1,87 +1,102 @@
 import SwiftUI
 
-// 온보딩 배경 - 다크 블루 + 기하학 도형
+// 온보딩 배경 - 레트로 블루 + 유기적 blob
 struct OnboardingBackground: View {
     var body: some View {
         ZStack {
-            BRColors.cobaltBlue.ignoresSafeArea()
+            BRColors.blue.ignoresSafeArea()
 
-            // 우상단 큰 원
+            // 상단 우 blob
+            Blob1()
+                .fill(BRColors.red.opacity(0.85))
+                .frame(width: 260, height: 260)
+                .offset(x: 140, y: -220)
+
+            // 하단 좌 blob
+            Blob2()
+                .fill(BRColors.yellow.opacity(0.7))
+                .frame(width: 200, height: 200)
+                .offset(x: -140, y: 300)
+
+            // 중앙 작은 원
             Circle()
-                .fill(BRColors.orange.opacity(0.9))
-                .frame(width: 220, height: 220)
-                .offset(x: 130, y: -200)
-
-            // 좌상단 삼각형
-            Triangle()
-                .fill(BRColors.red.opacity(0.7))
-                .frame(width: 120, height: 120)
-                .offset(x: -140, y: -260)
-
-            // 중앙 좌 작은 사각형
-            Rectangle()
-                .fill(BRColors.beige.opacity(0.5))
-                .frame(width: 60, height: 60)
-                .rotationEffect(.degrees(30))
-                .offset(x: -150, y: 20)
+                .fill(BRColors.green.opacity(0.6))
+                .frame(width: 80, height: 80)
+                .offset(x: -120, y: -100)
 
             // 하단 우 원
             Circle()
                 .fill(BRColors.red.opacity(0.4))
-                .frame(width: 140, height: 140)
-                .offset(x: 150, y: 320)
+                .frame(width: 120, height: 120)
+                .offset(x: 150, y: 360)
 
-            // 하단 좌 큰 사각형
-            Rectangle()
-                .fill(Color.white.opacity(0.05))
-                .frame(width: 180, height: 180)
-                .rotationEffect(.degrees(20))
-                .offset(x: -120, y: 350)
-
-            // 작은 다이아몬드
-            Rectangle()
-                .fill(BRColors.beige.opacity(0.6))
-                .frame(width: 36, height: 36)
-                .rotationEffect(.degrees(45))
-                .offset(x: 60, y: 160)
-
-            // 작은 원
+            // 작은 점
             Circle()
-                .fill(Color.white.opacity(0.15))
-                .frame(width: 50, height: 50)
-                .offset(x: -60, y: 280)
+                .fill(Color.white.opacity(0.3))
+                .frame(width: 20, height: 20)
+                .offset(x: 60, y: 140)
+
+            Circle()
+                .fill(BRColors.yellow.opacity(0.5))
+                .frame(width: 14, height: 14)
+                .offset(x: -50, y: 200)
         }
     }
 }
 
-// 홈 배경 - 라이트 + 상단 컬러 블록
-struct HomeHeaderBackground: View {
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            BRColors.background.ignoresSafeArea()
+// Blob 형태들
+struct Blob1: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { p in
+            p.move(to: CGPoint(x: rect.width * 0.5, y: 0))
+            p.addCurve(
+                to: CGPoint(x: rect.width, y: rect.height * 0.4),
+                control1: CGPoint(x: rect.width * 0.9, y: 0),
+                control2: CGPoint(x: rect.width, y: rect.height * 0.2)
+            )
+            p.addCurve(
+                to: CGPoint(x: rect.width * 0.6, y: rect.height),
+                control1: CGPoint(x: rect.width, y: rect.height * 0.7),
+                control2: CGPoint(x: rect.width * 0.8, y: rect.height)
+            )
+            p.addCurve(
+                to: CGPoint(x: 0, y: rect.height * 0.5),
+                control1: CGPoint(x: rect.width * 0.3, y: rect.height),
+                control2: CGPoint(x: 0, y: rect.height * 0.8)
+            )
+            p.addCurve(
+                to: CGPoint(x: rect.width * 0.5, y: 0),
+                control1: CGPoint(x: 0, y: rect.height * 0.2),
+                control2: CGPoint(x: rect.width * 0.2, y: 0)
+            )
+        }
+    }
+}
 
-            // 상단 컬러 블록
-            Rectangle()
-                .fill(BRColors.cobaltBlue)
-                .frame(height: 200)
-                .ignoresSafeArea(edges: .top)
-
-            // 장식 도형들
-            Circle()
-                .fill(BRColors.orange.opacity(0.8))
-                .frame(width: 80, height: 80)
-                .offset(x: UIScreen.main.bounds.width - 60, y: 20)
-
-            Rectangle()
-                .fill(BRColors.red.opacity(0.6))
-                .frame(width: 40, height: 40)
-                .rotationEffect(.degrees(20))
-                .offset(x: UIScreen.main.bounds.width - 120, y: 100)
-
-            Triangle()
-                .fill(BRColors.beige.opacity(0.7))
-                .frame(width: 60, height: 60)
-                .offset(x: 30, y: 80)
+struct Blob2: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { p in
+            p.move(to: CGPoint(x: rect.width * 0.3, y: 0))
+            p.addCurve(
+                to: CGPoint(x: rect.width, y: rect.height * 0.3),
+                control1: CGPoint(x: rect.width * 0.8, y: -rect.height * 0.1),
+                control2: CGPoint(x: rect.width, y: rect.height * 0.1)
+            )
+            p.addCurve(
+                to: CGPoint(x: rect.width * 0.7, y: rect.height),
+                control1: CGPoint(x: rect.width * 1.1, y: rect.height * 0.6),
+                control2: CGPoint(x: rect.width * 0.9, y: rect.height)
+            )
+            p.addCurve(
+                to: CGPoint(x: 0, y: rect.height * 0.6),
+                control1: CGPoint(x: rect.width * 0.4, y: rect.height * 1.1),
+                control2: CGPoint(x: 0, y: rect.height * 0.9)
+            )
+            p.addCurve(
+                to: CGPoint(x: rect.width * 0.3, y: 0),
+                control1: CGPoint(x: 0, y: rect.height * 0.2),
+                control2: CGPoint(x: rect.width * 0.1, y: 0)
+            )
         }
     }
 }

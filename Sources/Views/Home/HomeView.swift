@@ -20,7 +20,7 @@ struct HomeView: View {
                     VStack(spacing: 0) {
                         headerView
                         groupListView
-                            .padding(.top, 24)
+                            .padding(.top, 28)
                             .padding(.horizontal, 20)
                             .padding(.bottom, 100)
                     }
@@ -41,11 +41,11 @@ struct HomeView: View {
                 } label: {
                     ZStack {
                         Circle()
-                            .fill(BRColors.orange)
+                            .fill(BRColors.red)
                             .frame(width: 64, height: 64)
-                            .shadow(color: BRColors.orange.opacity(0.4), radius: 12, y: 4)
+                            .shadow(color: BRColors.red.opacity(0.35), radius: 14, y: 5)
                         Image(systemName: "plus")
-                            .font(.title2.weight(.bold))
+                            .font(.title2.weight(.black))
                             .foregroundStyle(.white)
                     }
                 }
@@ -69,47 +69,46 @@ struct HomeView: View {
     // MARK: - Header
     private var headerView: some View {
         ZStack(alignment: .bottomLeading) {
-            BRColors.cobaltBlue
+            BRColors.blue
 
-            // 장식 도형
+            // blob 장식
+            Blob2()
+                .fill(BRColors.red.opacity(0.6))
+                .frame(width: 160, height: 160)
+                .offset(x: UIScreen.main.bounds.width - 80, y: 30)
+
             Circle()
-                .fill(BRColors.orange.opacity(0.7))
+                .fill(BRColors.yellow.opacity(0.5))
+                .frame(width: 60, height: 60)
+                .offset(x: UIScreen.main.bounds.width - 160, y: -10)
+
+            Blob1()
+                .fill(BRColors.green.opacity(0.4))
                 .frame(width: 90, height: 90)
-                .offset(x: UIScreen.main.bounds.width - 55, y: 20)
-
-            Rectangle()
-                .fill(BRColors.red.opacity(0.5))
-                .frame(width: 44, height: 44)
-                .rotationEffect(.degrees(20))
-                .offset(x: UIScreen.main.bounds.width - 110, y: -10)
-
-            Triangle()
-                .fill(BRColors.beige.opacity(0.6))
-                .frame(width: 50, height: 50)
-                .offset(x: 24, y: -10)
+                .offset(x: 20, y: -20)
 
             // 텍스트
             VStack(alignment: .leading, spacing: 6) {
                 Text("BingoRingo")
-                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.55))
+                    .tracking(2)
                 Text(authViewModel.currentMember?.displayName.isEmpty == false
-                     ? "안녕하세요, \(authViewModel.currentMember!.displayName)!"
+                     ? "\(authViewModel.currentMember!.displayName)님, 안녕하세요!"
                      : "안녕하세요!")
-                    .font(.system(size: 24, weight: .black, design: .rounded))
+                    .font(.system(size: 22, weight: .black, design: .rounded))
                     .foregroundStyle(.white)
 
                 Button(action: { authViewModel.signOut() }) {
                     Text("로그아웃")
-                        .font(.system(size: 11, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.5))
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.45))
                 }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 28)
         }
-        .frame(height: 180)
-        .clipShape(RoundedRectangle(cornerRadius: 0))
+        .frame(height: 185)
     }
 
     // MARK: - Group List
@@ -117,17 +116,18 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("내 빙고")
-                    .font(.system(size: 20, weight: .black, design: .rounded))
-                    .foregroundStyle(BRColors.darkText)
+                    .font(.system(size: 22, weight: .black, design: .rounded))
+                    .foregroundStyle(BRColors.primary)
                 Spacer()
-                Text("\(groupVM.groups.count)개")
-                    .font(.system(size: 13, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.secondary)
+                if !groupVM.groups.isEmpty {
+                    Text("\(groupVM.groups.count)개")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(BRColors.secondary)
+                }
             }
 
             if groupVM.isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, minHeight: 120)
+                ProgressView().frame(maxWidth: .infinity, minHeight: 120)
             } else if groupVM.groups.isEmpty {
                 emptyView
             } else {
@@ -142,30 +142,29 @@ struct HomeView: View {
     }
 
     private var emptyView: some View {
-        VStack(spacing: 20) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(BRColors.lightGray.opacity(0.5))
-                    .frame(height: 160)
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(BRColors.cream)
+                .shadow(color: .black.opacity(0.04), radius: 8)
+                .frame(height: 170)
 
-                VStack(spacing: 12) {
-                    // 미니 빙고 그리드 아이콘
-                    HStack(spacing: 5) {
-                        ForEach(0..<3, id: \.self) { _ in
-                            VStack(spacing: 5) {
-                                ForEach(0..<3, id: \.self) { _ in
-                                    RoundedRectangle(cornerRadius: 3)
-                                        .fill(BRColors.lightGray)
-                                        .frame(width: 18, height: 18)
-                                }
+            VStack(spacing: 14) {
+                HStack(spacing: 6) {
+                    ForEach(0..<3, id: \.self) { col in
+                        VStack(spacing: 6) {
+                            ForEach(0..<3, id: \.self) { row in
+                                let colors: [Color] = [BRColors.red, BRColors.blue, BRColors.yellow, BRColors.green, BRColors.lightGray]
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(colors[(row * 3 + col) % colors.count].opacity(0.5))
+                                    .frame(width: 20, height: 20)
                             }
                         }
                     }
-                    Text("아직 빙고가 없어요\n+ 버튼으로 시작해보세요!")
-                        .font(.system(size: 14, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
                 }
+                Text("아직 빙고가 없어요\n+ 버튼으로 시작해보세요!")
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundStyle(BRColors.secondary)
+                    .multilineTextAlignment(.center)
             }
         }
     }
@@ -176,35 +175,26 @@ struct GroupCard: View {
     let group: BingoGroup
     let memberID: String
 
-    private let accentColors: [Color] = [
-        BRColors.cobaltBlue, BRColors.orange, BRColors.red, BRColors.beige
-    ]
-
-    private var accentColor: Color {
-        let idx = abs(group.id.hashValue) % accentColors.count
-        return accentColors[idx]
-    }
+    private let accentColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
+    private var accent: Color { accentColors[abs(group.id.hashValue) % accentColors.count] }
 
     var body: some View {
         HStack(spacing: 0) {
-            // 컬러 사이드바
             Rectangle()
-                .fill(accentColor)
-                .frame(width: 6)
+                .fill(accent)
+                .frame(width: 5)
 
             HStack(spacing: 14) {
-                // 미니 빙고 아이콘
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(accentColor.opacity(0.12))
-                        .frame(width: 50, height: 50)
-
-                    VStack(spacing: 2) {
+                        .fill(accent.opacity(0.1))
+                        .frame(width: 52, height: 52)
+                    VStack(spacing: 3) {
                         ForEach(0..<3, id: \.self) { _ in
-                            HStack(spacing: 2) {
+                            HStack(spacing: 3) {
                                 ForEach(0..<3, id: \.self) { _ in
                                     RoundedRectangle(cornerRadius: 2)
-                                        .fill(accentColor.opacity(0.5))
+                                        .fill(accent.opacity(0.45))
                                         .frame(width: 10, height: 10)
                                 }
                             }
@@ -212,31 +202,32 @@ struct GroupCard: View {
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text(group.name)
                         .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundStyle(BRColors.darkText)
+                        .foregroundStyle(BRColors.primary)
 
-                    HStack(spacing: 8) {
-                        Label("\(group.memberIDs.count)명", systemImage: "person.2.fill")
+                    HStack(spacing: 6) {
+                        Image(systemName: "person.2.fill")
+                            .font(.system(size: 11))
+                            .foregroundStyle(BRColors.secondary)
+                        Text("\(group.memberIDs.count)명")
                             .font(.system(size: 12, design: .rounded))
-                            .foregroundStyle(.secondary)
-
+                            .foregroundStyle(BRColors.secondary)
                         Text("·")
-                            .foregroundStyle(.secondary)
-
-                        Text("코드: \(group.inviteCode)")
-                            .font(.system(size: 12, weight: .semibold, design: .rounded))
-                            .foregroundStyle(accentColor)
+                            .foregroundStyle(BRColors.secondary)
+                        Text(group.inviteCode)
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundStyle(accent)
                     }
 
                     if group.leaderID == memberID {
                         Text("방장")
-                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .font(.system(size: 10, weight: .black, design: .rounded))
                             .foregroundStyle(.white)
-                            .padding(.horizontal, 6)
+                            .padding(.horizontal, 7)
                             .padding(.vertical, 2)
-                            .background(accentColor)
+                            .background(accent)
                             .clipShape(Capsule())
                     }
                 }
@@ -244,8 +235,8 @@ struct GroupCard: View {
                 Spacer()
 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(BRColors.secondary)
                     .padding(.trailing, 16)
             }
             .padding(.vertical, 16)
@@ -253,8 +244,8 @@ struct GroupCard: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(.white)
-                .shadow(color: .black.opacity(0.06), radius: 10, x: 0, y: 3)
+                .fill(BRColors.cream)
+                .shadow(color: .black.opacity(0.07), radius: 10, x: 0, y: 3)
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }

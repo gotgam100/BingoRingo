@@ -13,29 +13,31 @@ struct OnboardingView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // 로고 영역
-                VStack(spacing: 20) {
-                    // 기하학 로고
+                // 로고
+                VStack(spacing: 24) {
                     BingoRingoLogo()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 110, height: 110)
 
                     VStack(spacing: 8) {
                         Text("BingoRingo")
-                            .font(.system(size: 38, weight: .black, design: .rounded))
+                            .font(.system(size: 40, weight: .black, design: .rounded))
                             .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.2), radius: 2, y: 2)
 
                         Text("함께하는 빙고 To Do")
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            .foregroundStyle(BRColors.beige)
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                            .foregroundStyle(BRColors.yellow)
+                            .tracking(1)
                     }
                 }
 
                 Spacer()
 
-                // 로그인 버튼
-                VStack(spacing: 14) {
+                // 버튼 영역
+                VStack(spacing: 12) {
                     if authViewModel.isLoading {
                         ProgressView().tint(.white)
+                            .frame(height: 54)
                     } else {
                         SignInWithAppleButton(.signIn) { request in
                             let nonce = randomNonceString()
@@ -52,17 +54,17 @@ struct OnboardingView: View {
 
                     if let error = authViewModel.errorMessage {
                         Text(error)
-                            .font(.system(size: 12, design: .rounded))
-                            .foregroundStyle(BRColors.beige)
+                            .font(.system(size: 12))
+                            .foregroundStyle(BRColors.yellow)
                             .multilineTextAlignment(.center)
                     }
 
                     Text("로그인하면 서비스 이용약관에 동의하게 됩니다.")
-                        .font(.system(size: 11, design: .rounded))
+                        .font(.system(size: 11))
                         .foregroundStyle(.white.opacity(0.5))
                 }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 52)
+                .padding(.bottom, 56)
             }
         }
     }
@@ -80,22 +82,19 @@ struct OnboardingView: View {
     }
 }
 
-// 기하학 로고 뷰
 struct BingoRingoLogo: View {
     var body: some View {
         ZStack {
-            // 배경 원
-            Circle()
+            Blob1()
                 .fill(Color.white.opacity(0.15))
 
-            // 그리드 패턴 (미니 빙고)
-            VStack(spacing: 4) {
+            VStack(spacing: 5) {
                 ForEach(0..<3, id: \.self) { row in
-                    HStack(spacing: 4) {
+                    HStack(spacing: 5) {
                         ForEach(0..<3, id: \.self) { col in
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(cellColor(row: row, col: col))
-                                .frame(width: 20, height: 20)
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(logoColor(row: row, col: col))
+                                .frame(width: 22, height: 22)
                         }
                     }
                 }
@@ -103,17 +102,16 @@ struct BingoRingoLogo: View {
         }
     }
 
-    private func cellColor(row: Int, col: Int) -> Color {
-        let colors: [[Color]] = [
-            [BRColors.orange, .white, BRColors.red],
-            [.white, BRColors.beige, .white],
-            [BRColors.red, .white, BRColors.orange]
+    private func logoColor(row: Int, col: Int) -> Color {
+        let grid: [[Color]] = [
+            [BRColors.yellow, .white.opacity(0.9), BRColors.red],
+            [.white.opacity(0.9), BRColors.green.opacity(0.8), .white.opacity(0.9)],
+            [BRColors.red, .white.opacity(0.9), BRColors.yellow]
         ]
-        return colors[row][col]
+        return grid[row][col]
     }
 }
 
 #Preview {
-    OnboardingView()
-        .environmentObject(AuthViewModel())
+    OnboardingView().environmentObject(AuthViewModel())
 }
