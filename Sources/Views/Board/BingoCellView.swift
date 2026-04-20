@@ -13,7 +13,7 @@ struct BingoCellView: View {
 
     private var bgColor: Color {
         if isFullyCompleted { return BRColors.blue }
-        if isCompletedByMe  { return BRColors.red.opacity(0.15) }
+        if isCompletedByMe  { return BRColors.red.opacity(0.12) }
         return BRColors.cream
     }
 
@@ -28,29 +28,26 @@ struct BingoCellView: View {
     }
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottomTrailing) {
             RoundedRectangle(cornerRadius: 8)
                 .fill(bgColor)
             RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(borderColor, lineWidth: isCompletedByMe || isFullyCompleted ? 2 : 1)
 
-            VStack(spacing: 2) {
-                // 미션 텍스트
-                Text(cell.title)
-                    .font(.system(size: max(size * 0.12, 8), weight: .bold, design: .rounded))
-                    .foregroundStyle(textColor)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.6)
-                    .padding(.horizontal, 3)
-                    .padding(.top, 4)
+            // 미션 텍스트 - 가득 채우기
+            Text(cell.title)
+                .font(.system(size: max(size * 0.17, 10), weight: .bold, design: .rounded))
+                .foregroundStyle(textColor)
+                .multilineTextAlignment(.center)
+                .lineLimit(4)
+                .minimumScaleFactor(0.5)
+                .padding(.horizontal, size * 0.06)
+                .padding(.vertical, size * 0.08)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                Spacer(minLength: 0)
-
-                // 멤버 완료 상태 점
-                memberDots
-                    .padding(.bottom, 4)
-            }
+            // 멤버 완료 점 - 우하단 코너
+            memberDots
+                .padding(3)
         }
         .frame(width: size, height: size)
         .shadow(color: isFullyCompleted ? BRColors.blue.opacity(0.3) : .black.opacity(0.05), radius: 3, y: 1)
@@ -59,18 +56,16 @@ struct BingoCellView: View {
 
     private var memberDots: some View {
         HStack(spacing: 2) {
-            ForEach(Array(memberIDs.enumerated()), id: \.element) { idx, memberID in
-                let done = cell.completedBy.contains(memberID)
+            ForEach(Array(memberIDs.enumerated()), id: \.element) { idx, id in
+                let done = cell.completedBy.contains(id)
                 let color = memberColors[idx % memberColors.count]
-                let dotSize = max(size * 0.1, 5.0)
+                let dotSize = max(size * 0.09, 5.0)
 
                 Circle()
-                    .fill(done ? color : BRColors.lightGray)
+                    .fill(done ? color : Color.white.opacity(0.5))
                     .frame(width: dotSize, height: dotSize)
-                    .overlay(
-                        Circle().strokeBorder(done ? color : BRColors.secondary.opacity(0.3), lineWidth: 0.5)
-                    )
-                    .scaleEffect(done ? 1.1 : 1.0)
+                    .overlay(Circle().strokeBorder(done ? color.opacity(0.3) : BRColors.lightGray, lineWidth: 0.5))
+                    .scaleEffect(done ? 1.15 : 1.0)
                     .animation(.spring(duration: 0.2), value: done)
             }
         }

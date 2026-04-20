@@ -39,6 +39,10 @@ final class BoardViewModel: ObservableObject {
         self.board = board
         detectCompletedLines(board: board)
         try? await FirestoreService.shared.updateBoard(board)
+        try? await FirestoreService.shared.updateGroupLines(
+            groupID: group.id,
+            count: completedLines.count
+        )
     }
 
     private func createDefaultBoard() {

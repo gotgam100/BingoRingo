@@ -47,6 +47,12 @@ final class FirestoreService {
         }
     }
 
+    func updateGroupLines(groupID: String, count: Int) async throws {
+        try await db.collection("groups").document(groupID).updateData([
+            "completedLinesCount": count
+        ])
+    }
+
     // MARK: - Cell
 
     func checkCell(boardID: String, cellID: String, memberID: String) async throws {

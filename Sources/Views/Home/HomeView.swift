@@ -175,78 +175,101 @@ struct GroupCard: View {
     let group: BingoGroup
     let memberID: String
 
+    private let memberColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
     private let accentColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
     private var accent: Color { accentColors[abs(group.id.hashValue) % accentColors.count] }
 
     var body: some View {
-        HStack(spacing: 0) {
-            Rectangle()
-                .fill(accent)
-                .frame(width: 5)
+        VStack(spacing: 0) {
+            // 상단 컬러 헤더
+            HStack {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(group.name)
+                        .font(.system(size: 17, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                    if group.leaderID == memberID {
+                        Text("방장")
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .foregroundStyle(accent)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 2)
+                            .background(Color.white)
+                            .clipShape(Capsule())
+                    }
+                }
+                Spacer()
+                // 빙고 수 뱃지
+                VStack(spacing: 2) {
+                    Text("\(group.completedLinesCount)")
+                        .font(.system(size: 26, weight: .black, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text("BINGO")
+                        .font(.system(size: 9, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(accent)
 
-            HStack(spacing: 14) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(accent.opacity(0.1))
-                        .frame(width: 52, height: 52)
-                    VStack(spacing: 3) {
-                        ForEach(0..<3, id: \.self) { _ in
-                            HStack(spacing: 3) {
-                                ForEach(0..<3, id: \.self) { _ in
-                                    RoundedRectangle(cornerRadius: 2)
-                                        .fill(accent.opacity(0.45))
-                                        .frame(width: 10, height: 10)
-                                }
+            // 하단 정보 영역
+            HStack(spacing: 0) {
+                // 멤버 아바타
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("멤버")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                        .foregroundStyle(BRColors.secondary)
+                    HStack(spacing: -6) {
+                        ForEach(Array(group.memberIDs.enumerated()), id: \.element) { idx, id in
+                            let color = memberColors[idx % memberColors.count]
+                            let isMe = id == memberID
+                            ZStack {
+                                Circle()
+                                    .fill(color)
+                                    .frame(width: 28, height: 28)
+                                    .overlay(Circle().strokeBorder(.white, lineWidth: 2))
+                                Text(isMe ? "나" : "\(idx + 1)")
+                                    .font(.system(size: 9, weight: .black, design: .rounded))
+                                    .foregroundStyle(.white)
                             }
                         }
                     }
                 }
 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(group.name)
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundStyle(BRColors.primary)
+                Spacer()
 
-                    HStack(spacing: 6) {
-                        Image(systemName: "person.2.fill")
-                            .font(.system(size: 11))
-                            .foregroundStyle(BRColors.secondary)
-                        Text("\(group.memberIDs.count)명")
-                            .font(.system(size: 12, design: .rounded))
-                            .foregroundStyle(BRColors.secondary)
-                        Text("·")
-                            .foregroundStyle(BRColors.secondary)
-                        Text(group.inviteCode)
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
-                            .foregroundStyle(accent)
-                    }
-
-                    if group.leaderID == memberID {
-                        Text("방장")
-                            .font(.system(size: 10, weight: .black, design: .rounded))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 2)
-                            .background(accent)
-                            .clipShape(Capsule())
-                    }
+                // 보드 사이즈
+                VStack(spacing: 4) {
+                    Text("\(group.boardSize)×\(group.boardSize)")
+                        .font(.system(size: 20, weight: .black, design: .rounded))
+                        .foregroundStyle(accent)
+                    Text("보드 크기")
+                        .font(.system(size: 10, weight: .semibold, design: .rounded))
+                        .foregroundStyle(BRColors.secondary)
                 }
 
                 Spacer()
 
+                // 초대코드
+                VStack(spacing: 4) {
+                    Text(group.inviteCode)
+                        .font(.system(size: 16, weight: .black, design: .rounded))
+                        .foregroundStyle(accent)
+                    Text("초대 코드")
+                        .font(.system(size: 10, weight: .semibold, design: .rounded))
+                        .foregroundStyle(BRColors.secondary)
+                }
+
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundStyle(BRColors.secondary)
-                    .padding(.trailing, 16)
+                    .padding(.leading, 12)
             }
-            .padding(.vertical, 16)
-            .padding(.leading, 14)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(BRColors.cream)
         }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(BRColors.cream)
-                .shadow(color: .black.opacity(0.07), radius: 10, x: 0, y: 3)
-        )
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
     }
 }
