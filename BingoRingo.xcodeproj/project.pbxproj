@@ -9,34 +9,44 @@
 /* Begin PBXBuildFile section */
 		00C72F15FC214A97BFCBBE89 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815968D9D89F8A21022B4973 /* AuthService.swift */; };
 		017D03CCB55237FF97A491FB /* BingoReward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5ED555CF418547066B2B68 /* BingoReward.swift */; };
+		04620A6D75C613ED4E7543B6 /* BingoCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FBFAF45319882CE27AB706 /* BingoCellView.swift */; };
+		0A43A53FCD01DA9B0B40C6AE /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */; };
 		116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FC9140586ABDBA50FC102 /* FirestoreService.swift */; };
+		2207CDD4A208C3C6658DCC85 /* JoinGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E0CDDFD41B8F6251260E81 /* JoinGroupSheet.swift */; };
 		22735FE6A23F7DE1A14E3C96 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6F2CE1540DC853E62BD6F4BC /* FirebaseAnalytics */; };
 		26A9DB720223C666E329F373 /* BingoGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9560BE2C6593094F4CF47276 /* BingoGroup.swift */; };
 		2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815FF300FBFBD6546F6BFCC /* BRTypography.swift */; };
+		3062AABAECF0AC1F5068AB0A /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A785C6D0D253B83BA0235192 /* GroupViewModel.swift */; };
 		457F78CB232FE88BD172D6AF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195835304BD87F3DC6DA80E4 /* RootView.swift */; };
+		49D4FA5FE4E39E5636DAB19A /* CellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0482C3C895C6A6213AF0A500 /* CellDetailView.swift */; };
 		4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57E586D3453F55689A9A71F8 /* FirebaseAuth */; };
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
-		54C219F92F96AA7F00008900 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54C219F62F96A92E00008900 /* GoogleService-Info.plist */; };
 		58B97FE764231816B68B9647 /* BingoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B7567BAF5224283DB015F /* BingoCell.swift */; };
+		6BB5D3267C26167CE02F50BF /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86A6C096E6C8FFEC9E13D /* BoardView.swift */; };
 		6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA87C972024DE3F583DA4DA /* BingoBoard.swift */; };
 		7852C7858C649415169742F3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FA958139F36B835378A024 /* OnboardingView.swift */; };
 		801D681B40B906523920B1CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10395079EAF31452DE60104B /* ContentView.swift */; };
 		825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE258379CC901457E725F8 /* BRColors.swift */; };
+		8EF5E49DF500BF8979303A70 /* BRShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162A5F65B955987766F46B8 /* BRShapes.swift */; };
 		C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8C6944975C50A0FE3B2C9C /* HomeView.swift */; };
 		CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */; };
 		EB6AD704C290ADB2E16B44E5 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2623EC06897AB2E423C4063 /* StorageService.swift */; };
 		F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */; };
 		F604333CC86214018081263B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFAF76BF1168375DFF2815D /* FirebaseFirestore */; };
+		F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0162A5F65B955987766F46B8 /* BRShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRShapes.swift; sourceTree = "<group>"; };
+		0482C3C895C6A6213AF0A500 /* CellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellDetailView.swift; sourceTree = "<group>"; };
 		10395079EAF31452DE60104B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupSheet.swift; sourceTree = "<group>"; };
 		152FC9140586ABDBA50FC102 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		195835304BD87F3DC6DA80E4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		46FBFAF45319882CE27AB706 /* BingoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCellView.swift; sourceTree = "<group>"; };
 		4815FF300FBFBD6546F6BFCC /* BRTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTypography.swift; sourceTree = "<group>"; };
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		54C219F62F96A92E00008900 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		597B7567BAF5224283DB015F /* BingoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCell.swift; sourceTree = "<group>"; };
 		598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoRingoApp.swift; sourceTree = "<group>"; };
 		5F5ED555CF418547066B2B68 /* BingoReward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoReward.swift; sourceTree = "<group>"; };
@@ -44,7 +54,11 @@
 		815968D9D89F8A21022B4973 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BingoRingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9560BE2C6593094F4CF47276 /* BingoGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoGroup.swift; sourceTree = "<group>"; };
+		A785C6D0D253B83BA0235192 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		C2623EC06897AB2E423C4063 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
+		D4C86A6C096E6C8FFEC9E13D /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
+		D5E0CDDFD41B8F6251260E81 /* JoinGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupSheet.swift; sourceTree = "<group>"; };
 		D722ED58D4549AB471422674 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		DDA87C972024DE3F583DA4DA /* BingoBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoBoard.swift; sourceTree = "<group>"; };
 		E5FA958139F36B835378A024 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -83,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */,
+				C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */,
+				A785C6D0D253B83BA0235192 /* GroupViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -90,7 +106,6 @@
 		1315B4C6021CDD08DE1BA80A = {
 			isa = PBXGroup;
 			children = (
-				54C219F62F96A92E00008900 /* GoogleService-Info.plist */,
 				0A41335C4AF536BE62D88492 /* Sources */,
 				E3ECBD469F6F4C72BC646159 /* Products */,
 			);
@@ -99,7 +114,9 @@
 		3475A466144A2D73F202B3C9 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */,
 				4B8C6944975C50A0FE3B2C9C /* HomeView.swift */,
+				D5E0CDDFD41B8F6251260E81 /* JoinGroupSheet.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -110,6 +127,15 @@
 				E5FA958139F36B835378A024 /* OnboardingView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		5FBE4286734FC9EF71F286A8 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				46FBFAF45319882CE27AB706 /* BingoCellView.swift */,
+				D4C86A6C096E6C8FFEC9E13D /* BoardView.swift */,
+			);
+			path = Board;
 			sourceTree = "<group>";
 		};
 		7900DDABAC84FB3DBA5215E7 /* Models */ = {
@@ -134,9 +160,19 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		8BA92E03A920A809BE1EF4D6 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0482C3C895C6A6213AF0A500 /* CellDetailView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B577B7AD4BFA7EFBF73C02EB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5FBE4286734FC9EF71F286A8 /* Board */,
+				8BA92E03A920A809BE1EF4D6 /* Cell */,
 				3475A466144A2D73F202B3C9 /* Home */,
 				3C7492142B3690CE385E678D /* Onboarding */,
 			);
@@ -157,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				E9CE258379CC901457E725F8 /* BRColors.swift */,
+				0162A5F65B955987766F46B8 /* BRShapes.swift */,
 				4815FF300FBFBD6546F6BFCC /* BRTypography.swift */,
 			);
 			path = DesignSystem;
@@ -179,7 +216,6 @@
 			buildPhases = (
 				9096BE29B12534AEEC23BA92 /* Sources */,
 				97E69697911C59A3C71EA634 /* Frameworks */,
-				54C219F82F96AA6100008900 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -204,6 +240,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					9C1251623771CF7C1DCC046C = {
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 5C0F9A899568F79DCE8D7791 /* Build configuration list for PBXProject "BingoRingo" */;
 			developmentRegion = en;
@@ -227,17 +268,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		54C219F82F96AA6100008900 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				54C219F92F96AA7F00008900 /* GoogleService-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		9096BE29B12534AEEC23BA92 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -246,15 +276,23 @@
 				00C72F15FC214A97BFCBBE89 /* AuthService.swift in Sources */,
 				4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */,
 				825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */,
+				8EF5E49DF500BF8979303A70 /* BRShapes.swift in Sources */,
 				2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */,
 				6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */,
 				58B97FE764231816B68B9647 /* BingoCell.swift in Sources */,
+				04620A6D75C613ED4E7543B6 /* BingoCellView.swift in Sources */,
 				26A9DB720223C666E329F373 /* BingoGroup.swift in Sources */,
 				017D03CCB55237FF97A491FB /* BingoReward.swift in Sources */,
 				F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */,
+				6BB5D3267C26167CE02F50BF /* BoardView.swift in Sources */,
+				0A43A53FCD01DA9B0B40C6AE /* BoardViewModel.swift in Sources */,
+				49D4FA5FE4E39E5636DAB19A /* CellDetailView.swift in Sources */,
 				801D681B40B906523920B1CD /* ContentView.swift in Sources */,
+				F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */,
 				116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */,
+				3062AABAECF0AC1F5068AB0A /* GroupViewModel.swift in Sources */,
 				C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */,
+				2207CDD4A208C3C6658DCC85 /* JoinGroupSheet.swift in Sources */,
 				4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */,
 				7852C7858C649415169742F3 /* OnboardingView.swift in Sources */,
 				457F78CB232FE88BD172D6AF /* RootView.swift in Sources */,
@@ -270,6 +308,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -410,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
