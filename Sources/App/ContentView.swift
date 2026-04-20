@@ -1,14 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        Text("BingoRingo")
-            .font(.largeTitle)
-            .fontWeight(.bold)
-            .foregroundStyle(BRColors.cobaltBlue)
-    }
-}
+    @EnvironmentObject var authViewModel: AuthViewModel
 
-#Preview {
-    ContentView()
+    var body: some View {
+        RootView()
+    }
 }

@@ -7,29 +7,63 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00C72F15FC214A97BFCBBE89 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815968D9D89F8A21022B4973 /* AuthService.swift */; };
 		017D03CCB55237FF97A491FB /* BingoReward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5ED555CF418547066B2B68 /* BingoReward.swift */; };
+		116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FC9140586ABDBA50FC102 /* FirestoreService.swift */; };
+		22735FE6A23F7DE1A14E3C96 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6F2CE1540DC853E62BD6F4BC /* FirebaseAnalytics */; };
 		26A9DB720223C666E329F373 /* BingoGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9560BE2C6593094F4CF47276 /* BingoGroup.swift */; };
 		2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815FF300FBFBD6546F6BFCC /* BRTypography.swift */; };
+		457F78CB232FE88BD172D6AF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195835304BD87F3DC6DA80E4 /* RootView.swift */; };
+		4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57E586D3453F55689A9A71F8 /* FirebaseAuth */; };
+		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
+		54C219F92F96AA7F00008900 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54C219F62F96A92E00008900 /* GoogleService-Info.plist */; };
 		58B97FE764231816B68B9647 /* BingoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B7567BAF5224283DB015F /* BingoCell.swift */; };
 		6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA87C972024DE3F583DA4DA /* BingoBoard.swift */; };
+		7852C7858C649415169742F3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FA958139F36B835378A024 /* OnboardingView.swift */; };
 		801D681B40B906523920B1CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10395079EAF31452DE60104B /* ContentView.swift */; };
 		825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE258379CC901457E725F8 /* BRColors.swift */; };
+		C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8C6944975C50A0FE3B2C9C /* HomeView.swift */; };
+		CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */; };
+		EB6AD704C290ADB2E16B44E5 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2623EC06897AB2E423C4063 /* StorageService.swift */; };
 		F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */; };
+		F604333CC86214018081263B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFAF76BF1168375DFF2815D /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		10395079EAF31452DE60104B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		152FC9140586ABDBA50FC102 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		195835304BD87F3DC6DA80E4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		4815FF300FBFBD6546F6BFCC /* BRTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTypography.swift; sourceTree = "<group>"; };
+		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		54C219F62F96A92E00008900 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		597B7567BAF5224283DB015F /* BingoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCell.swift; sourceTree = "<group>"; };
 		598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoRingoApp.swift; sourceTree = "<group>"; };
 		5F5ED555CF418547066B2B68 /* BingoReward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoReward.swift; sourceTree = "<group>"; };
-		8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BingoRingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		815968D9D89F8A21022B4973 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BingoRingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9560BE2C6593094F4CF47276 /* BingoGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoGroup.swift; sourceTree = "<group>"; };
+		C2623EC06897AB2E423C4063 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		D722ED58D4549AB471422674 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		DDA87C972024DE3F583DA4DA /* BingoBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoBoard.swift; sourceTree = "<group>"; };
+		E5FA958139F36B835378A024 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9CE258379CC901457E725F8 /* BRColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		97E69697911C59A3C71EA634 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */,
+				F604333CC86214018081263B /* FirebaseFirestore in Frameworks */,
+				CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */,
+				22735FE6A23F7DE1A14E3C96 /* FirebaseAnalytics in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0A41335C4AF536BE62D88492 /* Sources */ = {
@@ -38,17 +72,44 @@
 				CB3C719EEFF9C0238D8D807B /* App */,
 				CDACC182C55030A3BDC0B4CE /* DesignSystem */,
 				7900DDABAC84FB3DBA5215E7 /* Models */,
+				7D267FD7A4EDD315C3BCCD9F /* Services */,
+				1008CF070A00D025BB2114A7 /* ViewModels */,
 				B577B7AD4BFA7EFBF73C02EB /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		1008CF070A00D025BB2114A7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		1315B4C6021CDD08DE1BA80A = {
 			isa = PBXGroup;
 			children = (
+				54C219F62F96A92E00008900 /* GoogleService-Info.plist */,
 				0A41335C4AF536BE62D88492 /* Sources */,
 				E3ECBD469F6F4C72BC646159 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		3475A466144A2D73F202B3C9 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4B8C6944975C50A0FE3B2C9C /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		3C7492142B3690CE385E678D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E5FA958139F36B835378A024 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		7900DDABAC84FB3DBA5215E7 /* Models */ = {
@@ -63,9 +124,21 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		7D267FD7A4EDD315C3BCCD9F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				815968D9D89F8A21022B4973 /* AuthService.swift */,
+				152FC9140586ABDBA50FC102 /* FirestoreService.swift */,
+				C2623EC06897AB2E423C4063 /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		B577B7AD4BFA7EFBF73C02EB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3475A466144A2D73F202B3C9 /* Home */,
+				3C7492142B3690CE385E678D /* Onboarding */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -75,6 +148,7 @@
 			children = (
 				598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */,
 				10395079EAF31452DE60104B /* ContentView.swift */,
+				195835304BD87F3DC6DA80E4 /* RootView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -104,6 +178,8 @@
 			buildConfigurationList = B0E567171A72BDA6633E3E51 /* Build configuration list for PBXNativeTarget "BingoRingo" */;
 			buildPhases = (
 				9096BE29B12534AEEC23BA92 /* Sources */,
+				97E69697911C59A3C71EA634 /* Frameworks */,
+				54C219F82F96AA6100008900 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -111,6 +187,10 @@
 			);
 			name = BingoRingo;
 			packageProductDependencies = (
+				57E586D3453F55689A9A71F8 /* FirebaseAuth */,
+				6EFAF76BF1168375DFF2815D /* FirebaseFirestore */,
+				C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */,
+				6F2CE1540DC853E62BD6F4BC /* FirebaseAnalytics */,
 			);
 			productName = BingoRingo;
 			productReference = 8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */;
@@ -124,11 +204,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-					9C1251623771CF7C1DCC046C = {
-						DevelopmentTeam = "";
-					};
-				};
 			};
 			buildConfigurationList = 5C0F9A899568F79DCE8D7791 /* Build configuration list for PBXProject "BingoRingo" */;
 			developmentRegion = en;
@@ -139,6 +214,9 @@
 			);
 			mainGroup = 1315B4C6021CDD08DE1BA80A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E3ECBD469F6F4C72BC646159 /* Products */;
 			projectDirPath = "";
@@ -149,11 +227,24 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		54C219F82F96AA6100008900 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54C219F92F96AA7F00008900 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9096BE29B12534AEEC23BA92 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C72F15FC214A97BFCBBE89 /* AuthService.swift in Sources */,
+				4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */,
 				825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */,
 				2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */,
 				6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */,
@@ -162,7 +253,12 @@
 				017D03CCB55237FF97A491FB /* BingoReward.swift in Sources */,
 				F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */,
 				801D681B40B906523920B1CD /* ContentView.swift in Sources */,
+				116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */,
+				C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */,
 				4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */,
+				7852C7858C649415169742F3 /* OnboardingView.swift in Sources */,
+				457F78CB232FE88BD172D6AF /* RootView.swift in Sources */,
+				EB6AD704C290ADB2E16B44E5 /* StorageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +270,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = SB2Z6HL579;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -313,6 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = SB2Z6HL579;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -346,6 +444,40 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		57E586D3453F55689A9A71F8 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6EFAF76BF1168375DFF2815D /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6F2CE1540DC853E62BD6F4BC /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 10017F8EA7E3D1C2510F611E /* Project object */;
 }
