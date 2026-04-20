@@ -1,54 +1,87 @@
 import SwiftUI
 
-struct GeometricBackground: View {
+// 온보딩 배경 - 다크 블루 + 기하학 도형
+struct OnboardingBackground: View {
     var body: some View {
         ZStack {
-            BRColors.background.ignoresSafeArea()
+            BRColors.cobaltBlue.ignoresSafeArea()
 
-            // 좌상단 큰 원
+            // 우상단 큰 원
             Circle()
-                .fill(BRColors.cobaltBlue)
-                .frame(width: 200, height: 200)
-                .offset(x: -80, y: -120)
+                .fill(BRColors.orange.opacity(0.9))
+                .frame(width: 220, height: 220)
+                .offset(x: 130, y: -200)
 
-            // 우상단 삼각형
+            // 좌상단 삼각형
             Triangle()
-                .fill(BRColors.orange)
-                .frame(width: 140, height: 140)
-                .offset(x: 130, y: -160)
+                .fill(BRColors.red.opacity(0.7))
+                .frame(width: 120, height: 120)
+                .offset(x: -140, y: -260)
 
-            // 중앙 우측 사각형
+            // 중앙 좌 작은 사각형
             Rectangle()
-                .fill(BRColors.red)
-                .frame(width: 80, height: 80)
-                .rotationEffect(.degrees(20))
-                .offset(x: 150, y: 60)
-
-            // 좌측 중단 작은 원
-            Circle()
-                .fill(BRColors.beige)
-                .frame(width: 70, height: 70)
-                .offset(x: -140, y: 80)
-
-            // 하단 좌 큰 사각형
-            Rectangle()
-                .fill(BRColors.cobaltBlue.opacity(0.15))
-                .frame(width: 160, height: 160)
-                .rotationEffect(.degrees(15))
-                .offset(x: -100, y: 280)
+                .fill(BRColors.beige.opacity(0.5))
+                .frame(width: 60, height: 60)
+                .rotationEffect(.degrees(30))
+                .offset(x: -150, y: 20)
 
             // 하단 우 원
             Circle()
-                .fill(BRColors.orange.opacity(0.3))
-                .frame(width: 120, height: 120)
-                .offset(x: 140, y: 320)
+                .fill(BRColors.red.opacity(0.4))
+                .frame(width: 140, height: 140)
+                .offset(x: 150, y: 320)
+
+            // 하단 좌 큰 사각형
+            Rectangle()
+                .fill(Color.white.opacity(0.05))
+                .frame(width: 180, height: 180)
+                .rotationEffect(.degrees(20))
+                .offset(x: -120, y: 350)
 
             // 작은 다이아몬드
             Rectangle()
-                .fill(BRColors.red.opacity(0.5))
-                .frame(width: 40, height: 40)
+                .fill(BRColors.beige.opacity(0.6))
+                .frame(width: 36, height: 36)
                 .rotationEffect(.degrees(45))
-                .offset(x: 60, y: 200)
+                .offset(x: 60, y: 160)
+
+            // 작은 원
+            Circle()
+                .fill(Color.white.opacity(0.15))
+                .frame(width: 50, height: 50)
+                .offset(x: -60, y: 280)
+        }
+    }
+}
+
+// 홈 배경 - 라이트 + 상단 컬러 블록
+struct HomeHeaderBackground: View {
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            BRColors.background.ignoresSafeArea()
+
+            // 상단 컬러 블록
+            Rectangle()
+                .fill(BRColors.cobaltBlue)
+                .frame(height: 200)
+                .ignoresSafeArea(edges: .top)
+
+            // 장식 도형들
+            Circle()
+                .fill(BRColors.orange.opacity(0.8))
+                .frame(width: 80, height: 80)
+                .offset(x: UIScreen.main.bounds.width - 60, y: 20)
+
+            Rectangle()
+                .fill(BRColors.red.opacity(0.6))
+                .frame(width: 40, height: 40)
+                .rotationEffect(.degrees(20))
+                .offset(x: UIScreen.main.bounds.width - 120, y: 100)
+
+            Triangle()
+                .fill(BRColors.beige.opacity(0.7))
+                .frame(width: 60, height: 60)
+                .offset(x: 30, y: 80)
         }
     }
 }

@@ -22,6 +22,7 @@
 		4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57E586D3453F55689A9A71F8 /* FirebaseAuth */; };
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
+		54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */; };
 		58B97FE764231816B68B9647 /* BingoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B7567BAF5224283DB015F /* BingoCell.swift */; };
 		6BB5D3267C26167CE02F50BF /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86A6C096E6C8FFEC9E13D /* BoardView.swift */; };
 		6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA87C972024DE3F583DA4DA /* BingoBoard.swift */; };
@@ -47,6 +48,8 @@
 		46FBFAF45319882CE27AB706 /* BingoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCellView.swift; sourceTree = "<group>"; };
 		4815FF300FBFBD6546F6BFCC /* BRTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTypography.swift; sourceTree = "<group>"; };
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingo.entitlements; sourceTree = "<group>"; };
 		597B7567BAF5224283DB015F /* BingoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCell.swift; sourceTree = "<group>"; };
 		598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoRingoApp.swift; sourceTree = "<group>"; };
 		5F5ED555CF418547066B2B68 /* BingoReward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoReward.swift; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		1315B4C6021CDD08DE1BA80A = {
 			isa = PBXGroup;
 			children = (
+				54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */,
+				54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */,
 				0A41335C4AF536BE62D88492 /* Sources */,
 				E3ECBD469F6F4C72BC646159 /* Products */,
 			);
@@ -216,6 +221,7 @@
 			buildPhases = (
 				9096BE29B12534AEEC23BA92 /* Sources */,
 				97E69697911C59A3C71EA634 /* Frameworks */,
+				54F7B5102F96AF4900A46F0A /* Resources */,
 			);
 			buildRules = (
 			);
@@ -268,6 +274,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		54F7B5102F96AF4900A46F0A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9096BE29B12534AEEC23BA92 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -307,6 +324,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
@@ -448,6 +466,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SB2Z6HL579;

@@ -1,12 +1,13 @@
 import SwiftUI
 
 enum BRColors {
-    static let cobaltBlue   = Color(hex: "#3B3FCB")
-    static let orange       = Color(hex: "#F26522")
-    static let red          = Color(hex: "#D7263D")
-    static let beige        = Color(hex: "#D4A96A")
-    static let lightGray    = Color(hex: "#E8E8E4")
-    static let background   = Color(hex: "#F5F3EE")
+    static let cobaltBlue  = Color(hex: "#3B3FCB")
+    static let orange      = Color(hex: "#F26522")
+    static let red         = Color(hex: "#D7263D")
+    static let beige       = Color(hex: "#D4A96A")
+    static let lightGray   = Color(hex: "#E8E4DC")
+    static let background  = Color(hex: "#F5F3EE")
+    static let darkText    = Color(hex: "#1A1A2E")
 }
 
 extension Color {
