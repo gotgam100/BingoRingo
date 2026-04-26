@@ -11,12 +11,11 @@
   <style>
     body { font-family: 'Noto Sans KR', sans-serif; }
     .pixel { font-family: 'Pixelify Sans', sans-serif; }
-    .license-text { font-family: 'Courier New', Courier, monospace; }
+    .mono { font-family: 'Courier New', Courier, monospace; }
   </style>
 </head>
 <body class="bg-[#FFFEF5] min-h-screen">
 
-  <!-- Top Nav -->
   <nav class="sticky top-0 bg-[#FFFEF5]/90 backdrop-blur border-b border-gray-100 px-6 py-4 flex items-center gap-3 z-10">
     <a href="index.html" class="text-[#2B4EE8] hover:opacity-70 transition-opacity">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,75 +25,101 @@
     <span class="pixel font-bold text-[#2B4EE8] text-lg">BingoRingo</span>
   </nav>
 
-  <main class="max-w-3xl mx-auto px-6 py-12">
-    <div class="bg-white rounded-2xl shadow-sm p-6 md:p-12 space-y-8">
+  <main class="max-w-3xl mx-auto px-6 py-12 space-y-16">
 
+    <!-- 한국어 -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 md:p-12 space-y-8">
       <div>
         <h1 class="text-2xl font-bold text-gray-900 mb-2">오픈소스 라이선스</h1>
-        <p class="text-sm text-gray-400">Open Source Licenses</p>
+        <p class="text-sm text-gray-400">시행일: 2026년 4월 26일</p>
       </div>
 
-      <p class="text-gray-600 leading-relaxed">
-        BingoRingo는 아래 오픈소스 소프트웨어를 사용합니다. 각 라이선스 전문은 해당 프로젝트 저장소에서 확인할 수 있습니다.
-      </p>
+      <p class="text-gray-600 leading-relaxed">BingoRingo는 다음의 오픈소스 라이브러리 및 프레임워크를 사용하고 있습니다. 각 라이브러리의 라이선스를 아래에 명시합니다.</p>
 
-      <!-- Firebase iOS SDK -->
       <section class="space-y-3">
         <h3 class="text-[#2B4EE8] font-bold text-lg">Firebase iOS SDK</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
           <span class="bg-blue-50 text-[#2B4EE8] px-2 py-1 rounded-full font-semibold">Apache License 2.0</span>
           <a href="https://github.com/firebase/firebase-ios-sdk" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/firebase/firebase-ios-sdk</a>
         </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Google Firebase의 iOS SDK로, Firestore 실시간 데이터베이스 및 Authentication 기능에 사용됩니다.
-        </p>
-        <div class="bg-gray-50 rounded-xl p-4 license-text text-xs text-gray-500 leading-relaxed">
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> Firestore 실시간 데이터베이스 및 Firebase Authentication 로그인 기능</li>
+          <li><strong>웹사이트:</strong> <a href="https://firebase.google.com" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">firebase.google.com</a></li>
+        </ul>
+        <div class="bg-gray-50 rounded-xl p-4 mono text-xs text-gray-500 leading-relaxed">
           Copyright 2017 Google LLC<br /><br />
-          Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at<br /><br />
-          http://www.apache.org/licenses/LICENSE-2.0<br /><br />
+          Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0<br /><br />
           Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
         </div>
       </section>
 
-      <!-- Swift Package Index / Apple SwiftUI -->
       <section class="space-y-3">
-        <h3 class="text-[#2B4EE8] font-bold text-lg">SwiftUI & StoreKit 2</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
-          <span class="bg-blue-50 text-[#2B4EE8] px-2 py-1 rounded-full font-semibold">Apple Proprietary</span>
-          <a href="https://developer.apple.com/documentation/swiftui" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">developer.apple.com</a>
-        </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Apple의 SwiftUI 프레임워크와 StoreKit 2를 사용하여 UI 및 인앱 구매 기능을 구현합니다. Apple Developer Program License Agreement에 따라 사용됩니다.
-        </p>
-      </section>
-
-      <!-- swift-collections (if used) -->
-      <section class="space-y-3">
-        <h3 class="text-[#2B4EE8] font-bold text-lg">Swift Collections</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Swift 언어</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
           <span class="bg-blue-50 text-[#2B4EE8] px-2 py-1 rounded-full font-semibold">Apache License 2.0</span>
-          <a href="https://github.com/apple/swift-collections" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/apple/swift-collections</a>
+          <a href="https://github.com/apple/swift" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/apple/swift</a>
         </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          Apple의 Swift 표준 라이브러리를 보완하는 데이터 구조 패키지입니다.
-        </p>
-        <div class="bg-gray-50 rounded-xl p-4 license-text text-xs text-gray-500 leading-relaxed">
-          Copyright (c) 2021 Apple Inc. and the Swift project authors<br /><br />
-          Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
-        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> 앱 전체 개발에 사용된 프로그래밍 언어</li>
+          <li><strong>웹사이트:</strong> <a href="https://swift.org" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">swift.org</a></li>
+        </ul>
       </section>
 
-      <!-- Tailwind CSS (web only) -->
       <section class="space-y-3">
-        <h3 class="text-[#2B4EE8] font-bold text-lg">Tailwind CSS</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">SwiftUI</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> iOS UI 개발 프레임워크</li>
+          <li><strong>웹사이트:</strong> <a href="https://developer.apple.com/swiftui" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/swiftui</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">StoreKit 2</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> 인앱 구매(Non-Consumable 영구 구매) 처리</li>
+          <li><strong>웹사이트:</strong> <a href="https://developer.apple.com/storekit" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/storekit</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Foundation / AppKit</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> iOS 앱 기본 기능 제공 프레임워크</li>
+          <li><strong>웹사이트:</strong> <a href="https://developer.apple.com/documentation" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/documentation</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Paperlogy 폰트</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">무료 상업용 폰트</span>
+          <a href="https://noonnu.cc/font_page/1027" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">noonnu.cc</a>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> 앱 내 한국어 텍스트 스타일링</li>
+          <li>개인 및 상업적 사용이 허용됩니다.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Tailwind CSS (웹페이지)</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
           <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">MIT License</span>
           <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/tailwindlabs/tailwindcss</a>
         </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          이 웹페이지(GitHub Pages)의 스타일링에 사용된 CSS 프레임워크입니다.
-        </p>
-        <div class="bg-gray-50 rounded-xl p-4 license-text text-xs text-gray-500 leading-relaxed">
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> 이 GitHub Pages 웹페이지의 스타일링</li>
+        </ul>
+        <div class="bg-gray-50 rounded-xl p-4 mono text-xs text-gray-500 leading-relaxed">
           Copyright (c) Tailwind Labs, Inc.<br /><br />
           Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br /><br />
           The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br /><br />
@@ -102,35 +127,146 @@
         </div>
       </section>
 
-      <!-- Google Fonts -->
       <section class="space-y-3">
         <h3 class="text-[#2B4EE8] font-bold text-lg">Noto Sans KR / Pixelify Sans (Google Fonts)</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
           <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">SIL Open Font License 1.1</span>
           <a href="https://fonts.google.com" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">fonts.google.com</a>
         </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          이 웹페이지에서 사용된 폰트로, SIL Open Font License 1.1 하에 배포됩니다.
-        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>용도:</strong> 이 GitHub Pages 웹페이지에서 사용된 폰트</li>
+        </ul>
       </section>
 
-      <!-- Paperlogy (if used in app) -->
+      <div class="pt-4 border-t border-gray-100 space-y-2">
+        <p class="text-sm text-gray-600">BingoRingo는 위의 모든 오픈소스 라이브러리 및 프레임워크의 라이선스 조항을 성실하게 준수하고 있습니다.</p>
+        <p class="text-sm text-gray-500">라이선스 관련 문의: <a href="mailto:yogotgam@gmail.com" class="text-[#2B4EE8] underline hover:opacity-70">yogotgam@gmail.com</a></p>
+        <p class="text-sm text-gray-400">본 오픈소스 라이선스 공지는 2026년 4월 26일부터 적용됩니다.</p>
+      </div>
+    </div>
+
+    <!-- English -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 md:p-12 space-y-8">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">Open Source Licenses</h1>
+        <p class="text-sm text-gray-400">Effective Date: April 26, 2026</p>
+      </div>
+
+      <p class="text-gray-600 leading-relaxed">BingoRingo uses the following open-source libraries and frameworks. The licenses for each are stated below.</p>
+
       <section class="space-y-3">
-        <h3 class="text-[#2B4EE8] font-bold text-lg">Paperlogy</h3>
-        <div class="flex flex-wrap gap-2 text-xs">
-          <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">무료 상업용 폰트</span>
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Firebase iOS SDK</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-blue-50 text-[#2B4EE8] px-2 py-1 rounded-full font-semibold">Apache License 2.0</span>
+          <a href="https://github.com/firebase/firebase-ios-sdk" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/firebase/firebase-ios-sdk</a>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Firestore real-time database and Firebase Authentication login.</li>
+          <li><strong>Website:</strong> <a href="https://firebase.google.com" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">firebase.google.com</a></li>
+        </ul>
+        <div class="bg-gray-50 rounded-xl p-4 mono text-xs text-gray-500 leading-relaxed">
+          Copyright 2017 Google LLC<br /><br />
+          Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0<br /><br />
+          Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Swift Language</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-blue-50 text-[#2B4EE8] px-2 py-1 rounded-full font-semibold">Apache License 2.0</span>
+          <a href="https://github.com/apple/swift" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/apple/swift</a>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Programming language used for the entire app development.</li>
+          <li><strong>Website:</strong> <a href="https://swift.org" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">swift.org</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">SwiftUI</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Apple's official UI framework for iOS app development.</li>
+          <li><strong>Website:</strong> <a href="https://developer.apple.com/swiftui" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/swiftui</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">StoreKit 2</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Handling in-app purchases (Non-Consumable permanent purchase).</li>
+          <li><strong>Website:</strong> <a href="https://developer.apple.com/storekit" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/storekit</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Foundation / AppKit</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-semibold">Apple Developer Program License</span>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Core Apple frameworks providing basic iOS app functionality.</li>
+          <li><strong>Website:</strong> <a href="https://developer.apple.com/documentation" target="_blank" class="text-[#2B4EE8] underline hover:opacity-70">developer.apple.com/documentation</a></li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Paperlogy Font</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">Free Commercial Font</span>
           <a href="https://noonnu.cc/font_page/1027" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">noonnu.cc</a>
         </div>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          앱 내 한국어 텍스트 스타일링에 사용된 폰트입니다. 개인 및 상업적 사용이 허용됩니다.
-        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Korean text styling within the app.</li>
+          <li>Permitted for personal and commercial use.</li>
+        </ul>
       </section>
 
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Tailwind CSS (Web Page)</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">MIT License</span>
+          <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">github.com/tailwindlabs/tailwindcss</a>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Styling for this GitHub Pages website.</li>
+        </ul>
+        <div class="bg-gray-50 rounded-xl p-4 mono text-xs text-gray-500 leading-relaxed">
+          Copyright (c) Tailwind Labs, Inc.<br /><br />
+          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br /><br />
+          The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br /><br />
+          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <h3 class="text-[#2B4EE8] font-bold text-lg">Noto Sans KR / Pixelify Sans (Google Fonts)</h3>
+        <div class="flex flex-wrap gap-2 text-xs mb-2">
+          <span class="bg-green-50 text-green-700 px-2 py-1 rounded-full font-semibold">SIL Open Font License 1.1</span>
+          <a href="https://fonts.google.com" target="_blank" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full hover:bg-gray-200 transition-colors">fonts.google.com</a>
+        </div>
+        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-2 text-sm">
+          <li><strong>Usage:</strong> Fonts used in this GitHub Pages website.</li>
+        </ul>
+      </section>
+
+      <div class="pt-4 border-t border-gray-100 space-y-2">
+        <p class="text-sm text-gray-600">BingoRingo faithfully complies with the license terms of all open-source libraries and frameworks listed above.</p>
+        <p class="text-sm text-gray-500">License inquiries: <a href="mailto:yogotgam@gmail.com" class="text-[#2B4EE8] underline hover:opacity-70">yogotgam@gmail.com</a></p>
+        <p class="text-sm text-gray-400">This Open Source License Notice is effective from April 26, 2026.</p>
+      </div>
     </div>
+
   </main>
 
   <footer class="text-center py-8 px-6">
-    <p class="text-sm text-gray-400">© 2025 BingoRingo. All rights reserved.</p>
+    <p class="text-sm text-gray-400">© 2026 BingoRingo. All rights reserved.</p>
   </footer>
 
 </body>
