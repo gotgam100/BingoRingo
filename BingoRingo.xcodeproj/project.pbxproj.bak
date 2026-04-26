@@ -27,7 +27,6 @@
 		4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57E586D3453F55689A9A71F8 /* FirebaseAuth */; };
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
-		54C0FBE32F9D314C00CD4421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54C0FBE22F9D314C00CD4421 /* Assets.xcassets */; };
 		54E7F7C90BB54CD5B75E2395 /* Paperlogy-5Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D67AA27ED24900BD9C6CCE /* Paperlogy-5Medium.ttf */; };
 		54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */; };
 		54F7B5162F96C4E800A46F0A /* CellEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7B5152F96C4E800A46F0A /* CellEditSheet.swift */; };
@@ -41,11 +40,9 @@
 		801D681B40B906523920B1CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10395079EAF31452DE60104B /* ContentView.swift */; };
 		825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CE258379CC901457E725F8 /* BRColors.swift */; };
 		8EF5E49DF500BF8979303A70 /* BRShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162A5F65B955987766F46B8 /* BRShapes.swift */; };
-		AAC72F15FC214A97BFCBBE99 /* PremiumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915968D9D89F8A21022B4974 /* PremiumManager.swift */; };
 		ABFFAE94BCED4440B3032170 /* Paperlogy-1Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03A148DFD5FD4934B38F9DE6 /* Paperlogy-1Thin.ttf */; };
 		AF65D28251424451A4E8736F /* Paperlogy-3Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5840C7FC8234873825506C8 /* Paperlogy-3Light.ttf */; };
 		B47E93D651AE4E279BD4DB5A /* Paperlogy-9Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1C7AE839A78426492990888 /* Paperlogy-9Black.ttf */; };
-		BB1F8A2AFC5E2D4B9E7C3F91 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9B7D5E1F3A9C8D4E6B2A75 /* LocalizedStrings.swift */; };
 		C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8C6944975C50A0FE3B2C9C /* HomeView.swift */; };
 		CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */; };
 		CB6AF33288D14BEDB29DB041 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 95AE1E0D138F40E5BF9AC6F0 /* GoogleSignInSwift */; };
@@ -69,8 +66,6 @@
 		46FBFAF45319882CE27AB706 /* BingoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCellView.swift; sourceTree = "<group>"; };
 		4815FF300FBFBD6546F6BFCC /* BRTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTypography.swift; sourceTree = "<group>"; };
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		54B9F2882F9E14400019D2F1 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
-		54C0FBE22F9D314C00CD4421 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingo.entitlements; sourceTree = "<group>"; };
 		54F7B5152F96C4E800A46F0A /* CellEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellEditSheet.swift; sourceTree = "<group>"; };
@@ -83,7 +78,6 @@
 		86D67AA27ED24900BD9C6CCE /* Paperlogy-5Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-5Medium.ttf"; path = "Resources/Fonts/Paperlogy-5Medium.ttf"; sourceTree = "<group>"; };
 		8AAD896983C541229E482F93 /* Paperlogy-7Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-7Bold.ttf"; path = "Resources/Fonts/Paperlogy-7Bold.ttf"; sourceTree = "<group>"; };
 		8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BingoRingo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		915968D9D89F8A21022B4974 /* PremiumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumManager.swift; sourceTree = "<group>"; };
 		9560BE2C6593094F4CF47276 /* BingoGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoGroup.swift; sourceTree = "<group>"; };
 		A0D55E46C4CF42B1AD96672D /* Paperlogy-2ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-2ExtraLight.ttf"; path = "Resources/Fonts/Paperlogy-2ExtraLight.ttf"; sourceTree = "<group>"; };
 		A5840C7FC8234873825506C8 /* Paperlogy-3Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-3Light.ttf"; path = "Resources/Fonts/Paperlogy-3Light.ttf"; sourceTree = "<group>"; };
@@ -93,7 +87,6 @@
 		BA8BF8AAD3394344BB248062 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		C2623EC06897AB2E423C4063 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
-		CC9B7D5E1F3A9C8D4E6B2A75 /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		CCD2659C1C884B3C9E4F7C9A /* EditGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupSheet.swift; sourceTree = "<group>"; };
 		D10BEAE978734E079519A390 /* ProfileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSheet.swift; sourceTree = "<group>"; };
 		D29A8B743264431FA1F599FF /* Paperlogy-8ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-8ExtraBold.ttf"; path = "Resources/Fonts/Paperlogy-8ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -127,7 +120,6 @@
 			children = (
 				CB3C719EEFF9C0238D8D807B /* App */,
 				CDACC182C55030A3BDC0B4CE /* DesignSystem */,
-				EE4C9F7D2B1A8E5C3D9F4A6B /* Localization */,
 				7900DDABAC84FB3DBA5215E7 /* Models */,
 				7D267FD7A4EDD315C3BCCD9F /* Services */,
 				1008CF070A00D025BB2114A7 /* ViewModels */,
@@ -149,8 +141,6 @@
 		1315B4C6021CDD08DE1BA80A = {
 			isa = PBXGroup;
 			children = (
-				54B9F2882F9E14400019D2F1 /* Products.storekit */,
-				54C0FBE22F9D314C00CD4421 /* Assets.xcassets */,
 				54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */,
 				F1E3CE5746BD4C1FB11B2B9B /* Fonts */,
 				54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */,
@@ -215,7 +205,6 @@
 			children = (
 				815968D9D89F8A21022B4973 /* AuthService.swift */,
 				152FC9140586ABDBA50FC102 /* FirestoreService.swift */,
-				915968D9D89F8A21022B4974 /* PremiumManager.swift */,
 				C2623EC06897AB2E423C4063 /* StorageService.swift */,
 			);
 			path = Services;
@@ -275,14 +264,6 @@
 				8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EE4C9F7D2B1A8E5C3D9F4A6B /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				CC9B7D5E1F3A9C8D4E6B2A75 /* LocalizedStrings.swift */,
-			);
-			path = Localization;
 			sourceTree = "<group>";
 		};
 		F1E3CE5746BD4C1FB11B2B9B /* Fonts */ = {
@@ -374,7 +355,6 @@
 			files = (
 				54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */,
 				ABFFAE94BCED4440B3032170 /* Paperlogy-1Thin.ttf in Resources */,
-				54C0FBE32F9D314C00CD4421 /* Assets.xcassets in Resources */,
 				6C7A0C316D3C4F69B849D396 /* Paperlogy-2ExtraLight.ttf in Resources */,
 				AF65D28251424451A4E8736F /* Paperlogy-3Light.ttf in Resources */,
 				762F658794D14F7CA6ACD68C /* Paperlogy-4Regular.ttf in Resources */,
@@ -394,7 +374,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				00C72F15FC214A97BFCBBE89 /* AuthService.swift in Sources */,
-				BB1F8A2AFC5E2D4B9E7C3F91 /* LocalizedStrings.swift in Sources */,
 				4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */,
 				825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */,
 				8EF5E49DF500BF8979303A70 /* BRShapes.swift in Sources */,
@@ -412,7 +391,6 @@
 				0A43A53FCD01DA9B0B40C6AE /* BoardViewModel.swift in Sources */,
 				49D4FA5FE4E39E5636DAB19A /* CellDetailView.swift in Sources */,
 				801D681B40B906523920B1CD /* ContentView.swift in Sources */,
-				AAC72F15FC214A97BFCBBE99 /* PremiumManager.swift in Sources */,
 				18D85AA7FA704DCBA16824DA /* EditGroupSheet.swift in Sources */,
 				F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */,
 				116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */,
@@ -434,7 +412,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -586,7 +563,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

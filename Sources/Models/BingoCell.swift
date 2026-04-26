@@ -4,8 +4,7 @@ struct BingoCell: Identifiable, Codable {
     var id: String = UUID().uuidString
     var title: String
     var description: String = ""
-    var completedBy: [String] = []     // 완료한 멤버 ID 목록
-    var proofPhotoURLs: [String: String] = [:]  // memberID: photoURL
+    var completedBy: [String] = []
 
     func isCompleted(for memberIDs: [String]) -> Bool {
         memberIDs.allSatisfy { completedBy.contains($0) }

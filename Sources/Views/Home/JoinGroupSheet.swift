@@ -16,59 +16,82 @@ struct JoinGroupSheet: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                BRColors.background.ignoresSafeArea()
+                BRColors.surface.ignoresSafeArea()
+                    .allowsHitTesting(false)
 
-                VStack(spacing: 24) {
-                    // 헤더 장식
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(BRColors.orange)
-                            .frame(height: 100)
-                        HStack {
-                            Circle()
-                                .fill(BRColors.red.opacity(0.6))
-                                .frame(width: 60, height: 60)
-                                .offset(x: -10)
-                            Spacer()
-                            Triangle()
-                                .fill(Color.white.opacity(0.2))
-                                .frame(width: 50, height: 50)
-                                .offset(x: 10)
+                // 기하학적 배경 장식
+                Blob1()
+                    .fill(BRColors.secondaryChip.opacity(0.4))
+                    .frame(width: 180, height: 180)
+                    .offset(x: 140, y: -160)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+
+                Circle()
+                    .fill(BRColors.primaryDim)
+                    .frame(width: 120, height: 120)
+                    .offset(x: -90, y: 380)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+
+                VStack(spacing: 0) {
+                    // 헤더
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 8) {
+                            ZStack {
+                                Circle()
+                                    .fill(BRColors.secondaryChip)
+                                    .frame(width: 36, height: 36)
+                                Image(systemName: "person.badge.plus")
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundStyle(BRColors.secondary)
+                            }
+                            Text("초대 코드로 참여")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundStyle(BRColors.onSurfaceMuted)
                         }
-                        .padding(.horizontal)
 
-                        Text("초대 코드로 참여")
-                            .font(.system(size: 20, weight: .black, design: .rounded))
-                            .foregroundStyle(.white)
+                        Text("초대 코드를\n입력하세요")
+                            .font(.system(size: 28, weight: .black, design: .rounded))
+                            .foregroundStyle(BRColors.onSurface)
+                            .tracking(-0.5)
                     }
-                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 32)
+                    .padding(.bottom, 36)
 
-                    VStack(alignment: .leading, spacing: 8) {
+                    // 입력 필드
+                    VStack(alignment: .leading, spacing: 10) {
                         Text("초대 코드 6자리")
-                            .font(.system(size: 13, weight: .bold, design: .rounded))
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(BRColors.onSurfaceMuted)
+                            .tracking(0.5)
+
                         TextField("예: AB12CD", text: $inviteCode)
-                            .font(.system(size: 22, weight: .bold, design: .rounded))
+                            .font(.system(size: 28, weight: .black, design: .rounded))
+                            .foregroundStyle(BRColors.onSurface)
                             .multilineTextAlignment(.center)
                             .textInputAutocapitalization(.characters)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(.white)
-                                    .shadow(color: .black.opacity(0.05), radius: 4)
-                            )
+                            .tracking(4)
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 16)
+                            .background(BRColors.surfaceLow)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 24)
 
                     if let error = errorMessage {
                         Text(error)
-                            .font(.system(size: 12, design: .rounded))
-                            .foregroundStyle(BRColors.red)
-                            .padding(.horizontal)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(BRColors.tertiary)
+                            .padding(.horizontal, 24)
+                            .padding(.top, 8)
                     }
 
                     Spacer()
 
+                    // 참여하기 버튼
                     Button {
                         Task { await join() }
                     } label: {
@@ -77,25 +100,33 @@ struct JoinGroupSheet: View {
                                 ProgressView().tint(.white)
                             } else {
                                 Text("참여하기")
-                                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                                    .font(.system(size: 17, weight: .bold))
                                     .foregroundStyle(.white)
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(inviteCode.count < 6 ? BRColors.lightGray : BRColors.orange)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .frame(height: 58)
+                        .background(
+                            inviteCode.count < 6
+                                ? AnyShapeStyle(BRColors.surfaceContainer)
+                                : AnyShapeStyle(BRColors.primaryGradient)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 48))
+                        .shadow(
+                            color: inviteCode.count < 6 ? .clear : BRColors.primary.opacity(0.3),
+                            radius: 16, y: 5
+                        )
                     }
                     .disabled(inviteCode.count < 6 || isLoading)
-                    .padding(.horizontal)
-                    .padding(.bottom, 32)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 40)
                 }
-                .padding(.top, 24)
             }
-            .navigationBarHidden(false)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("취소") { dismiss() }
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(BRColors.primary)
                 }
             }
         }
@@ -107,6 +138,11 @@ struct JoinGroupSheet: View {
         do {
             guard var group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
                 errorMessage = "초대 코드를 찾을 수 없어요."
+                isLoading = false
+                return
+            }
+            if group.memberIDs.count >= 10 {
+                errorMessage = "10명까지만 함께 할 수 있습니다"
                 isLoading = false
                 return
             }

@@ -59,12 +59,59 @@ final class FirestoreService {
         ])
     }
 
-    func updateCellTitle(boardID: String, cellIndex: Int, title: String) async throws {
+    func updateBoardMemberIDs(boardID: String, memberIDs: [String]) async throws {
+        try await db.collection("boards").document(boardID).updateData([
+            "memberIDs": memberIDs
+        ])
+    }
+
+    func updateCellTitle(boardID: String, cellIndex: Int, title: String, description: String = "") async throws {
         let board = try await db.collection("boards").document(boardID).getDocument(as: BingoBoard.self)
         var cells = board.cells
         cells[cellIndex].title = title
+        cells[cellIndex].description = description
         let encoded = try Firestore.Encoder().encode(cells)
         try await db.collection("boards").document(boardID).updateData(["cells": encoded])
+    }
+
+    func markGroupCompleted(groupID: String) async throws {
+        try await db.collection("groups").document(groupID).updateData(["isCompleted": true])
+    }
+
+    func updateGroupRewards(groupID: String, rewards: [String], allBingoReward: String) async throws {
+        try await db.collection("groups").document(groupID).updateData([
+            "lineRewards": rewards,
+            "allBingoReward": allBingoReward
+        ])
+    }
+
+    // MARK: - Member
+
+    func fetchMember(id: String) async throws -> Member? {
+        let snapshot = try await db.collection("members").document(id).getDocument()
+        guard snapshot.exists else { return nil }
+        return try snapshot.data(as: Member.self)
+    }
+
+    func fetchMembers(ids: [String]) async throws -> [String: Member] {
+        var result: [String: Member] = [:]
+        for id in ids {
+            if let member = try? await db.collection("members").document(id).getDocument(as: Member.self) {
+                result[id] = member
+            }
+        }
+        return result
+    }
+
+    func updateMember(_ member: Member) async throws {
+        guard let id = member.id else { return }
+        try db.collection("members").document(id).setData(from: member, merge: true)
+    }
+
+    func updateGroupDetails(_ group: BingoGroup) async throws {
+        try await db.collection("groups").document(group.id).updateData([
+            "name": group.name
+        ])
     }
 
     func deleteGroup(groupID: String) async throws {

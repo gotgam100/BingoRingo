@@ -15,3 +15,4 @@ GoogleService-Info.plist
 # SPM
 .build/
 .swiftpm/
+.xcodebuild/

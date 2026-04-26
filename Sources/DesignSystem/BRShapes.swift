@@ -1,50 +1,50 @@
 import SwiftUI
 
-// 온보딩 배경 - 레트로 블루 + 유기적 blob
+// 온보딩 배경 — 따뜻한 Canvas Tan + 기하학적 블롭
 struct OnboardingBackground: View {
     var body: some View {
         ZStack {
-            BRColors.blue.ignoresSafeArea()
+            BRColors.surface.ignoresSafeArea()
 
-            // 상단 우 blob
+            // 상단 우: 큰 블루 원
+            Circle()
+                .fill(BRColors.primary.opacity(0.12))
+                .frame(width: 320, height: 320)
+                .offset(x: 160, y: -200)
+
+            // 상단 좌: 중간 오렌지 블롭
             Blob1()
-                .fill(BRColors.red.opacity(0.85))
-                .frame(width: 260, height: 260)
-                .offset(x: 140, y: -220)
+                .fill(BRColors.secondaryChip.opacity(0.55))
+                .frame(width: 180, height: 180)
+                .offset(x: -120, y: -260)
 
-            // 하단 좌 blob
+            // 하단 좌: 큰 블루 블롭
             Blob2()
-                .fill(BRColors.yellow.opacity(0.7))
-                .frame(width: 200, height: 200)
-                .offset(x: -140, y: 300)
+                .fill(BRColors.primaryDim)
+                .frame(width: 260, height: 260)
+                .offset(x: -140, y: 320)
 
-            // 중앙 작은 원
+            // 하단 우: 작은 오렌지 원
             Circle()
-                .fill(BRColors.green.opacity(0.6))
-                .frame(width: 80, height: 80)
-                .offset(x: -120, y: -100)
+                .fill(BRColors.surfaceHigh.opacity(0.8))
+                .frame(width: 110, height: 110)
+                .offset(x: 150, y: 380)
 
-            // 하단 우 원
+            // 중앙 작은 점들
             Circle()
-                .fill(BRColors.red.opacity(0.4))
-                .frame(width: 120, height: 120)
-                .offset(x: 150, y: 360)
-
-            // 작은 점
-            Circle()
-                .fill(Color.white.opacity(0.3))
-                .frame(width: 20, height: 20)
-                .offset(x: 60, y: 140)
+                .fill(BRColors.primary.opacity(0.18))
+                .frame(width: 28, height: 28)
+                .offset(x: 100, y: 120)
 
             Circle()
-                .fill(BRColors.yellow.opacity(0.5))
-                .frame(width: 14, height: 14)
-                .offset(x: -50, y: 200)
+                .fill(BRColors.secondaryChip.opacity(0.6))
+                .frame(width: 16, height: 16)
+                .offset(x: -60, y: 180)
         }
     }
 }
 
-// Blob 형태들
+// 유기적 블롭 형태 1
 struct Blob1: Shape {
     func path(in rect: CGRect) -> Path {
         Path { p in
@@ -73,6 +73,7 @@ struct Blob1: Shape {
     }
 }
 
+// 유기적 블롭 형태 2
 struct Blob2: Shape {
     func path(in rect: CGRect) -> Path {
         Path { p in

@@ -10,7 +10,8 @@ final class StorageService {
         guard let data = image.jpegData(compressionQuality: 0.7) else {
             throw StorageError.invalidImage
         }
-        let path = "proofs/\(boardID)/\(cellID)/\(memberID).jpg"
+        let filename = "\(memberID)_\(UUID().uuidString).jpg"
+        let path = "proofs/\(boardID)/\(cellID)/\(filename)"
         let ref = storage.reference().child(path)
         _ = try await ref.putDataAsync(data)
         let url = try await ref.downloadURL()

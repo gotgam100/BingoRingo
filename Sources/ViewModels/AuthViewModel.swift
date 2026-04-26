@@ -18,9 +18,18 @@ final class AuthViewModel: NSObject, ObservableObject {
         authListener = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self else { return }
             self.isLoggedIn = user != nil
-            if user == nil {
+            if let user {
+                Task { await self.loadMemberIfNeeded(user: user) }
+            } else {
                 self.currentMember = nil
             }
+        }
+    }
+
+    private func loadMemberIfNeeded(user: FirebaseAuth.User) async {
+        guard currentMember == nil else { return }
+        if let member = try? await FirestoreService.shared.fetchMember(id: user.uid) {
+            self.currentMember = member
         }
     }
 
@@ -73,6 +82,60 @@ final class AuthViewModel: NSObject, ObservableObject {
                 errorMessage = "로그인 실패: \(error.localizedDescription)"
                 print("❌ Apple auth error: \(error)")
             }
+        }
+    }
+
+    func signInWithGoogle() {
+        isLoading = true
+        Task {
+            do {
+                let member = try await AuthService.shared.signInWithGoogle()
+                self.currentMember = member
+                self.isLoggedIn = true
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+            self.isLoading = false
+        }
+    }
+
+    func signInWithEmail(email: String, password: String) {
+        isLoading = true
+        Task {
+            do {
+                let member = try await AuthService.shared.signInWithEmail(email: email, password: password)
+                self.currentMember = member
+                self.isLoggedIn = true
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+            self.isLoading = false
+        }
+    }
+
+    func signUpWithEmail(email: String, password: String) {
+        isLoading = true
+        Task {
+            do {
+                let member = try await AuthService.shared.signUpWithEmail(email: email, password: password)
+                self.currentMember = member
+                self.isLoggedIn = true
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+            self.isLoading = false
+        }
+    }
+
+    func updateProfile(nickname: String, emoji: String) async {
+        guard var member = currentMember else { return }
+        member.displayName = nickname
+        member.profileEmoji = emoji
+        do {
+            try await FirestoreService.shared.updateMember(member)
+            self.currentMember = member
+        } catch {
+            print("❌ profile update error: \(error)")
         }
     }
 

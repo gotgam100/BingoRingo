@@ -22,8 +22,6 @@
 	<string>미션 인증 사진을 촬영하기 위해 카메라에 접근합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>미션 인증 사진을 업로드하기 위해 사진 라이브러리에 접근합니다.</string>
-	<key>NSPhotoLibraryAddOnlyUsageDescription</key>
-	<string>미션 인증 사진을 업로드하기 위해 사진 라이브러리에 접근합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Paperlogy-1Thin.ttf</string>
@@ -45,8 +43,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>GIDClientID</key>
-	<string>445274570572-mb1qostpiid3vvehtadeo3n83pvuk0dj.apps.googleusercontent.com</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UIRequiresFullScreen</key>

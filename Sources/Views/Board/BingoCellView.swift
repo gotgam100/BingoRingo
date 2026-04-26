@@ -5,12 +5,11 @@ struct BingoCellView: View {
     let memberIDs: [String]
     let currentMemberID: String
     let isLeader: Bool
+    let completedLineColor: Color?
     let size: CGFloat
     let onTap: () -> Void
     let onEdit: () -> Void
     let onToggle: () -> Void
-
-    private let memberColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
 
     private var isCompletedByMe: Bool { cell.completedBy.contains(currentMemberID) }
     private var isFullyCompleted: Bool { cell.isCompleted(for: memberIDs) }
@@ -19,87 +18,122 @@ struct BingoCellView: View {
     private var ratio: CGFloat { totalCount > 0 ? CGFloat(completedCount) / CGFloat(totalCount) : 0 }
 
     private var bgColor: Color {
-        if isFullyCompleted { return BRColors.blue }
-        if isCompletedByMe  { return BRColors.red.opacity(0.1) }
-        return BRColors.cream
-    }
-
-    private var borderColor: Color {
-        if isFullyCompleted { return BRColors.blue }
-        if isCompletedByMe  { return BRColors.red }
-        return BRColors.lightGray
+        if isFullyCompleted  { return completedLineColor ?? BRColors.primary }
+        if isCompletedByMe   { return BRColors.primaryMid }
+        if completedCount > 0 { return BRColors.primaryDim }
+        return Color(hex: "#f0f2ff")
     }
 
     private var textColor: Color {
-        isFullyCompleted ? .white : BRColors.primary
+        if isFullyCompleted { return .white }
+        if isCompletedByMe  { return .white }
+        return BRColors.onSurface
     }
 
-    private var arcColor: Color {
-        if isFullyCompleted { return BRColors.yellow }
-        if isCompletedByMe  { return BRColors.red }
-        return BRColors.blue
+    private var progressBarColor: Color {
+        if isFullyCompleted { return BRColors.surfaceHigh }
+        if isCompletedByMe  { return Color.white.opacity(0.6) }
+        return BRColors.primaryMid
+    }
+
+    private var progressTrackColor: Color {
+        if isFullyCompleted || isCompletedByMe {
+            return Color.white.opacity(0.2)
+        }
+        return BRColors.primaryDim
     }
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
+            // 배경 (테두리 없음 — 색상으로 구분)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(bgColor)
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(borderColor, lineWidth: isCompletedByMe || isFullyCompleted ? 2 : 1)
 
-            // 미션 텍스트
-            Text(cell.title)
-                .font(.system(size: max(size * 0.17, 10), weight: .bold, design: .rounded))
-                .foregroundStyle(textColor)
-                .multilineTextAlignment(.center)
-                .lineLimit(4)
-                .minimumScaleFactor(0.45)
-                .padding(.horizontal, size * 0.07)
-                .padding(.vertical, size * 0.22)
+            VStack(spacing: 0) {
+                Spacer()
 
-            // 우상단 아크 진행 표시
-            arcIndicator
-                .frame(width: size * 0.38, height: size * 0.38)
-                .offset(x: size * 0.28, y: -size * 0.28)
+                // 미션 텍스트
+                Text(cell.title.count > 8 ? String(cell.title.prefix(8)) + "..." : cell.title)
+                    .font(.system(size: max(size * 0.15, 9), weight: .bold, design: .rounded))
+                    .foregroundStyle(textColor)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.4)
+                    .padding(.horizontal, size * 0.08)
+
+                Spacer()
+
+                // 하단 진행률 바
+                VStack(spacing: 3) {
+                    // 진행 바
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(progressTrackColor)
+                                .frame(height: 3)
+                            Capsule()
+                                .fill(progressBarColor)
+                                .frame(width: geo.size.width * ratio, height: 3)
+                                .animation(.spring(duration: 0.4), value: ratio)
+                        }
+                    }
+                    .frame(height: 3)
+                    .padding(.horizontal, size * 0.1)
+
+                    // 완료 인원 텍스트
+                    Text("\(completedCount)/\(totalCount)명")
+                        .font(.system(size: max(size * 0.1, 7), weight: .black, design: .rounded))
+                        .foregroundStyle(textColor.opacity(0.75))
+                }
+                .padding(.bottom, size * 0.1)
+            }
+            .padding(.top, size * 0.08)
+
         }
         .frame(width: size, height: size)
-        .shadow(color: isFullyCompleted ? BRColors.blue.opacity(0.3) : .black.opacity(0.05), radius: 3, y: 1)
+        .overlay(alignment: .topTrailing) {
+            if isFullyCompleted {
+                ZStack {
+                    Circle()
+                        .fill(BRColors.tertiary)
+                        .frame(width: size * 0.24, height: size * 0.24)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: size * 0.1, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .offset(x: -size * 0.04, y: size * 0.04)
+            }
+        }
+        .shadow(
+            color: completedLineColor.map { $0.opacity(0.45) }
+                ?? (isFullyCompleted ? BRColors.primary.opacity(0.25) : BRColors.onSurface.opacity(0.04)),
+            radius: completedLineColor != nil ? 12 : (isFullyCompleted ? 8 : 3),
+            y: 2
+        )
         .animation(.spring(duration: 0.25), value: completedCount)
-        .onTapGesture { onTap() }
+        .onTapGesture {
+            if cell.title.isEmpty && isLeader {
+                onEdit()
+            } else {
+                onTap()
+            }
+        }
         .contextMenu {
             Button {
                 onToggle()
             } label: {
-                Label(isCompletedByMe ? "완료 취소" : "완료 체크", systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill")
+                Label(
+                    isCompletedByMe ? "완료 취소" : "완료 체크",
+                    systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
+                )
             }
             if isLeader {
                 Button {
                     onEdit()
                 } label: {
-                    Label("제목 수정", systemImage: "pencil")
+                    Label("미션 수정", systemImage: "pencil")
                 }
             }
-        }
-    }
-
-    private var arcIndicator: some View {
-        ZStack {
-            // 배경 트랙
-            Circle()
-                .stroke(Color.white.opacity(0.4), lineWidth: size * 0.045)
-
-            // 진행 아크
-            Circle()
-                .trim(from: 0, to: ratio)
-                .stroke(arcColor, style: StrokeStyle(lineWidth: size * 0.045, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .animation(.spring(duration: 0.4), value: ratio)
-
-            // 텍스트
-            Text("\(completedCount)/\(totalCount)")
-                .font(.system(size: max(size * 0.1, 7), weight: .black, design: .rounded))
-                .foregroundStyle(isFullyCompleted ? .white : BRColors.primary)
-                .minimumScaleFactor(0.5)
         }
     }
 }

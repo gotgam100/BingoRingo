@@ -1,0 +1,54 @@
+{
+  "identifier" : "BingoRingo",
+  "nonConsumableProducts" : [
+    {
+      "displayPrice" : "1000",
+      "familyShareable" : false,
+      "internalID" : "premium_001",
+      "introductoryOffer" : null,
+      "localizations" : [
+        {
+          "description" : "빙고 방 무제한 생성, 프리미엄 배지",
+          "displayName" : "BingoRingo 프리미엄",
+          "locale" : "ko_KR"
+        },
+        {
+          "description" : "Unlimited bingo room creation, premium badge",
+          "displayName" : "BingoRingo Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.bingoringo.premium",
+      "referenceName" : "BingoRingo Premium",
+      "type" : "NonConsumable"
+    }
+  ],
+  "consumableProducts" : [],
+  "autoRenewableSubscriptions" : [],
+  "nonRenewingSubscriptions" : [],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      }
+    ]
+  },
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

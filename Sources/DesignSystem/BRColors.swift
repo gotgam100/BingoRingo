@@ -1,22 +1,47 @@
 import SwiftUI
 
 enum BRColors {
-    static let background  = Color(hex: "#F7F0E3")   // 따뜻한 크림
-    static let primary     = Color(hex: "#1A1512")   // 거의 검정 (밝은 배경 텍스트)
-    static let secondary   = Color(hex: "#6B5B4E")   // 브라운 그레이
+    // Action Blue (primary interactions, completed states)
+    static let primary        = Color(hex: "#204bde")
+    static let primaryLight   = Color(hex: "#859aff")
+    static let primaryDim     = Color(hex: "#edf0ff")   // unselected cells
+    static let primaryMid     = Color(hex: "#b8c4ff")   // in-progress cells
 
-    static let red         = Color(hex: "#E84A2F")   // 웜 레드-오렌지
-    static let blue        = Color(hex: "#2B5BA8")   // 레트로 블루
-    static let yellow      = Color(hex: "#F5A623")   // 웜 옐로
-    static let green       = Color(hex: "#2D6A4F")   // 딥 그린
-    static let lightGray   = Color(hex: "#E8DFD0")   // 웜 라이트
-    static let cream       = Color(hex: "#FBF6ED")   // 밝은 크림 (카드)
+    // Social Orange-Brown (collaborative highlights)
+    static let secondary      = Color(hex: "#9b3f00")
+    static let secondaryChip  = Color(hex: "#ffc5aa")
 
-    // 레거시 alias
-    static var cobaltBlue: Color { blue }
-    static var orange: Color { red }
-    static var beige: Color { yellow }
-    static var darkText: Color { primary }
+    // High-stake Red (wins, checkmarks, urgent)
+    static let tertiary       = Color(hex: "#b71211")
+
+    // Surface hierarchy — warm Canvas Tan
+    static let surface        = Color(hex: "#fff5eb")   // base canvas
+    static let surfaceLow     = Color(hex: "#ffeeda")   // sub-sections
+    static let surfaceContainer = Color(hex: "#ffe4c0") // interactive cards
+    static let surfaceHigh    = Color(hex: "#ffd79c")   // floating elements
+
+    // Text on surface
+    static let onSurface      = Color(hex: "#3e2b0c")   // warm near-black
+    static let onSurfaceMuted = Color(hex: "#9b7a52")   // muted warm brown
+    static let outlineVariant = Color(hex: "#c6a97f")   // ghost border (15% opacity)
+
+    // Hero CTA gradient: primary → primaryLight at 135°
+    static var primaryGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "#204bde"), Color(hex: "#859aff")],
+            startPoint: UnitPoint(x: 0.15, y: 0),
+            endPoint: UnitPoint(x: 0.85, y: 1)
+        )
+    }
+
+    // Legacy aliases (for backward compatibility across views)
+    static var background: Color  { surface }
+    static var cream: Color       { surfaceContainer }
+    static var lightGray: Color   { surfaceHigh }
+    static var blue: Color        { primary }
+    static var red: Color         { tertiary }
+    static var yellow: Color      { surfaceHigh }
+    static var green: Color       { Color(hex: "#2D6A4F") }
 }
 
 extension Color {

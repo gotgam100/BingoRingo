@@ -4,8 +4,16 @@ import FirebaseAuth
 struct HomeView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var groupVM = GroupViewModel()
+    @StateObject private var premiumManager = PremiumManager.shared
+    @AppStorage("appLanguage") private var appLanguage: String = "한글"
     @State private var showCreateGroup = false
     @State private var showJoinGroup = false
+    @State private var showProfile = false
+    @State private var showSettings = false
+    @State private var showPremiumAlert = false
+    @State private var editingGroup: BingoGroup?
+    @State private var copiedCode: String?
+    @State private var memberProfiles: [String: Member] = [:]
 
     private var memberID: String {
         authViewModel.currentMember?.id ?? Auth.auth().currentUser?.uid ?? ""
@@ -14,36 +22,42 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
-                BRColors.background.ignoresSafeArea()
+                BRColors.surface.ignoresSafeArea()
 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                         headerView
                         groupListView
-                            .padding(.top, 28)
+                            .padding(.top, 32)
                             .padding(.horizontal, 20)
-                            .padding(.bottom, 100)
+                            .padding(.bottom, 110)
+                            .id(appLanguage)  // 언어 변경시 뷰 재구성
                     }
                 }
 
                 // FAB
                 Menu {
                     Button {
-                        showCreateGroup = true
+                        let userGroupCount = groupVM.groups.filter { $0.leaderID == memberID }.count
+                        if !premiumManager.isPremium && userGroupCount >= 1 {
+                            showPremiumAlert = true
+                        } else {
+                            showCreateGroup = true
+                        }
                     } label: {
-                        Label("새 빙고 만들기", systemImage: "plus.square")
+                        Label(Localization.Home.createNewBingo, systemImage: "plus.square")
                     }
                     Button {
                         showJoinGroup = true
                     } label: {
-                        Label("초대 코드로 참여", systemImage: "person.badge.plus")
+                        Label(Localization.Home.joinWithCode, systemImage: "person.badge.plus")
                     }
                 } label: {
                     ZStack {
                         Circle()
-                            .fill(BRColors.red)
-                            .frame(width: 64, height: 64)
-                            .shadow(color: BRColors.red.opacity(0.35), radius: 14, y: 5)
+                            .fill(BRColors.primaryGradient)
+                            .frame(width: 62, height: 62)
+                            .shadow(color: BRColors.primary.opacity(0.4), radius: 20, y: 6)
                         Image(systemName: "plus")
                             .font(.title2.weight(.black))
                             .foregroundStyle(.white)
@@ -54,9 +68,47 @@ struct HomeView: View {
             .navigationBarHidden(true)
             .sheet(isPresented: $showCreateGroup) {
                 CreateGroupSheet(onCreated: { groupVM.fetchGroups(for: memberID) })
+                    .environmentObject(groupVM)
             }
             .sheet(isPresented: $showJoinGroup) {
                 JoinGroupSheet(onJoined: { groupVM.fetchGroups(for: memberID) })
+            }
+            .sheet(isPresented: $showProfile) {
+                ProfileSheet()
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
+            .sheet(item: $editingGroup) { group in
+                EditGroupSheet(group: group, memberID: memberID) {
+                    groupVM.fetchGroups(for: memberID)
+                }
+            }
+            .alert(Localization.CreateGroup.premiumRequired, isPresented: $showPremiumAlert) {
+                Button(Localization.CreateGroup.buyInSettings) {
+                    showSettings = true
+                }
+                Button(Localization.CreateGroup.cancel, role: .cancel) {}
+            } message: {
+                Text(Localization.CreateGroup.premiumMessage)
+            }
+            .overlay(alignment: .top) {
+                if copiedCode != nil {
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(BRColors.primary)
+                        Text(Localization.Home.inviteCodeCopied)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(BRColors.primary)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(BRColors.primaryDim)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(16)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
             }
         }
         .onAppear {
@@ -64,96 +116,147 @@ struct HomeView: View {
                 groupVM.fetchGroups(for: memberID)
             }
         }
+        .onChange(of: groupVM.groups) { _, groups in
+            let allIDs = Array(Set(groups.flatMap { $0.memberIDs }))
+            Task {
+                let fetched = (try? await FirestoreService.shared.fetchMembers(ids: allIDs)) ?? [:]
+                memberProfiles = fetched
+            }
+        }
     }
 
     // MARK: - Header
     private var headerView: some View {
-        ZStack(alignment: .bottomLeading) {
-            BRColors.blue
+        ZStack(alignment: .topTrailing) {
+            // 배경 그라디언트
+            Rectangle()
+                .fill(BRColors.primaryGradient)
+                .ignoresSafeArea(edges: .top)
 
-            // blob 장식
-            Blob2()
-                .fill(BRColors.red.opacity(0.6))
-                .frame(width: 160, height: 160)
-                .offset(x: UIScreen.main.bounds.width - 80, y: 30)
-
+            // 기하학적 장식 (배경에서 삐져나오는 형태)
             Circle()
-                .fill(BRColors.yellow.opacity(0.5))
-                .frame(width: 60, height: 60)
-                .offset(x: UIScreen.main.bounds.width - 160, y: -10)
+                .fill(Color.white.opacity(0.08))
+                .frame(width: 200, height: 200)
+                .offset(x: UIScreen.main.bounds.width - 60, y: -40)
 
             Blob1()
-                .fill(BRColors.green.opacity(0.4))
-                .frame(width: 90, height: 90)
-                .offset(x: 20, y: -20)
+                .fill(Color.white.opacity(0.06))
+                .frame(width: 140, height: 140)
+                .offset(x: UIScreen.main.bounds.width - 160, y: 20)
 
-            // 텍스트
-            VStack(alignment: .leading, spacing: 6) {
-                Text("BingoRingo")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.55))
-                    .tracking(2)
-                Text(authViewModel.currentMember?.displayName.isEmpty == false
-                     ? "\(authViewModel.currentMember!.displayName)님, 안녕하세요!"
-                     : "안녕하세요!")
-                    .font(.system(size: 22, weight: .black, design: .rounded))
-                    .foregroundStyle(.white)
+            Circle()
+                .fill(BRColors.surfaceHigh.opacity(0.25))
+                .frame(width: 72, height: 72)
+                .offset(x: 24, y: -30)
 
-                Button(action: { authViewModel.signOut() }) {
-                    Text("로그아웃")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.45))
-                }
+            // 설정 버튼 (상단 우측)
+            Button { showSettings = true } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.7))
+                    .frame(width: 40, height: 40)
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 28)
+            .padding(.top, 16)
+            .padding(.trailing, 24)
+
+            // 텍스트 + 프로필 (하단)
+            VStack(alignment: .leading) {
+                Spacer()
+
+                HStack(alignment: .bottom) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(Localization.isEnglish ? "Bingo To Do Together" : "다함께 빙고 To Do")
+                            .font(Paperlogy.bold(13))
+                            .foregroundStyle(.white.opacity(0.8))
+                            .tracking(1.5)
+
+                        Text(authViewModel.currentMember?.displayName.isEmpty == false
+                             ? (Localization.isEnglish
+                                ? "Hi, \(authViewModel.currentMember!.displayName)!"
+                                : "\(authViewModel.currentMember!.displayName)님,\n안녕하세요!")
+                             : Localization.Home.hello)
+                            .font(Paperlogy.black(26))
+                            .foregroundStyle(.white)
+                            .tracking(-0.5)
+                    }
+
+                    Spacer()
+
+                    // 프로필 이모지 버튼
+                    Button { showProfile = true } label: {
+                        ZStack {
+                            Circle()
+                                .fill(Color.white.opacity(0.2))
+                                .frame(width: 52, height: 52)
+                            Text(authViewModel.currentMember?.profileEmoji ?? "😀")
+                                .font(.system(size: 28))
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 30)
+            }
         }
-        .frame(height: 185)
+        .frame(height: 200)
     }
 
     // MARK: - Group List
     private var groupListView: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("내 빙고")
-                    .font(.system(size: 22, weight: .black, design: .rounded))
-                    .foregroundStyle(BRColors.primary)
-                Spacer()
-                if !groupVM.groups.isEmpty {
-                    Text("\(groupVM.groups.count)개")
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
-                        .foregroundStyle(BRColors.secondary)
+        VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(Localization.Home.myBingo)
+                        .font(Paperlogy.black(24))
+                        .foregroundStyle(BRColors.onSurface)
+                        .tracking(-0.5)
+                    if !groupVM.groups.isEmpty {
+                        Text(Localization.isEnglish ? "\(groupVM.groups.count) \(Localization.Home.bingoCount)" : "\(groupVM.groups.count)\(Localization.Home.bingoCount)")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundStyle(BRColors.onSurfaceMuted)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(BRColors.surfaceLow)
+                            .clipShape(Capsule())
+                    }
+                    Spacer()
                 }
+                Text(Localization.isEnglish
+                     ? "Create a room or enter another room's invite code."
+                     : "방을 만들거나, 다른 방의 참여코드를 입력하세요.")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(BRColors.onSurfaceMuted)
             }
 
             if groupVM.isLoading {
-                ProgressView().frame(maxWidth: .infinity, minHeight: 120)
+                ProgressView()
+                    .tint(BRColors.primary)
+                    .frame(maxWidth: .infinity, minHeight: 120)
             } else if groupVM.groups.isEmpty {
                 emptyView
             } else {
-                ForEach(groupVM.groups) { group in
-                    NavigationLink(destination: BoardView(group: group)) {
-                        GroupCard(group: group, memberID: memberID)
+                let sortedGroups = groupVM.groups.sorted {
+                    $0.leaderID == memberID && $1.leaderID != memberID
+                }
+                ForEach(sortedGroups) { group in
+                    NavigationLink(destination: BoardView(group: group, allGroups: groupVM.groups)) {
+                        GroupCard(group: group, memberID: memberID, memberProfiles: memberProfiles)
                     }
                     .buttonStyle(.plain)
                     .contextMenu {
                         Button {
-                            UIPasteboard.general.string = group.inviteCode
+                            editingGroup = group
                         } label: {
-                            Label("초대 코드 복사", systemImage: "doc.on.doc")
+                            Label(Localization.Home.viewBingoInfo, systemImage: "info.circle.fill")
                         }
-                        if group.leaderID == memberID {
-                            Button(role: .destructive) {
-                                Task { try? await FirestoreService.shared.deleteGroup(groupID: group.id) }
-                            } label: {
-                                Label("빙고 삭제", systemImage: "trash")
+
+                        Button {
+                            UIPasteboard.general.string = group.inviteCode
+                            copiedCode = group.inviteCode
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                copiedCode = nil
                             }
-                        } else {
-                            Button(role: .destructive) {
-                                Task { try? await FirestoreService.shared.leaveGroup(groupID: group.id, memberID: memberID) }
-                            } label: {
-                                Label("빙고 나가기", systemImage: "rectangle.portrait.and.arrow.right")
-                            }
+                        } label: {
+                            Label(Localization.Home.copyInviteCode, systemImage: "doc.on.doc")
                         }
                     }
                 }
@@ -162,31 +265,34 @@ struct HomeView: View {
     }
 
     private var emptyView: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(BRColors.cream)
-                .shadow(color: .black.opacity(0.04), radius: 8)
-                .frame(height: 170)
-
-            VStack(spacing: 14) {
-                HStack(spacing: 6) {
-                    ForEach(0..<3, id: \.self) { col in
-                        VStack(spacing: 6) {
-                            ForEach(0..<3, id: \.self) { row in
-                                let colors: [Color] = [BRColors.red, BRColors.blue, BRColors.yellow, BRColors.green, BRColors.lightGray]
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(colors[(row * 3 + col) % colors.count].opacity(0.5))
-                                    .frame(width: 20, height: 20)
-                            }
+        VStack(spacing: 20) {
+            // 장식용 미니 빙고 그리드
+            VStack(spacing: 6) {
+                ForEach(0..<3, id: \.self) { row in
+                    HStack(spacing: 6) {
+                        ForEach(0..<3, id: \.self) { col in
+                            let colors: [Color] = [BRColors.primaryDim, BRColors.surfaceHigh, BRColors.primaryMid]
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(colors[(row * 3 + col) % colors.count])
+                                .frame(width: 28, height: 28)
                         }
                     }
                 }
-                Text("아직 빙고가 없어요\n+ 버튼으로 시작해보세요!")
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundStyle(BRColors.secondary)
-                    .multilineTextAlignment(.center)
+            }
+
+            VStack(spacing: 6) {
+                Text(Localization.Home.emptyTitle)
+                    .font(.system(size: 16, weight: .black, design: .rounded))
+                    .foregroundStyle(BRColors.onSurface)
+                Text(Localization.Home.emptySubtitle)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(BRColors.onSurfaceMuted)
             }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
+        .background(BRColors.surfaceLow)
+        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 }
 
@@ -194,63 +300,130 @@ struct HomeView: View {
 struct GroupCard: View {
     let group: BingoGroup
     let memberID: String
+    let memberProfiles: [String: Member]
 
-    private let memberColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
-    private let accentColors: [Color] = [BRColors.blue, BRColors.red, BRColors.green, BRColors.yellow]
-    private var accent: Color { accentColors[abs(group.id.hashValue) % accentColors.count] }
+    // 방장: 파랑 계열 / 참여자: 초록·보라·갈색 계열, 보드 크기로 구분
+    private var accent: Color {
+        if group.leaderID == memberID {
+            return BRColors.primary
+        }
+        switch group.boardSize {
+        case 3:  return Color(hex: "#1a7a4a")  // 초록
+        case 4:  return Color(hex: "#6b3fa0")  // 보라
+        default: return Color(hex: "#9b3f00")  // 갈색
+        }
+    }
+    private let memberColors: [Color] = [
+        BRColors.primary, Color(hex: "#b71211"), Color(hex: "#1a7a4a"), Color(hex: "#9b3f00")
+    ]
 
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 컬러 헤더
-            HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(group.name)
-                        .font(.system(size: 17, weight: .black, design: .rounded))
-                        .foregroundStyle(.white)
-                    if group.leaderID == memberID {
-                        Text("방장")
-                            .font(.system(size: 10, weight: .bold, design: .rounded))
-                            .foregroundStyle(accent)
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 2)
-                            .background(Color.white)
-                            .clipShape(Capsule())
+            // 상단 컬러 헤더 (그라디언트 없이 단색, 기하학 장식)
+            ZStack(alignment: .bottomLeading) {
+                Rectangle()
+                    .fill(accent)
+
+                // 장식 원 (배경에서 삐져나오는 효과)
+                Circle()
+                    .fill(Color.white.opacity(0.08))
+                    .frame(width: 100, height: 100)
+                    .offset(x: 220, y: -20)
+
+                Circle()
+                    .fill(Color.white.opacity(0.06))
+                    .frame(width: 60, height: 60)
+                    .offset(x: 260, y: 20)
+
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(group.name)
+                            .font(Paperlogy.black(18))
+                            .foregroundStyle(.white)
+
+                        HStack(spacing: 6) {
+                            if group.leaderID == memberID {
+                                Text(Localization.Home.leader)
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(accent)
+                                    .clipShape(Capsule())
+                            }
+                            if group.isCompleted {
+                                HStack(spacing: 3) {
+                                    Image(systemName: "checkmark.seal.fill")
+                                        .font(.system(size: 9, weight: .bold))
+                                    Text(Localization.Board.complete)
+                                        .font(.system(size: 10, weight: .bold))
+                                }
+                                .foregroundStyle(Color(hex: "#e8a20e"))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Color(hex: "#e8a20e").opacity(0.2))
+                                .clipShape(Capsule())
+                            }
+                        }
+                    }
+                    Spacer()
+
+                    // 빙고 수 (완료 시 트로피 표시)
+                    VStack(spacing: 1) {
+                        if group.isCompleted {
+                            Text("🏆")
+                                .font(.system(size: 28))
+                        } else {
+                            Text("\(group.completedLinesCount)")
+                                .font(Paperlogy.black(30))
+                                .foregroundStyle(.white)
+                            Text("BINGO")
+                                .font(Paperlogy.bold(8))
+                                .foregroundStyle(.white.opacity(0.6))
+                                .tracking(1)
+                        }
                     }
                 }
-                Spacer()
-                // 빙고 수 뱃지
-                VStack(spacing: 2) {
-                    Text("\(group.completedLinesCount)")
-                        .font(.system(size: 26, weight: .black, design: .rounded))
-                        .foregroundStyle(.white)
-                    Text("BINGO")
-                        .font(.system(size: 9, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
-                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 16)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
-            .background(accent)
+            .frame(height: 88)
+            .clipped()
 
-            // 하단 정보 영역
+            // 하단 정보 (따뜻한 크림 배경)
             HStack(spacing: 0) {
                 // 멤버 아바타
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("멤버")
-                        .font(.system(size: 11, weight: .bold, design: .rounded))
-                        .foregroundStyle(BRColors.secondary)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(Localization.Home.members)
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
                     HStack(spacing: -6) {
-                        ForEach(Array(group.memberIDs.enumerated()), id: \.element) { idx, id in
+                        let maxVisible = 5
+                        let visible = Array(group.memberIDs.prefix(maxVisible))
+                        let overflow = group.memberIDs.count - maxVisible
+
+                        ForEach(Array(visible.enumerated()), id: \.element) { idx, id in
                             let color = memberColors[idx % memberColors.count]
-                            let isMe = id == memberID
+                            let emoji = memberProfiles[id]?.profileEmoji ?? "😀"
                             ZStack {
                                 Circle()
-                                    .fill(color)
-                                    .frame(width: 28, height: 28)
-                                    .overlay(Circle().strokeBorder(.white, lineWidth: 2))
-                                Text(isMe ? "나" : "\(idx + 1)")
-                                    .font(.system(size: 9, weight: .black, design: .rounded))
-                                    .foregroundStyle(.white)
+                                    .fill(color.opacity(0.18))
+                                    .frame(width: 30, height: 30)
+                                    .overlay(Circle().strokeBorder(BRColors.surfaceContainer, lineWidth: 1.5))
+                                Text(emoji)
+                                    .font(.system(size: 16))
+                            }
+                        }
+
+                        if overflow > 0 {
+                            ZStack {
+                                Circle()
+                                    .fill(BRColors.surfaceHigh)
+                                    .frame(width: 30, height: 30)
+                                    .overlay(Circle().strokeBorder(BRColors.surfaceContainer, lineWidth: 1.5))
+                                Text("+\(overflow)")
+                                    .font(.system(size: 9, weight: .bold))
+                                    .foregroundStyle(BRColors.onSurfaceMuted)
                             }
                         }
                     }
@@ -259,37 +432,468 @@ struct GroupCard: View {
                 Spacer()
 
                 // 보드 사이즈
-                VStack(spacing: 4) {
+                VStack(spacing: 3) {
                     Text("\(group.boardSize)×\(group.boardSize)")
                         .font(.system(size: 20, weight: .black, design: .rounded))
                         .foregroundStyle(accent)
-                    Text("보드 크기")
-                        .font(.system(size: 10, weight: .semibold, design: .rounded))
-                        .foregroundStyle(BRColors.secondary)
+                    Text(Localization.Home.boardSize)
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
                 }
 
                 Spacer()
 
                 // 초대코드
-                VStack(spacing: 4) {
+                VStack(spacing: 3) {
                     Text(group.inviteCode)
-                        .font(.system(size: 16, weight: .black, design: .rounded))
+                        .font(.system(size: 15, weight: .black, design: .rounded))
                         .foregroundStyle(accent)
-                    Text("초대 코드")
-                        .font(.system(size: 10, weight: .semibold, design: .rounded))
-                        .foregroundStyle(BRColors.secondary)
+                    Text(Localization.CreateGroup.inviteCode)
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
                 }
 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(BRColors.secondary)
-                    .padding(.leading, 12)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(BRColors.onSurfaceMuted)
+                    .padding(.leading, 14)
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 16)
+            .background(BRColors.surfaceContainer)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: BRColors.onSurface.opacity(0.07), radius: 24, x: 0, y: 6)
+    }
+}
+
+// MARK: - Settings View
+
+struct SettingsView: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject private var premiumManager = PremiumManager.shared
+    @AppStorage("appLanguage") private var selectedLanguage: String = "한글"
+    @State private var showPremiumPopup = false
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                BRColors.surface.ignoresSafeArea()
+
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        // 헤더
+                        HStack(spacing: 12) {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundStyle(BRColors.primary)
+
+                            Text(Localization.Settings.title)
+                                .font(.system(size: 28, weight: .black, design: .rounded))
+                                .foregroundStyle(BRColors.onSurface)
+
+                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 32)
+                        .padding(.bottom, 32)
+
+                        VStack(spacing: 12) {
+                            // 프리미엄
+                            VStack(alignment: .leading, spacing: 10) {
+                                Button {
+                                    if premiumManager.isPremium {
+                                        premiumManager.refundPremium()
+                                    } else {
+                                        showPremiumPopup = true
+                                    }
+                                } label: {
+                                    if !premiumManager.isPremium {
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(Localization.Settings.premiumTitle)
+                                                    .font(.system(size: 16, weight: .bold))
+                                                    .foregroundStyle(BRColors.onSurface)
+                                                Text(Localization.Settings.premiumDesc)
+                                                    .font(.system(size: 12, weight: .medium))
+                                                    .foregroundStyle(BRColors.onSurfaceMuted)
+                                            }
+                                            Spacer()
+                                            Image(systemName: "star.fill")
+                                                .font(.system(size: 18, weight: .semibold))
+                                                .foregroundStyle(Color(hex: "#e8a20e"))
+                                        }
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 14)
+                                        .background(BRColors.primaryDim)
+                                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                                    } else {
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(Localization.Settings.premiumMember)
+                                                    .font(.system(size: 16, weight: .bold))
+                                                    .foregroundStyle(BRColors.onSurface)
+                                                if let date = premiumManager.purchaseDate {
+                                                    Text(Localization.Settings.purchaseDate + date.formatted(date: .abbreviated, time: .omitted))
+                                                        .font(.system(size: 12, weight: .medium))
+                                                        .foregroundStyle(BRColors.onSurfaceMuted)
+                                                }
+                                            }
+                                            Spacer()
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .font(.system(size: 18, weight: .semibold))
+                                                .foregroundStyle(BRColors.primary)
+                                        }
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 14)
+                                        .background(BRColors.primaryDim)
+                                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                                    }
+                                }
+                            }
+
+                            // 언어 설정
+                            settingSection(title: Localization.Settings.language) {
+                                HStack {
+                                    Text(Localization.Settings.languageSelect)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .foregroundStyle(BRColors.onSurface)
+                                    Spacer()
+                                    Menu {
+                                        Button {
+                                            selectedLanguage = "한글"
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                dismiss()
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text("한글")
+                                                if selectedLanguage == "한글" {
+                                                    Image(systemName: "checkmark")
+                                                }
+                                            }
+                                        }
+                                        Button {
+                                            selectedLanguage = "English"
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                dismiss()
+                                            }
+                                        } label: {
+                                            HStack {
+                                                Text("English")
+                                                if selectedLanguage == "English" {
+                                                    Image(systemName: "checkmark")
+                                                }
+                                            }
+                                        }
+                                    } label: {
+                                        Text(selectedLanguage)
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundStyle(BRColors.primary)
+                                            .frame(width: 70, alignment: .trailing)
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 14)
+                                .background(BRColors.surfaceLow)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                            }
+
+                            // 앱 정보
+                            settingSection(title: Localization.Settings.appInfo) {
+                                VStack(spacing: 10) {
+                                    settingRow(label: Localization.Settings.appStore, icon: "star.fill") {
+                                        if let url = URL(string: "itms-apps://apps.apple.com/app/id6504009900") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+
+                                    settingRowInfo(label: Localization.Settings.appVersion, value: "1.0.0", icon: "info.circle.fill")
+                                }
+                            }
+
+                            // 이용약관 및 정책
+                            settingSection(title: Localization.Settings.terms) {
+                                VStack(spacing: 10) {
+                                    settingRow(label: Localization.Settings.termsOfService, icon: "doc.text") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/terms") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+
+                                    settingRow(label: Localization.Settings.privacy, icon: "lock.shield") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/privacy") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+
+                                    settingRow(label: Localization.Settings.openSource, icon: "book") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/licenses") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 40)
+                    }
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(Localization.Settings.close) { dismiss() }
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(BRColors.primary)
+                }
+            }
+            .sheet(isPresented: $showPremiumPopup) {
+                PremiumPurchasePopup(premiumManager: premiumManager, isPresented: $showPremiumPopup)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func settingSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.system(size: 12, weight: .bold))
+                .foregroundStyle(BRColors.onSurfaceMuted)
+                .tracking(0.5)
+
+            content()
+        }
+    }
+
+    @ViewBuilder
+    private func settingRowInfo(label: String, value: String = "", icon: String = "") -> some View {
+        HStack {
+            if !icon.isEmpty {
+                Image(systemName: icon)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(BRColors.primary)
+                    .frame(width: 24)
+            }
+
+            Text(label)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(BRColors.onSurface)
+
+            Spacer()
+
+            if !value.isEmpty {
+                Text(value)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(BRColors.onSurfaceMuted)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(BRColors.surfaceLow)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func settingRow(label: String, value: String = "", icon: String = "", action: @escaping () -> Void = {}) -> some View {
+        Button(action: action) {
+            HStack {
+                if !icon.isEmpty {
+                    Image(systemName: icon)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(BRColors.primary)
+                        .frame(width: 24)
+                }
+
+                Text(label)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(BRColors.onSurface)
+
+                Spacer()
+
+                if !value.isEmpty {
+                    Text(value)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                }
+
+                if !icon.isEmpty || !value.isEmpty {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
-            .background(BRColors.cream)
+            .background(BRColors.surfaceLow)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
         }
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
+    }
+}
+
+// MARK: - Premium Purchase Popup
+
+struct PremiumPurchasePopup: View {
+    @ObservedObject var premiumManager: PremiumManager
+    @Binding var isPresented: Bool
+    @State private var errorMessage: String? = nil
+
+    private var priceLabel: String {
+        if let product = premiumManager.product {
+            return "\(product.displayPrice)으로 구매"
+        }
+        return "구매하기"
+    }
+
+    private var isPurchasing: Bool {
+        premiumManager.purchaseState == .purchasing
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // 헤더
+            HStack(alignment: .center, spacing: 12) {
+                Image(systemName: "star.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundStyle(Color(hex: "#e8a20e"))
+
+                Text("BingoRingo 프리미엄")
+                    .font(Paperlogy.black(28))
+                    .foregroundStyle(BRColors.onSurface)
+
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 24)
+            .padding(.top, 32)
+            .padding(.bottom, 24)
+
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 20) {
+                    // 프리미엄 혜택
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("프리미엄 혜택")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(BRColors.onSurfaceMuted)
+                            .tracking(0.5)
+
+                        VStack(alignment: .leading, spacing: 10) {
+                            benefitRow(icon: "plus.circle.fill", text: "빙고 무제한 생성")
+                            benefitRow(icon: "star.fill", text: "프리미엄 배지 획득")
+                            benefitRow(icon: "sparkles", text: "우선 지원")
+                        }
+                    }
+
+                    // 가격
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("가격")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(BRColors.onSurfaceMuted)
+                            .tracking(0.5)
+
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(premiumManager.product?.displayPrice ?? "1,000원")
+                                    .font(Paperlogy.black(28))
+                                    .foregroundStyle(BRColors.primary)
+                                Text("일회 구매")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundStyle(BRColors.onSurfaceMuted)
+                            }
+                            Spacer()
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 32, weight: .semibold))
+                                .foregroundStyle(BRColors.primary)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 16)
+                        .background(BRColors.primaryDim)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    // 에러 메시지
+                    if let error = errorMessage {
+                        Text(error)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(BRColors.tertiary)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .padding(.horizontal, 24)
+            }
+
+            // 버튼
+            VStack(spacing: 12) {
+                Button {
+                    errorMessage = nil
+                    Task {
+                        await premiumManager.purchasePremium()
+                        if case .failed(let msg) = premiumManager.purchaseState {
+                            errorMessage = msg
+                        } else if premiumManager.isPremium {
+                            isPresented = false
+                        }
+                    }
+                } label: {
+                    Group {
+                        if isPurchasing {
+                            ProgressView().tint(.white)
+                        } else {
+                            Text(priceLabel)
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundStyle(.white)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 58)
+                    .background(isPurchasing ? AnyShapeStyle(BRColors.surfaceContainer) : AnyShapeStyle(BRColors.primaryGradient))
+                    .clipShape(RoundedRectangle(cornerRadius: 48))
+                    .shadow(color: isPurchasing ? .clear : BRColors.primary.opacity(0.3), radius: 16, y: 5)
+                }
+                .disabled(isPurchasing)
+
+                Button { isPresented = false } label: {
+                    Text("취소")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(BRColors.primary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(BRColors.surfaceContainer)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+
+                Button {
+                    Task { await premiumManager.restorePurchases() }
+                } label: {
+                    Text("구매 복원")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                }
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 20)
+            .padding(.bottom, 32)
+        }
+        .background(BRColors.surface)
+    }
+
+    @ViewBuilder
+    private func benefitRow(icon: String, text: String) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(BRColors.primary)
+                .frame(width: 24)
+
+            Text(text)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(BRColors.onSurface)
+
+            Spacer()
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(BRColors.surfaceLow)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
