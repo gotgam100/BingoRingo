@@ -617,19 +617,19 @@ struct SettingsView: View {
                             settingSection(title: Localization.Settings.terms) {
                                 VStack(spacing: 10) {
                                     settingRow(label: Localization.Settings.termsOfService, icon: "doc.text") {
-                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/terms") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/terms.html") {
                                             UIApplication.shared.open(url)
                                         }
                                     }
 
                                     settingRow(label: Localization.Settings.privacy, icon: "lock.shield") {
-                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/privacy") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/privacy.html") {
                                             UIApplication.shared.open(url)
                                         }
                                     }
 
                                     settingRow(label: Localization.Settings.openSource, icon: "book") {
-                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/licenses") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/licenses.html") {
                                             UIApplication.shared.open(url)
                                         }
                                     }
