@@ -10,28 +10,38 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            OnboardingBackground()
+            // 주황-노란 그라데이션 배경
+            LinearGradient(
+                colors: [Color(hex: "#FF9500"), Color(hex: "#FFCC00")],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            // 컬러풀 파티클들
+            OnboardingParticles()
 
             VStack(spacing: 0) {
                 Spacer()
 
-                // 로고 + 타이틀
-                VStack(spacing: 32) {
-                    BingoRingoLogo()
-                        .frame(width: 120, height: 120)
+                // 타이틀
+                VStack(spacing: 4) {
+                    Text("BINGO")
+                        .font(.custom("Cafe24 Nyangi B", size: 72))
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 2, y: 4)
 
-                    VStack(spacing: 10) {
-                        Text("BingoRingo")
-                            .font(Paperlogy.black(48))
-                            .foregroundStyle(BRColors.onSurface)
-                            .tracking(-1)
-
-                        Text("함께하는 빙고 To Do")
-                            .font(Paperlogy.medium(15))
-                            .foregroundStyle(BRColors.onSurfaceMuted)
-                            .tracking(0.5)
-                    }
+                    Text("RINGO")
+                        .font(.custom("Cafe24 Nyangi B", size: 72))
+                        .foregroundStyle(Color(hex: "#1A1A1A"))
+                        .shadow(color: .black.opacity(0.10), radius: 4, x: 2, y: 4)
                 }
+                .padding(.bottom, 12)
+
+                Text("함께하는 빙고 To Do")
+                    .font(Paperlogy.medium(15))
+                    .foregroundStyle(.white.opacity(0.85))
+                    .tracking(0.5)
 
                 Spacer()
 
@@ -59,13 +69,13 @@ struct OnboardingView: View {
                         // 구분선
                         HStack(spacing: 12) {
                             Rectangle()
-                                .fill(BRColors.outlineVariant)
+                                .fill(Color.white.opacity(0.5))
                                 .frame(height: 1)
                             Text("또는")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundStyle(BRColors.onSurfaceMuted)
+                                .foregroundStyle(Color.white.opacity(0.8))
                             Rectangle()
-                                .fill(BRColors.outlineVariant)
+                                .fill(Color.white.opacity(0.5))
                                 .frame(height: 1)
                         }
                         .padding(.vertical, 2)
@@ -85,11 +95,7 @@ struct OnboardingView: View {
                             .frame(height: 58)
                             .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 48))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 48)
-                                    .strokeBorder(Color(hex: "#dadce0"), lineWidth: 1.5)
-                            )
-                            .shadow(color: .black.opacity(0.06), radius: 8, y: 3)
+                            .shadow(color: .black.opacity(0.12), radius: 8, y: 3)
                         }
 
                         // 이메일 로그인
@@ -99,28 +105,33 @@ struct OnboardingView: View {
                             HStack(spacing: 10) {
                                 Image(systemName: "envelope.fill")
                                     .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(BRColors.primary)
+                                    .foregroundStyle(Color(hex: "#FF9500"))
                                 Text("이메일로 계속하기")
                                     .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(BRColors.primary)
+                                    .foregroundStyle(Color(hex: "#FF9500"))
                             }
                             .frame(maxWidth: .infinity)
                             .frame(height: 58)
-                            .background(BRColors.primaryDim)
+                            .background(Color.white.opacity(0.9))
                             .clipShape(RoundedRectangle(cornerRadius: 48))
+                            .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
                         }
                     }
 
                     if let error = authViewModel.errorMessage {
                         Text(error)
                             .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(BRColors.tertiary)
+                            .foregroundStyle(.white)
                             .multilineTextAlignment(.center)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 6)
+                            .background(Color.black.opacity(0.2))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
 
                     Text("로그인하면 서비스 이용약관에 동의하게 됩니다.")
                         .font(.system(size: 11))
-                        .foregroundStyle(BRColors.onSurfaceMuted)
+                        .foregroundStyle(Color.white.opacity(0.7))
                         .padding(.top, 4)
                 }
                 .padding(.horizontal, 32)
@@ -204,6 +215,44 @@ struct BingoRingoLogo: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - 컬러풀 파티클
+struct OnboardingParticles: View {
+    private struct Particle {
+        let x: CGFloat; let y: CGFloat
+        let size: CGFloat; let rotation: Double
+        let color: Color
+    }
+
+    private let particles: [Particle] = [
+        Particle(x: 0.18, y: 0.10, size: 28, rotation: 45,  color: Color(hex: "#C0392B")),
+        Particle(x: 0.55, y: 0.07, size: 16, rotation: 20,  color: Color(hex: "#2980B9")),
+        Particle(x: 0.78, y: 0.11, size: 20, rotation: 15,  color: Color(hex: "#E67E22")),
+        Particle(x: 0.88, y: 0.62, size: 36, rotation: 30,  color: Color(hex: "#2980B9")),
+        Particle(x: 0.30, y: 0.83, size: 22, rotation: 10,  color: Color(hex: "#F1C40F")),
+        Particle(x: 0.08, y: 0.55, size: 18, rotation: 60,  color: Color(hex: "#C0392B")),
+        Particle(x: 0.65, y: 0.88, size: 14, rotation: 40,  color: Color(hex: "#E67E22")),
+        Particle(x: 0.92, y: 0.30, size: 12, rotation: 25,  color: Color(hex: "#F1C40F")),
+    ]
+
+    var body: some View {
+        GeometryReader { geo in
+            ForEach(particles.indices, id: \.self) { i in
+                let p = particles[i]
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(p.color)
+                    .frame(width: p.size, height: p.size)
+                    .rotationEffect(.degrees(p.rotation))
+                    .position(
+                        x: geo.size.width * p.x,
+                        y: geo.size.height * p.y
+                    )
+            }
+        }
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
     }
 }
 

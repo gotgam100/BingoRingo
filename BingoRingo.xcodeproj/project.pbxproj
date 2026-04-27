@@ -49,17 +49,19 @@
 		C4E6D06B1AC31CED719006AE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8C6944975C50A0FE3B2C9C /* HomeView.swift */; };
 		CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */; };
 		CB6AF33288D14BEDB29DB041 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 95AE1E0D138F40E5BF9AC6F0 /* GoogleSignInSwift */; };
+		D1E2F3A4B5C6D1E2F3A4B5C6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B6C1D2E3F4A5B6 /* InfoPlist.strings */; };
 		D8DD59193DE54300984456C1 /* Paperlogy-6SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD1E53A8AECC44C8824AFD6D /* Paperlogy-6SemiBold.ttf */; };
 		F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */; };
 		F604333CC86214018081263B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFAF76BF1168375DFF2815D /* FirebaseFirestore */; };
 		F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */; };
 		FE147C9744774F0E8DBAB0C3 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8BF8AAD3394344BB248062 /* ConfettiView.swift */; };
-		D1E2F3A4B5C6D1E2F3A4B5C6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B6C1D2E3F4A5B6 /* InfoPlist.strings */; };
+		F1E2D3C4B5A6F1E2D3C4B5A6 /* Cafe24Nyangi-B-v1.0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0162A5F65B955987766F46B8 /* BRShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRShapes.swift; sourceTree = "<group>"; };
 		03A148DFD5FD4934B38F9DE6 /* Paperlogy-1Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-1Thin.ttf"; path = "Resources/Fonts/Paperlogy-1Thin.ttf"; sourceTree = "<group>"; };
+		E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Cafe24Nyangi-B-v1.0.ttf"; path = "Resources/Fonts/Cafe24Nyangi-B-v1.0.ttf"; sourceTree = "<group>"; };
 		0482C3C895C6A6213AF0A500 /* CellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellDetailView.swift; sourceTree = "<group>"; };
 		10395079EAF31452DE60104B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupSheet.swift; sourceTree = "<group>"; };
@@ -86,9 +88,11 @@
 		915968D9D89F8A21022B4974 /* PremiumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumManager.swift; sourceTree = "<group>"; };
 		9560BE2C6593094F4CF47276 /* BingoGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoGroup.swift; sourceTree = "<group>"; };
 		A0D55E46C4CF42B1AD96672D /* Paperlogy-2ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-2ExtraLight.ttf"; path = "Resources/Fonts/Paperlogy-2ExtraLight.ttf"; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A1B2C3D4E5F6 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A5840C7FC8234873825506C8 /* Paperlogy-3Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-3Light.ttf"; path = "Resources/Fonts/Paperlogy-3Light.ttf"; sourceTree = "<group>"; };
 		A785C6D0D253B83BA0235192 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		AD1E53A8AECC44C8824AFD6D /* Paperlogy-6SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-6SemiBold.ttf"; path = "Resources/Fonts/Paperlogy-6SemiBold.ttf"; sourceTree = "<group>"; };
+		B1C2D3E4F5A6B1C2D3E4F5A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B1C7AE839A78426492990888 /* Paperlogy-9Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-9Black.ttf"; path = "Resources/Fonts/Paperlogy-9Black.ttf"; sourceTree = "<group>"; };
 		BA8BF8AAD3394344BB248062 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
@@ -102,8 +106,6 @@
 		DDA87C972024DE3F583DA4DA /* BingoBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoBoard.swift; sourceTree = "<group>"; };
 		E5FA958139F36B835378A024 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9CE258379CC901457E725F8 /* BRColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRColors.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F6A1B2C3D4E5F6 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B1C2D3E4F5A6B1C2D3E4F5A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +291,7 @@
 		F1E3CE5746BD4C1FB11B2B9B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */,
 				03A148DFD5FD4934B38F9DE6 /* Paperlogy-1Thin.ttf */,
 				A0D55E46C4CF42B1AD96672D /* Paperlogy-2ExtraLight.ttf */,
 				A5840C7FC8234873825506C8 /* Paperlogy-3Light.ttf */,
@@ -368,18 +371,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXVariantGroup section */
-		C1D2E3F4A5B6C1D2E3F4A5B6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A1B2C3D4E5F6A1B2C3D4E5F6 /* ko */,
-				B1C2D3E4F5A6B1C2D3E4F5A6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin PBXResourcesBuildPhase section */
 		54F7B5102F96AF4900A46F0A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -396,6 +387,7 @@
 				0B26ECBFB6514F45BE145F34 /* Paperlogy-7Bold.ttf in Resources */,
 				1FBA637B656140A7A4790077 /* Paperlogy-8ExtraBold.ttf in Resources */,
 				B47E93D651AE4E279BD4DB5A /* Paperlogy-9Black.ttf in Resources */,
+				F1E2D3C4B5A6F1E2D3C4B5A6 /* Cafe24Nyangi-B-v1.0.ttf in Resources */,
 				D1E2F3A4B5C6D1E2F3A4B5C6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +434,18 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		C1D2E3F4A5B6C1D2E3F4A5B6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1B2C3D4E5F6A1B2C3D4E5F6 /* ko */,
+				B1C2D3E4F5A6B1C2D3E4F5A6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		01BB851FC080C39557220A11 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -468,7 +472,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -620,7 +624,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
