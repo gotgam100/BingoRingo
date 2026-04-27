@@ -93,6 +93,7 @@ struct BingoCellView: View {
         .frame(width: size, height: size)
         .overlay(alignment: .topTrailing) {
             if isFullyCompleted {
+                // 전원 완료: 진한 빨간 체크마크
                 ZStack {
                     Circle()
                         .fill(BRColors.tertiary)
@@ -100,6 +101,17 @@ struct BingoCellView: View {
                     Image(systemName: "checkmark")
                         .font(.system(size: size * 0.1, weight: .bold))
                         .foregroundStyle(.white)
+                }
+                .offset(x: -size * 0.04, y: size * 0.04)
+            } else if isCompletedByMe {
+                // 내가 완료, 타인 미완료: 반투명 ghost 체크마크
+                ZStack {
+                    Circle()
+                        .fill(Color.white.opacity(0.55))
+                        .frame(width: size * 0.24, height: size * 0.24)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: size * 0.1, weight: .bold))
+                        .foregroundStyle(BRColors.primary.opacity(0.7))
                 }
                 .offset(x: -size * 0.04, y: size * 0.04)
             }
