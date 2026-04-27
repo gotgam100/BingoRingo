@@ -65,7 +65,7 @@ struct HomeView: View {
                 }
                 .padding(28)
             }
-            .navigationBarHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showCreateGroup) {
                 CreateGroupSheet(onCreated: { groupVM.fetchGroups(for: memberID) })
                     .environmentObject(groupVM)
@@ -170,11 +170,11 @@ struct HomeView: View {
                             .foregroundStyle(.white.opacity(0.8))
                             .tracking(1.5)
 
-                        Text(authViewModel.currentMember?.displayName.isEmpty == false
-                             ? (Localization.isEnglish
-                                ? "Hi, \(authViewModel.currentMember!.displayName)!"
-                                : "\(authViewModel.currentMember!.displayName)님,\n안녕하세요!")
-                             : Localization.Home.hello)
+                        Text({
+                            let name = authViewModel.currentMember?.displayName ?? ""
+                            if name.isEmpty { return Localization.Home.hello }
+                            return Localization.isEnglish ? "Hi, \(name)!" : "\(name)님,\n안녕하세요!"
+                        }())
                             .font(Paperlogy.black(26))
                             .foregroundStyle(.white)
                             .tracking(-0.5)

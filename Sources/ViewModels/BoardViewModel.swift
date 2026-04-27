@@ -156,7 +156,7 @@ final class BoardViewModel: ObservableObject {
             lines.append(BingoReward(lineIndex: 0, lineType: .diagonal, description: ""))
             markLine((0..<size).map { $0 * size + $0 })
         }
-        if (0..<size).allSatisfy({ board.cell(row: $0, col: size - 1 - $0).isCompleted(for: board.memberIDs) }) {
+        if (0..<size).allSatisfy({ board.cell(row: $0, col: size - 1 - $0).isCompleted(for: memberIDs) }) {
             lines.append(BingoReward(lineIndex: 1, lineType: .diagonal, description: ""))
             markLine((0..<size).map { $0 * size + (size - 1 - $0) })
         }

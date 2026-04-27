@@ -7,7 +7,6 @@ enum Localization {
 
     enum Home {
         static var hello: String { isEnglish ? "Hello!" : "안녕하세요!" }
-        static var greeting: String { isEnglish ? "Hi, {name}!" : "{name}님,\n안녕하세요!" }
         static var myBingo: String { isEnglish ? "My Bingo" : "내 빙고" }
         static var bingoCount: String { isEnglish ? "boards" : "개" }
         static var emptyTitle: String { isEnglish ? "No bingo yet" : "아직 빙고가 없어요" }
@@ -63,9 +62,7 @@ enum Localization {
     }
 
     enum Board {
-        static var mission: String { isEnglish ? "Mission" : "미션" }
         static var complete: String { isEnglish ? "Complete" : "완료" }
-        static var checkCount: String { isEnglish ? "Completed" : "명" }
 
         // 보상 섹션
         static var currentGoal: String { isEnglish ? "Current Goal" : "현재 목표" }
@@ -114,10 +111,8 @@ enum Localization {
         static var missionTitle: String { isEnglish ? "Mission Title" : "미션 제목" }
         static var enterMissionName: String { isEnglish ? "Enter mission name" : "미션 이름을 입력하세요" }
         static var details: String { isEnglish ? "Details (Optional)" : "세부사항 (선택)" }
-        static var addPhoto: String { isEnglish ? "Add Proof Photo" : "인증 사진 추가" }
         static var completeButton: String { isEnglish ? "Mission Complete!" : "미션 완료!" }
         static var cancelButton: String { isEnglish ? "Cancel" : "완료 취소하기" }
-        static var uploadError: String { isEnglish ? "Upload Failed" : "업로드 실패" }
         static var save: String { isEnglish ? "Save" : "저장하기" }
     }
 
@@ -141,7 +136,6 @@ enum Localization {
 
     enum Profile {
         static var title: String { isEnglish ? "Profile" : "프로필" }
-        static var editProfile: String { isEnglish ? "Edit Profile" : "프로필 편집" }
         static var noNickname: String { isEnglish ? "No nickname" : "닉네임 없음" }
         static var displayName: String { isEnglish ? "Display Name" : "닉네임" }
         static var displayNamePlaceholder: String { isEnglish ? "Enter your display name" : "표시될 이름을 입력하세요" }

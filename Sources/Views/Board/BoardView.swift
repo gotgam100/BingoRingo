@@ -115,8 +115,6 @@ struct BoardView: View {
                     cell: board.cell(row: index.row, col: index.col),
                     memberIDs: boardVM.group.memberIDs,
                     currentMemberID: memberID,
-                    boardID: board.id,
-                    cellIndex: index.row * board.size + index.col,
                     boardVM: boardVM
                 ) {
                     Task { await boardVM.toggleCell(row: index.row, col: index.col, memberID: memberID) }

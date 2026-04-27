@@ -65,15 +65,6 @@ final class FirestoreService {
         ])
     }
 
-    func updateCellTitle(boardID: String, cellIndex: Int, title: String, description: String = "") async throws {
-        let board = try await db.collection("boards").document(boardID).getDocument(as: BingoBoard.self)
-        var cells = board.cells
-        cells[cellIndex].title = title
-        cells[cellIndex].description = description
-        let encoded = try Firestore.Encoder().encode(cells)
-        try await db.collection("boards").document(boardID).updateData(["cells": encoded])
-    }
-
     func markGroupCompleted(groupID: String) async throws {
         try await db.collection("groups").document(groupID).updateData(["isCompleted": true])
     }
@@ -124,12 +115,4 @@ final class FirestoreService {
         ])
     }
 
-    // MARK: - Cell
-
-    func checkCell(boardID: String, cellID: String, memberID: String) async throws {
-        let ref = db.collection("boards").document(boardID)
-        try await ref.updateData([
-            "cells": FieldValue.arrayUnion([["completedBy": memberID, "cellID": cellID]])
-        ])
-    }
 }

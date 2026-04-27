@@ -34,14 +34,6 @@ enum BRColors {
         )
     }
 
-    // Legacy aliases (for backward compatibility across views)
-    static var background: Color  { surface }
-    static var cream: Color       { surfaceContainer }
-    static var lightGray: Color   { surfaceHigh }
-    static var blue: Color        { primary }
-    static var red: Color         { tertiary }
-    static var yellow: Color      { surfaceHigh }
-    static var green: Color       { Color(hex: "#2D6A4F") }
 }
 
 extension Color {

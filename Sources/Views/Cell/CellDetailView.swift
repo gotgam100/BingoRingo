@@ -4,18 +4,14 @@ struct CellDetailView: View {
     let cell: BingoCell
     let memberIDs: [String]
     let currentMemberID: String
-    let boardID: String
-    let cellIndex: Int
     let onToggle: () -> Void
     @Environment(\.dismiss) var dismiss
     @StateObject private var boardVM: BoardViewModel
 
-    init(cell: BingoCell, memberIDs: [String], currentMemberID: String, boardID: String, cellIndex: Int, boardVM: BoardViewModel, onToggle: @escaping () -> Void) {
+    init(cell: BingoCell, memberIDs: [String], currentMemberID: String, boardVM: BoardViewModel, onToggle: @escaping () -> Void) {
         self.cell = cell
         self.memberIDs = memberIDs
         self.currentMemberID = currentMemberID
-        self.boardID = boardID
-        self.cellIndex = cellIndex
         self.onToggle = onToggle
         _boardVM = StateObject(wrappedValue: boardVM)
     }
