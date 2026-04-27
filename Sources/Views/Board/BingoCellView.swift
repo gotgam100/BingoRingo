@@ -135,7 +135,7 @@ struct BingoCellView: View {
                 onToggle()
             } label: {
                 Label(
-                    isCompletedByMe ? "완료 취소" : "완료 체크",
+                    isCompletedByMe ? Localization.CellDetail.cancelButton : Localization.CellDetail.checkButton,
                     systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
                 )
             }
@@ -143,7 +143,7 @@ struct BingoCellView: View {
                 Button {
                     onEdit()
                 } label: {
-                    Label("미션 수정", systemImage: "pencil")
+                    Label(Localization.CellDetail.editMission, systemImage: "pencil")
                 }
             }
         }

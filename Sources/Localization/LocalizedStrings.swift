@@ -113,6 +113,8 @@ enum Localization {
         static var details: String { isEnglish ? "Details (Optional)" : "세부사항 (선택)" }
         static var completeButton: String { isEnglish ? "Mission Complete!" : "미션 완료!" }
         static var cancelButton: String { isEnglish ? "Cancel" : "완료 취소하기" }
+        static var checkButton: String { isEnglish ? "Mark Complete" : "완료 체크" }
+        static var editMission: String { isEnglish ? "Edit Mission" : "미션 수정" }
         static var save: String { isEnglish ? "Save" : "저장하기" }
     }
 
