@@ -308,21 +308,21 @@ struct GroupCard: View {
             return BRColors.primary
         }
         switch group.boardSize {
-        case 3:  return Color(hex: "#1a7a4a")  // 초록
-        case 4:  return Color(hex: "#6b3fa0")  // 보라
-        default: return Color(hex: "#9b3f00")  // 갈색
+        case 3:  return BRColors.particleCyan
+        case 4:  return Color(hex: "#8B2BE2")  // 보라
+        default: return BRColors.particlePink
         }
     }
     private let memberColors: [Color] = [
-        BRColors.primary, Color(hex: "#b71211"), Color(hex: "#1a7a4a"), Color(hex: "#9b3f00")
+        BRColors.primary, BRColors.particlePink, BRColors.particleCyan, Color(hex: "#8B2BE2")
     ]
 
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 컬러 헤더 (그라디언트 없이 단색, 기하학 장식)
+            // 상단 컬러 헤더 (주황-노랑 그라데이션)
             ZStack(alignment: .bottomLeading) {
                 Rectangle()
-                    .fill(accent)
+                    .fill(BRColors.backgroundGradient)
 
                 // 장식 원 (배경에서 삐져나오는 효과)
                 Circle()
@@ -345,10 +345,10 @@ struct GroupCard: View {
                             if group.leaderID == memberID {
                                 Text(Localization.Home.leader)
                                     .font(.system(size: 10, weight: .bold))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(BRColors.primary)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 3)
-                                    .background(accent)
+                                    .background(Color.white.opacity(0.85))
                                     .clipShape(Capsule())
                             }
                             if group.isCompleted {
@@ -358,10 +358,10 @@ struct GroupCard: View {
                                     Text(Localization.Board.complete)
                                         .font(.system(size: 10, weight: .bold))
                                 }
-                                .foregroundStyle(Color(hex: "#e8a20e"))
+                                .foregroundStyle(.white)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
-                                .background(Color(hex: "#e8a20e").opacity(0.2))
+                                .background(Color.white.opacity(0.25))
                                 .clipShape(Capsule())
                             }
                         }
@@ -522,7 +522,7 @@ struct SettingsView: View {
                                             Spacer()
                                             Image(systemName: "star.fill")
                                                 .font(.system(size: 18, weight: .semibold))
-                                                .foregroundStyle(Color(hex: "#e8a20e"))
+                                                .foregroundStyle(BRColors.primary)
                                         }
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 14)
@@ -755,7 +755,7 @@ struct PremiumPurchasePopup: View {
             HStack(alignment: .center, spacing: 12) {
                 Image(systemName: "star.fill")
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(Color(hex: "#e8a20e"))
+                    .foregroundStyle(BRColors.primary)
 
                 Text("BingoRingo 프리미엄")
                     .font(Paperlogy.black(28))

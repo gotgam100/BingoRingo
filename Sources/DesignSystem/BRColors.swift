@@ -1,39 +1,53 @@
 import SwiftUI
 
 enum BRColors {
-    // Action Blue (primary interactions, completed states)
-    static let primary        = Color(hex: "#204bde")
-    static let primaryLight   = Color(hex: "#859aff")
-    static let primaryDim     = Color(hex: "#edf0ff")   // unselected cells
-    static let primaryMid     = Color(hex: "#b8c4ff")   // in-progress cells
+    // Primary: 앱 아이콘 주황
+    static let primary        = Color(hex: "#FF9500")
+    static let primaryLight   = Color(hex: "#FFB84D")
+    static let primaryDim     = Color(hex: "#FFF3E0")   // 연한 주황 (미완료 셀 배경)
+    static let primaryMid     = Color(hex: "#FFD0A0")   // 중간 주황 (내가 완료한 셀)
 
-    // Social Orange-Brown (collaborative highlights)
-    static let secondary      = Color(hex: "#9b3f00")
-    static let secondaryChip  = Color(hex: "#ffc5aa")
+    // Secondary: 파티클 노랑
+    static let secondary      = Color(hex: "#E67E00")
+    static let secondaryChip  = Color(hex: "#FFE680")
 
-    // High-stake Red (wins, checkmarks, urgent)
-    static let tertiary       = Color(hex: "#b71211")
+    // Tertiary: 핑크-레드 (완료 체크, 경고)
+    static let tertiary       = Color(hex: "#C8184B")
 
-    // Surface hierarchy — warm Canvas Tan
-    static let surface        = Color(hex: "#fff5eb")   // base canvas
-    static let surfaceLow     = Color(hex: "#ffeeda")   // sub-sections
-    static let surfaceContainer = Color(hex: "#ffe4c0") // interactive cards
-    static let surfaceHigh    = Color(hex: "#ffd79c")   // floating elements
+    // Surface: 따뜻한 크림 배경
+    static let surface          = Color(hex: "#FFFBF5")
+    static let surfaceLow       = Color(hex: "#FFF5E8")
+    static let surfaceContainer = Color(hex: "#FFE9CC")
+    static let surfaceHigh      = Color(hex: "#FFD79C")
 
-    // Text on surface
-    static let onSurface      = Color(hex: "#3e2b0c")   // warm near-black
-    static let onSurfaceMuted = Color(hex: "#9b7a52")   // muted warm brown
-    static let outlineVariant = Color(hex: "#c6a97f")   // ghost border (15% opacity)
+    // Text
+    static let onSurface      = Color(hex: "#2D1A00")
+    static let onSurfaceMuted = Color(hex: "#8B5E2A")
+    static let outlineVariant = Color(hex: "#E0B07A")
 
-    // Hero CTA gradient: primary → primaryLight at 135°
+    // 앱 아이콘 파티클 색상
+    static let particlePink   = Color(hex: "#C8184B")
+    static let particleCyan   = Color(hex: "#00B4D8")
+    static let particleRed    = Color(hex: "#E64A19")
+    static let particleYellow = Color(hex: "#FFD700")
+
+    // 주황→노랑 Hero CTA 그라데이션
     static var primaryGradient: LinearGradient {
         LinearGradient(
-            colors: [Color(hex: "#204bde"), Color(hex: "#859aff")],
+            colors: [Color(hex: "#FF9500"), Color(hex: "#FFB84D")],
             startPoint: UnitPoint(x: 0.15, y: 0),
             endPoint: UnitPoint(x: 0.85, y: 1)
         )
     }
 
+    // 배경용 그라데이션 (온보딩과 동일)
+    static var backgroundGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "#FF9500"), Color(hex: "#FFCC00")],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 }
 
 extension Color {

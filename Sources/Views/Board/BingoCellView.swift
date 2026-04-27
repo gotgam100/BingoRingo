@@ -21,7 +21,7 @@ struct BingoCellView: View {
         if isFullyCompleted  { return completedLineColor ?? BRColors.primary }
         if isCompletedByMe   { return BRColors.primaryMid }
         if completedCount > 0 { return BRColors.primaryDim }
-        return Color(hex: "#f0f2ff")
+        return Color(hex: "#FFF8F0")
     }
 
     private var textColor: Color {

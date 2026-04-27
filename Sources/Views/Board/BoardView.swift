@@ -13,20 +13,23 @@ struct BoardView: View {
     let allGroups: [BingoGroup]
 
     private let memberColors: [Color] = [
-        BRColors.primary, Color(hex: "#b71211"), Color(hex: "#1a7a4a"), Color(hex: "#9b3f00")
+        BRColors.primary,
+        BRColors.particlePink,
+        BRColors.particleCyan,
+        Color(hex: "#8B2BE2"),
     ]
 
     // 빙고 라인별 색상 팔레트 (최대 12줄 대응)
     static let lineColors: [Color] = [
-        Color(hex: "#e8a20e"), // 금
-        Color(hex: "#b71211"), // 빨강
-        Color(hex: "#1a7a4a"), // 초록
-        Color(hex: "#6b3fa0"), // 보라
-        Color(hex: "#1565c0"), // 파랑
-        Color(hex: "#9b3f00"), // 갈색
-        Color(hex: "#0d7a7a"), // 청록
-        Color(hex: "#c44569"), // 분홍
-        Color(hex: "#e8a20e"), Color(hex: "#b71211"), Color(hex: "#1a7a4a"), Color(hex: "#6b3fa0"),
+        Color(hex: "#FF9500"), // 주황
+        Color(hex: "#C8184B"), // 핑크-레드
+        Color(hex: "#00B4D8"), // 시안
+        Color(hex: "#8B2BE2"), // 보라
+        Color(hex: "#FFD700"), // 노랑
+        Color(hex: "#1A7A4A"), // 초록
+        Color(hex: "#E64A19"), // 주황-빨강
+        Color(hex: "#00897B"), // 청록
+        Color(hex: "#FF9500"), Color(hex: "#C8184B"), Color(hex: "#00B4D8"), Color(hex: "#8B2BE2"),
     ]
 
     private var memberID: String { authViewModel.currentMember?.id ?? "" }
