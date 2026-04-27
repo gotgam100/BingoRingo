@@ -50,7 +50,6 @@
 		CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1DF5DEED1143F22629CAEF2 /* FirebaseStorage */; };
 		CB6AF33288D14BEDB29DB041 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 95AE1E0D138F40E5BF9AC6F0 /* GoogleSignInSwift */; };
 		D8DD59193DE54300984456C1 /* Paperlogy-6SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD1E53A8AECC44C8824AFD6D /* Paperlogy-6SemiBold.ttf */; };
-		EB6AD704C290ADB2E16B44E5 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2623EC06897AB2E423C4063 /* StorageService.swift */; };
 		F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */; };
 		F604333CC86214018081263B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFAF76BF1168375DFF2815D /* FirebaseFirestore */; };
 		F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */; };
@@ -91,7 +90,6 @@
 		AD1E53A8AECC44C8824AFD6D /* Paperlogy-6SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-6SemiBold.ttf"; path = "Resources/Fonts/Paperlogy-6SemiBold.ttf"; sourceTree = "<group>"; };
 		B1C7AE839A78426492990888 /* Paperlogy-9Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-9Black.ttf"; path = "Resources/Fonts/Paperlogy-9Black.ttf"; sourceTree = "<group>"; };
 		BA8BF8AAD3394344BB248062 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
-		C2623EC06897AB2E423C4063 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		C73CF375E0252F18CC03AA49 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		CC9B7D5E1F3A9C8D4E6B2A75 /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		CCD2659C1C884B3C9E4F7C9A /* EditGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupSheet.swift; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 				815968D9D89F8A21022B4973 /* AuthService.swift */,
 				152FC9140586ABDBA50FC102 /* FirestoreService.swift */,
 				915968D9D89F8A21022B4974 /* PremiumManager.swift */,
-				C2623EC06897AB2E423C4063 /* StorageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -423,7 +420,6 @@
 				609BF4B559E7457B877FC798 /* EmailAuthSheet.swift in Sources */,
 				7852C7858C649415169742F3 /* OnboardingView.swift in Sources */,
 				457F78CB232FE88BD172D6AF /* RootView.swift in Sources */,
-				EB6AD704C290ADB2E16B44E5 /* StorageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
