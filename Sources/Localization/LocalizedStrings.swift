@@ -19,6 +19,7 @@ enum Localization {
         static var members: String { isEnglish ? "Members" : "멤버" }
         static var boardSize: String { isEnglish ? "Board Size" : "보드 크기" }
         static var leader: String { isEnglish ? "Leader" : "방장" }
+        static var member: String { isEnglish ? "Member" : "멤버" }
         static var me: String { isEnglish ? "Me" : "나" }
     }
 

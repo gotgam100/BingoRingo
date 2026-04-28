@@ -319,10 +319,12 @@ struct GroupCard: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // 상단 컬러 헤더 (주황-노랑 그라데이션)
+            // 상단 컬러 헤더 (방장: 주황-노랑 / 멤버: 시안-하늘)
             ZStack(alignment: .bottomLeading) {
                 Rectangle()
-                    .fill(BRColors.backgroundGradient)
+                    .fill(group.leaderID == memberID
+                          ? AnyShapeStyle(BRColors.backgroundGradient)
+                          : AnyShapeStyle(BRColors.memberGradient))
 
                 // 장식 원 (배경에서 삐져나오는 효과)
                 Circle()
@@ -346,6 +348,14 @@ struct GroupCard: View {
                                 Text(Localization.Home.leader)
                                     .font(.system(size: 10, weight: .bold))
                                     .foregroundStyle(BRColors.primary)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(Color.white.opacity(0.85))
+                                    .clipShape(Capsule())
+                            } else {
+                                Text(Localization.Home.member)
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundStyle(BRColors.particleCyan)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 3)
                                     .background(Color.white.opacity(0.85))

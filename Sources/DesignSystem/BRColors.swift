@@ -40,10 +40,19 @@ enum BRColors {
         )
     }
 
-    // 배경용 그라데이션 (온보딩과 동일)
+    // 배경용 그라데이션 (방장 카드 / 온보딩)
     static var backgroundGradient: LinearGradient {
         LinearGradient(
             colors: [Color(hex: "#FF9500"), Color(hex: "#FFCC00")],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    // 멤버 카드 그라데이션 (시안)
+    static var memberGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "#00B4D8"), Color(hex: "#4FC3F7")],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
