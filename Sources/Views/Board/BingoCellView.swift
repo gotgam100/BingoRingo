@@ -81,7 +81,9 @@ struct BingoCellView: View {
                     .padding(.horizontal, size * 0.1)
 
                     // 완료 인원 텍스트
-                    Text("\(completedCount)/\(totalCount)명")
+                    Text(Localization.isEnglish
+                         ? "\(completedCount)/\(totalCount)"
+                         : "\(completedCount)/\(totalCount)명")
                         .font(.system(size: max(size * 0.1, 7), weight: .black, design: .rounded))
                         .foregroundStyle(textColor.opacity(0.75))
                 }
