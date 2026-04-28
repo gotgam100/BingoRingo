@@ -232,10 +232,10 @@ struct BoardView: View {
                         Text(isLeader ? Localization.Board.editReward : Localization.Board.viewReward)
                             .font(.system(size: 11, weight: .bold))
                     }
-                    .foregroundStyle(BRColors.primary)
+                    .foregroundStyle(BRColors.cyan)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background(BRColors.primaryDim)
+                    .background(BRColors.cyanDim)
                     .clipShape(Capsule())
                 }
             }
@@ -281,9 +281,9 @@ struct BoardView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
-                            Capsule().fill(BRColors.surfaceContainer).frame(height: 7)
+                            Capsule().fill(BRColors.cyanDim).frame(height: 7)
                             Capsule()
-                                .fill(BRColors.primaryGradient)
+                                .fill(BRColors.cyanGradient)
                                 .frame(width: geo.size.width * ratio, height: 7)
                                 .animation(.spring(duration: 0.5), value: ratio)
                         }
@@ -291,12 +291,12 @@ struct BoardView: View {
                     .frame(height: 7)
                     Text(Localization.Board.myProgress(myCompleted, total))
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(BRColors.onSurfaceMuted)
+                        .foregroundStyle(BRColors.cyan.opacity(0.8))
                 }
             }
         }
         .padding(18)
-        .background(BRColors.surfaceLow)
+        .background(BRColors.cyanDim)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 
@@ -432,11 +432,11 @@ struct RewardMilestoneCard: View {
     let state: RewardMilestoneState
 
     private var bgColor: Color {
-        if isAllBingo && state == .achieved { return Color(hex: "#e8a20e") }
+        if isAllBingo && state == .achieved { return BRColors.cyan }
         switch state {
-        case .achieved: return BRColors.primary
-        case .next:     return BRColors.surfaceHigh
-        case .pending:  return BRColors.surfaceLow
+        case .achieved: return BRColors.cyan
+        case .next:     return Color.white.opacity(0.85)
+        case .pending:  return Color.white.opacity(0.5)
         }
     }
     private var textColor: Color {
@@ -450,7 +450,7 @@ struct RewardMilestoneCard: View {
         if isAllBingo && state == .achieved { return .white.opacity(0.7) }
         switch state {
         case .achieved: return .white.opacity(0.7)
-        case .next:     return BRColors.secondary
+        case .next:     return BRColors.cyan
         case .pending:  return BRColors.onSurfaceMuted
         }
     }
@@ -465,7 +465,7 @@ struct RewardMilestoneCard: View {
                 } else if state == .next {
                     Image(systemName: "star.fill")
                         .font(.system(size: 10))
-                        .foregroundStyle(BRColors.secondary)
+                        .foregroundStyle(BRColors.cyan)
                 } else if isAllBingo {
                     Text("🏆")
                         .font(.system(size: 10))
@@ -487,7 +487,7 @@ struct RewardMilestoneCard: View {
         .background(bgColor)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .shadow(
-            color: state == .next ? BRColors.surfaceHigh.opacity(0.5) : .clear,
+            color: state == .achieved ? BRColors.cyan.opacity(0.3) : .clear,
             radius: 8, y: 3
         )
     }
@@ -517,7 +517,7 @@ struct RewardEditSheet: View {
             ZStack {
                 BRColors.surface.ignoresSafeArea()
                 Circle()
-                    .fill(BRColors.surfaceHigh.opacity(0.5))
+                    .fill(BRColors.cyanDim)
                     .frame(width: 180, height: 180)
                     .offset(x: 140, y: -160)
                     .ignoresSafeArea()
@@ -527,10 +527,10 @@ struct RewardEditSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 8) {
                             ZStack {
-                                Circle().fill(BRColors.surfaceHigh).frame(width: 36, height: 36)
+                                Circle().fill(BRColors.cyanDim).frame(width: 36, height: 36)
                                 Image(systemName: "gift.fill")
                                     .font(.system(size: 16, weight: .bold))
-                                    .foregroundStyle(BRColors.secondary)
+                                    .foregroundStyle(BRColors.cyan)
                             }
                             Text(isReadOnly ? Localization.Board.viewReward : Localization.Board.editReward)
                                 .font(.system(size: 13, weight: .bold))
@@ -553,7 +553,7 @@ struct RewardEditSheet: View {
                                     label: "\(i + 1)",
                                     placeholder: Localization.Board.bingoRewardN(i + 1),
                                     value: $rewards[i],
-                                    accentColor: BRColors.primary
+                                    accentColor: BRColors.cyan
                                 )
                             }
 
@@ -565,7 +565,7 @@ struct RewardEditSheet: View {
                                 label: "🏆",
                                 placeholder: Localization.Board.allBingoRewardPlaceholder,
                                 value: $allBingoReward,
-                                accentColor: Color(hex: "#e8a20e")
+                                accentColor: BRColors.cyan
                             )
                             Text(Localization.Board.allBingoDesc)
                                 .font(.system(size: 11, weight: .medium))
@@ -588,9 +588,9 @@ struct RewardEditSheet: View {
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 58)
-                                .background(BRColors.primaryGradient)
+                                .background(BRColors.cyanGradient)
                                 .clipShape(RoundedRectangle(cornerRadius: 48))
-                                .shadow(color: BRColors.primary.opacity(0.3), radius: 16, y: 5)
+                                .shadow(color: BRColors.cyan.opacity(0.3), radius: 16, y: 5)
                         }
                         .padding(.horizontal, 24)
                         .padding(.vertical, 24)
@@ -603,7 +603,7 @@ struct RewardEditSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(isReadOnly ? Localization.Board.close : Localization.Board.cancel) { dismiss() }
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(BRColors.primary)
+                        .foregroundStyle(BRColors.cyan)
                 }
             }
         }
@@ -633,7 +633,7 @@ struct RewardEditSheet: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
-        .background(BRColors.surfaceLow)
+        .background(BRColors.cyanDim)
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }

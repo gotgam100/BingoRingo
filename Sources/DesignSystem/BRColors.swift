@@ -57,6 +57,18 @@ enum BRColors {
             endPoint: .bottomTrailing
         )
     }
+
+    // 현재 목표 섹션 시안
+    static let cyan        = Color(hex: "#00B4D8")
+    static let cyanLight   = Color(hex: "#4FC3F7")
+    static let cyanDim     = Color(hex: "#E0F7FA")
+    static var cyanGradient: LinearGradient {
+        LinearGradient(
+            colors: [Color(hex: "#00B4D8"), Color(hex: "#4FC3F7")],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 }
 
 extension Color {

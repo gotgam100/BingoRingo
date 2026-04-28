@@ -133,6 +133,13 @@ struct BingoCellView: View {
             }
         }
         .contextMenu {
+            if isLeader {
+                Button {
+                    onEdit()
+                } label: {
+                    Label(Localization.CellDetail.editMission, systemImage: "pencil")
+                }
+            }
             Button {
                 onToggle()
             } label: {
@@ -140,13 +147,6 @@ struct BingoCellView: View {
                     isCompletedByMe ? Localization.CellDetail.cancelButton : Localization.CellDetail.checkButton,
                     systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
                 )
-            }
-            if isLeader {
-                Button {
-                    onEdit()
-                } label: {
-                    Label(Localization.CellDetail.editMission, systemImage: "pencil")
-                }
             }
         }
     }

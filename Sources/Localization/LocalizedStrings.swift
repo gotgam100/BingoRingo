@@ -45,6 +45,7 @@ enum Localization {
 
     enum Settings {
         static var title: String { isEnglish ? "Settings" : "설정" }
+        static var userGuide: String { isEnglish ? "User Guide" : "사용설명서" }
         static var language: String { isEnglish ? "Language" : "언어" }
         static var languageSelect: String { isEnglish ? "Select Language" : "언어 선택" }
         static var appInfo: String { isEnglish ? "App Info" : "앱 정보" }
@@ -60,6 +61,15 @@ enum Localization {
         static var premiumMember: String { isEnglish ? "✓ Premium Member" : "✓ 프리미엄 회원" }
         static var purchaseDate: String { isEnglish ? "Purchase Date: " : "구매일: " }
         static var close: String { isEnglish ? "Close" : "닫기" }
+        // 프리미엄 팝업
+        static var benefitTitle: String { isEnglish ? "Premium Benefits" : "프리미엄 혜택" }
+        static var benefit1: String { isEnglish ? "Unlimited bingo creation" : "빙고 무제한 생성" }
+        static var benefit2: String { isEnglish ? "Access to future paid features" : "차후 업데이트될 유료 항목" }
+        static var priceTitle: String { isEnglish ? "Price" : "가격" }
+        static var oneTimePurchase: String { isEnglish ? "One-time purchase" : "일회 구매" }
+        static var buyNow: String { isEnglish ? "Buy Now" : "구매하기" }
+        static var restorePurchase: String { isEnglish ? "Restore Purchases" : "구매 복원" }
+        static var cancel: String { isEnglish ? "Cancel" : "취소" }
     }
 
     enum Board {

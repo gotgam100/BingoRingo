@@ -56,6 +56,7 @@
 		F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */; };
 		FE147C9744774F0E8DBAB0C3 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8BF8AAD3394344BB248062 /* ConfettiView.swift */; };
 		F1E2D3C4B5A6F1E2D3C4B5A6 /* Cafe24Nyangi-B-v1.0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */; };
+		FA1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		DDA87C972024DE3F583DA4DA /* BingoBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoBoard.swift; sourceTree = "<group>"; };
 		E5FA958139F36B835378A024 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9CE258379CC901457E725F8 /* BRColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRColors.swift; sourceTree = "<group>"; };
+		FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,8 +250,17 @@
 				3475A466144A2D73F202B3C9 /* Home */,
 				B2B678FC5E6C4F189449D0E5 /* Profile */,
 				3C7492142B3690CE385E678D /* Onboarding */,
+				FC1B2C3D4E5F6A7B8C9D0E1F /* Settings */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FC1B2C3D4E5F6A7B8C9D0E1F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		CB3C719EEFF9C0238D8D807B /* App */ = {
@@ -429,6 +440,7 @@
 				609BF4B559E7457B877FC798 /* EmailAuthSheet.swift in Sources */,
 				7852C7858C649415169742F3 /* OnboardingView.swift in Sources */,
 				457F78CB232FE88BD172D6AF /* RootView.swift in Sources */,
+				FA1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

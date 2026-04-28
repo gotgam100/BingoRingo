@@ -484,6 +484,7 @@ struct SettingsView: View {
     @StateObject private var premiumManager = PremiumManager.shared
     @AppStorage("appLanguage") private var selectedLanguage: String = "한글"
     @State private var showPremiumPopup = false
+    @State private var showUserGuide = false
 
     var body: some View {
         NavigationStack {
@@ -613,6 +614,10 @@ struct SettingsView: View {
                             // 앱 정보
                             settingSection(title: Localization.Settings.appInfo) {
                                 VStack(spacing: 10) {
+                                    settingRow(label: Localization.Settings.userGuide, icon: "book.fill") {
+                                        showUserGuide = true
+                                    }
+
                                     settingRow(label: Localization.Settings.appStore, icon: "star.fill") {
                                         if let url = URL(string: "itms-apps://apps.apple.com/app/id6504009900") {
                                             UIApplication.shared.open(url)
@@ -661,6 +666,9 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showPremiumPopup) {
                 PremiumPurchasePopup(premiumManager: premiumManager, isPresented: $showPremiumPopup)
+            }
+            .sheet(isPresented: $showUserGuide) {
+                UserGuideView()
             }
         }
     }
@@ -750,9 +758,11 @@ struct PremiumPurchasePopup: View {
 
     private var priceLabel: String {
         if let product = premiumManager.product {
-            return "\(product.displayPrice)으로 구매"
+            return Localization.isEnglish
+                ? "Buy for \(product.displayPrice)"
+                : "\(product.displayPrice)으로 구매"
         }
-        return "구매하기"
+        return Localization.isEnglish ? Localization.Settings.buyNow : "1,000원으로 구매"
     }
 
     private var isPurchasing: Bool {
@@ -767,7 +777,7 @@ struct PremiumPurchasePopup: View {
                     .font(.system(size: 24, weight: .bold))
                     .foregroundStyle(BRColors.primary)
 
-                Text("BingoRingo 프리미엄")
+                Text(Localization.Settings.premiumTitle)
                     .font(Paperlogy.black(28))
                     .foregroundStyle(BRColors.onSurface)
 
@@ -782,31 +792,30 @@ struct PremiumPurchasePopup: View {
                 VStack(spacing: 20) {
                     // 프리미엄 혜택
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("프리미엄 혜택")
+                        Text(Localization.Settings.benefitTitle)
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(BRColors.onSurfaceMuted)
                             .tracking(0.5)
 
                         VStack(alignment: .leading, spacing: 10) {
-                            benefitRow(icon: "plus.circle.fill", text: "빙고 무제한 생성")
-                            benefitRow(icon: "star.fill", text: "프리미엄 배지 획득")
-                            benefitRow(icon: "sparkles", text: "우선 지원")
+                            benefitRow(icon: "plus.circle.fill", text: Localization.Settings.benefit1)
+                            benefitRow(icon: "sparkles", text: Localization.Settings.benefit2)
                         }
                     }
 
                     // 가격
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("가격")
+                        Text(Localization.Settings.priceTitle)
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(BRColors.onSurfaceMuted)
                             .tracking(0.5)
 
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(premiumManager.product?.displayPrice ?? "1,000원")
+                                Text(premiumManager.product?.displayPrice ?? (Localization.isEnglish ? "-" : "1,000원"))
                                     .font(Paperlogy.black(28))
                                     .foregroundStyle(BRColors.primary)
-                                Text("일회 구매")
+                                Text(Localization.Settings.oneTimePurchase)
                                     .font(.system(size: 12, weight: .medium))
                                     .foregroundStyle(BRColors.onSurfaceMuted)
                             }
@@ -863,7 +872,7 @@ struct PremiumPurchasePopup: View {
                 .disabled(isPurchasing)
 
                 Button { isPresented = false } label: {
-                    Text("취소")
+                    Text(Localization.Settings.cancel)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundStyle(BRColors.primary)
                         .frame(maxWidth: .infinity)
@@ -875,7 +884,7 @@ struct PremiumPurchasePopup: View {
                 Button {
                     Task { await premiumManager.restorePurchases() }
                 } label: {
-                    Text("구매 복원")
+                    Text(Localization.Settings.restorePurchase)
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(BRColors.onSurfaceMuted)
                 }
