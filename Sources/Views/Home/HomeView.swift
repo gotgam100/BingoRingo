@@ -762,7 +762,7 @@ struct PremiumPurchasePopup: View {
                 ? "Buy for \(product.displayPrice)"
                 : "\(product.displayPrice)으로 구매"
         }
-        return Localization.isEnglish ? Localization.Settings.buyNow : "1,000원으로 구매"
+        return Localization.isEnglish ? Localization.Settings.buyNow : "1,100원으로 구매"
     }
 
     private var isPurchasing: Bool {
@@ -812,7 +812,7 @@ struct PremiumPurchasePopup: View {
 
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(premiumManager.product?.displayPrice ?? (Localization.isEnglish ? "-" : "1,000원"))
+                                Text(premiumManager.product?.displayPrice ?? (Localization.isEnglish ? "-" : "1,100원"))
                                     .font(Paperlogy.black(28))
                                     .foregroundStyle(BRColors.primary)
                                 Text(Localization.Settings.oneTimePurchase)

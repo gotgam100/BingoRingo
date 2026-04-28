@@ -57,7 +57,7 @@ enum Localization {
         static var openSource: String { isEnglish ? "Open Source License" : "오픈소스 라이센스" }
         static var premium: String { isEnglish ? "Premium" : "프리미엄" }
         static var premiumTitle: String { isEnglish ? "BingoRingo Premium" : "BingoRingo 프리미엄" }
-        static var premiumDesc: String { isEnglish ? "Unlimited bingo creation, 1,000 won" : "빙고 무제한 생성, 1,000원" }
+        static var premiumDesc: String { isEnglish ? "Unlimited bingo creation, 1,100 won" : "빙고 무제한 생성, 1,100원" }
         static var premiumMember: String { isEnglish ? "✓ Premium Member" : "✓ 프리미엄 회원" }
         static var purchaseDate: String { isEnglish ? "Purchase Date: " : "구매일: " }
         static var close: String { isEnglish ? "Close" : "닫기" }
