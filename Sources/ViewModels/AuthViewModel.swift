@@ -141,8 +141,22 @@ final class AuthViewModel: NSObject, ObservableObject {
 
     func signOut() {
         try? AuthService.shared.signOut()
+        PremiumManager.shared.resetStatus()
         currentMember = nil
         isLoggedIn = false
+    }
+
+    func deleteAccount() async {
+        isLoading = true
+        do {
+            try await AuthService.shared.deleteAccount()
+            PremiumManager.shared.resetStatus()
+            currentMember = nil
+            isLoggedIn = false
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        isLoading = false
     }
 
     // MARK: - Nonce

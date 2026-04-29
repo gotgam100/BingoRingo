@@ -8,6 +8,7 @@ struct ProfileSheet: View {
     @State private var selectedEmoji: String = "😀"
     @State private var isSaving = false
     @State private var showLogoutConfirm = false
+    @State private var showDeleteConfirm = false
 
     private let emojiGrid: [[String]] = [
         ["😀","😄","😊","🥹","😎","🤩","🥳","😏","🤔","😴"],
@@ -72,6 +73,17 @@ struct ProfileSheet: View {
                                     .padding(.vertical, 16)
                                     .background(BRColors.surfaceLow)
                                     .clipShape(RoundedRectangle(cornerRadius: 14))
+
+                                if let email = authViewModel.currentMember?.email, !email.isEmpty {
+                                    HStack(spacing: 5) {
+                                        Image(systemName: "person.circle")
+                                            .font(.system(size: 11))
+                                        Text(email)
+                                            .font(.system(size: 12, weight: .medium))
+                                    }
+                                    .foregroundStyle(BRColors.onSurfaceMuted.opacity(0.6))
+                                    .padding(.horizontal, 4)
+                                }
                             }
 
                             // 이모지 선택
@@ -163,6 +175,15 @@ struct ProfileSheet: View {
                                 .background(BRColors.tertiary.opacity(0.08))
                                 .clipShape(RoundedRectangle(cornerRadius: 48))
                             }
+
+                            // 계정 삭제
+                            Button(role: .destructive) {
+                                showDeleteConfirm = true
+                            } label: {
+                                Text(Localization.Profile.deleteAccount)
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundStyle(BRColors.tertiary.opacity(0.6))
+                            }
                         }
                         .padding(.horizontal, 24)
                         .padding(.bottom, 40)
@@ -183,6 +204,17 @@ struct ProfileSheet: View {
                     dismiss()
                 }
                 Button(Localization.Profile.cancel, role: .cancel) {}
+            }
+            .alert(Localization.Profile.deleteAccountConfirm, isPresented: $showDeleteConfirm) {
+                Button(Localization.Profile.deleteAccount, role: .destructive) {
+                    Task {
+                        await authViewModel.deleteAccount()
+                        dismiss()
+                    }
+                }
+                Button(Localization.Profile.cancel, role: .cancel) {}
+            } message: {
+                Text(Localization.Profile.deleteAccountMessage)
             }
         }
         .onAppear {

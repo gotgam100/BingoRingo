@@ -79,6 +79,12 @@ final class AuthService: @unchecked Sendable {
         try Auth.auth().signOut()
     }
 
+    func deleteAccount() async throws {
+        guard let user = Auth.auth().currentUser else { return }
+        try await FirestoreService.shared.deleteMember(id: user.uid)
+        try await user.delete()
+    }
+
     enum AuthError: LocalizedError {
         case noRootViewController
         case noToken

@@ -54,7 +54,10 @@ final class PremiumManager: ObservableObject {
                 return
             }
         }
-        isPremium = false
+        // UserDefaults에 구매 기록이 있으면 isPremium 유지 (샌드박스 불안정 대비)
+        if UserDefaults.standard.object(forKey: purchaseDateKey) == nil {
+            isPremium = false
+        }
     }
 
     // MARK: - 구매
@@ -100,11 +103,10 @@ final class PremiumManager: ObservableObject {
         }
     }
 
-    // MARK: - 개발용: 프리미엄 초기화
-
-    func refundPremium() {
+    func resetStatus() {
         isPremium = false
         UserDefaults.standard.removeObject(forKey: purchaseDateKey)
+        Task { await refreshPurchaseStatus() }
     }
 
     // MARK: - 트랜잭션 리스너

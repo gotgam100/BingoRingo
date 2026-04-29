@@ -514,11 +514,7 @@ struct SettingsView: View {
                             // 프리미엄
                             VStack(alignment: .leading, spacing: 10) {
                                 Button {
-                                    if premiumManager.isPremium {
-                                        premiumManager.refundPremium()
-                                    } else {
-                                        showPremiumPopup = true
-                                    }
+                                    showPremiumPopup = true
                                 } label: {
                                     if !premiumManager.isPremium {
                                         HStack {
@@ -544,22 +540,29 @@ struct SettingsView: View {
                                             VStack(alignment: .leading, spacing: 4) {
                                                 Text(Localization.Settings.premiumMember)
                                                     .font(.system(size: 16, weight: .bold))
-                                                    .foregroundStyle(BRColors.onSurface)
+                                                    .foregroundStyle(Color(hex: "#7A5500"))
                                                 if let date = premiumManager.purchaseDate {
                                                     Text(Localization.Settings.purchaseDate + date.formatted(date: .abbreviated, time: .omitted))
                                                         .font(.system(size: 12, weight: .medium))
-                                                        .foregroundStyle(BRColors.onSurfaceMuted)
+                                                        .foregroundStyle(Color(hex: "#7A5500").opacity(0.7))
                                                 }
                                             }
                                             Spacer()
-                                            Image(systemName: "checkmark.circle.fill")
+                                            Image(systemName: "crown.fill")
                                                 .font(.system(size: 18, weight: .semibold))
-                                                .foregroundStyle(BRColors.primary)
+                                                .foregroundStyle(Color(hex: "#B8860B"))
                                         }
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 14)
-                                        .background(BRColors.primaryDim)
+                                        .background(
+                                            LinearGradient(
+                                                colors: [Color(hex: "#FFE066"), Color(hex: "#FFD700")],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
                                         .clipShape(RoundedRectangle(cornerRadius: 14))
+                                        .shadow(color: Color(hex: "#FFD700").opacity(0.4), radius: 8, y: 3)
                                     }
                                 }
                             }
@@ -849,50 +852,63 @@ struct PremiumPurchasePopup: View {
 
             // 버튼
             VStack(spacing: 12) {
-                Button {
-                    errorMessage = nil
-                    Task {
-                        await premiumManager.purchasePremium()
-                        if case .failed(let msg) = premiumManager.purchaseState {
-                            errorMessage = msg
-                        } else if premiumManager.isPremium {
-                            isPresented = false
-                        }
+                if premiumManager.isPremium {
+                    Button { isPresented = false } label: {
+                        Text(Localization.Settings.close)
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 58)
+                            .background(BRColors.primaryGradient)
+                            .clipShape(RoundedRectangle(cornerRadius: 48))
+                            .shadow(color: BRColors.primary.opacity(0.3), radius: 16, y: 5)
                     }
-                } label: {
-                    Group {
-                        if isPurchasing {
-                            ProgressView().tint(.white)
-                        } else {
-                            Text(priceLabel)
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundStyle(.white)
+                } else {
+                    Button {
+                        errorMessage = nil
+                        Task {
+                            await premiumManager.purchasePremium()
+                            if case .failed(let msg) = premiumManager.purchaseState {
+                                errorMessage = msg
+                            } else if premiumManager.isPremium {
+                                isPresented = false
+                            }
                         }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 58)
-                    .background(isPurchasing ? AnyShapeStyle(BRColors.surfaceContainer) : AnyShapeStyle(BRColors.primaryGradient))
-                    .clipShape(RoundedRectangle(cornerRadius: 48))
-                    .shadow(color: isPurchasing ? .clear : BRColors.primary.opacity(0.3), radius: 16, y: 5)
-                }
-                .disabled(isPurchasing)
-
-                Button { isPresented = false } label: {
-                    Text(Localization.Settings.cancel)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(BRColors.primary)
+                    } label: {
+                        Group {
+                            if isPurchasing {
+                                ProgressView().tint(.white)
+                            } else {
+                                Text(priceLabel)
+                                    .font(.system(size: 17, weight: .bold))
+                                    .foregroundStyle(.white)
+                            }
+                        }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(BRColors.surfaceContainer)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
-                }
+                        .frame(height: 58)
+                        .background(isPurchasing ? AnyShapeStyle(BRColors.surfaceContainer) : AnyShapeStyle(BRColors.primaryGradient))
+                        .clipShape(RoundedRectangle(cornerRadius: 48))
+                        .shadow(color: isPurchasing ? .clear : BRColors.primary.opacity(0.3), radius: 16, y: 5)
+                    }
+                    .disabled(isPurchasing)
 
-                Button {
-                    Task { await premiumManager.restorePurchases() }
-                } label: {
-                    Text(Localization.Settings.restorePurchase)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(BRColors.onSurfaceMuted)
+                    Button { isPresented = false } label: {
+                        Text(Localization.Settings.cancel)
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundStyle(BRColors.primary)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(BRColors.surfaceContainer)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+
+                    Button {
+                        Task { await premiumManager.restorePurchases() }
+                    } label: {
+                        Text(Localization.Settings.restorePurchase)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(BRColors.onSurfaceMuted)
+                    }
                 }
             }
             .padding(.horizontal, 24)

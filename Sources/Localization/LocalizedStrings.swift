@@ -159,5 +159,8 @@ enum Localization {
         static var close: String { isEnglish ? "Close" : "닫기" }
         static var save: String { isEnglish ? "Save" : "저장하기" }
         static var cancel: String { isEnglish ? "Cancel" : "취소" }
+        static var deleteAccount: String { isEnglish ? "Delete Account" : "계정 삭제" }
+        static var deleteAccountConfirm: String { isEnglish ? "Delete your account?" : "계정을 삭제할까요?" }
+        static var deleteAccountMessage: String { isEnglish ? "All data will be permanently deleted and cannot be recovered." : "모든 데이터가 영구 삭제되며 복구할 수 없어요." }
     }
 }

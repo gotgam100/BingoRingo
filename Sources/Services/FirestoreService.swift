@@ -115,4 +115,8 @@ final class FirestoreService {
         ])
     }
 
+    func deleteMember(id: String) async throws {
+        try await db.collection("members").document(id).delete()
+    }
+
 }
