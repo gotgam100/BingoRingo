@@ -106,7 +106,7 @@ struct OnboardingView: View {
                                 Image(systemName: "envelope.fill")
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(Color(hex: "#FF9500"))
-                                Text("이메일로 계속하기")
+                                Text("e-mail로 계속하기")
                                     .font(.system(size: 16, weight: .semibold))
                                     .foregroundStyle(Color(hex: "#FF9500"))
                             }

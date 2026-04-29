@@ -52,17 +52,16 @@
 		D1E2F3A4B5C6D1E2F3A4B5C6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4A5B6C1D2E3F4A5B6 /* InfoPlist.strings */; };
 		D8DD59193DE54300984456C1 /* Paperlogy-6SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD1E53A8AECC44C8824AFD6D /* Paperlogy-6SemiBold.ttf */; };
 		F0ABBC996B85006351F66B75 /* BingoRingoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */; };
+		F1E2D3C4B5A6F1E2D3C4B5A6 /* Cafe24Nyangi-B-v1.0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */; };
 		F604333CC86214018081263B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFAF76BF1168375DFF2815D /* FirebaseFirestore */; };
 		F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */; };
-		FE147C9744774F0E8DBAB0C3 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8BF8AAD3394344BB248062 /* ConfettiView.swift */; };
-		F1E2D3C4B5A6F1E2D3C4B5A6 /* Cafe24Nyangi-B-v1.0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */; };
 		FA1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */; };
+		FE147C9744774F0E8DBAB0C3 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8BF8AAD3394344BB248062 /* ConfettiView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0162A5F65B955987766F46B8 /* BRShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRShapes.swift; sourceTree = "<group>"; };
 		03A148DFD5FD4934B38F9DE6 /* Paperlogy-1Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-1Thin.ttf"; path = "Resources/Fonts/Paperlogy-1Thin.ttf"; sourceTree = "<group>"; };
-		E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Cafe24Nyangi-B-v1.0.ttf"; path = "Resources/Fonts/Cafe24Nyangi-B-v1.0.ttf"; sourceTree = "<group>"; };
 		0482C3C895C6A6213AF0A500 /* CellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellDetailView.swift; sourceTree = "<group>"; };
 		10395079EAF31452DE60104B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1458E9ACDF5944D62ACBA4B1 /* CreateGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupSheet.swift; sourceTree = "<group>"; };
@@ -105,6 +104,7 @@
 		D5E0CDDFD41B8F6251260E81 /* JoinGroupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupSheet.swift; sourceTree = "<group>"; };
 		D722ED58D4549AB471422674 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		DDA87C972024DE3F583DA4DA /* BingoBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoBoard.swift; sourceTree = "<group>"; };
+		E1F2A3B4C5D6E1F2A3B4C5D6 /* Cafe24Nyangi-B-v1.0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Cafe24Nyangi-B-v1.0.ttf"; path = "Resources/Fonts/Cafe24Nyangi-B-v1.0.ttf"; sourceTree = "<group>"; };
 		E5FA958139F36B835378A024 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		E9CE258379CC901457E725F8 /* BRColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRColors.swift; sourceTree = "<group>"; };
 		FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
@@ -255,14 +255,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		FC1B2C3D4E5F6A7B8C9D0E1F /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 		CB3C719EEFF9C0238D8D807B /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,6 +306,14 @@
 				B1C7AE839A78426492990888 /* Paperlogy-9Black.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		FC1B2C3D4E5F6A7B8C9D0E1F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				FB1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -467,7 +467,7 @@
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
@@ -619,7 +619,7 @@
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;

@@ -16,6 +16,12 @@ struct CellDetailView: View {
         _boardVM = StateObject(wrappedValue: boardVM)
     }
 
+    private static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy.M.d HH:mm"
+        return f
+    }()
+
     private var isCompletedByMe: Bool { cell.completedBy.contains(currentMemberID) }
     private var completedCount: Int { cell.completedBy.count }
     private var totalCount: Int { memberIDs.count }
@@ -98,9 +104,17 @@ struct CellDetailView: View {
                                             .font(.system(size: 24))
                                     }
 
-                                    Text(profile?.displayName ?? (Localization.isEnglish ? "Unknown" : "알 수 없음"))
-                                        .font(.system(size: 15, weight: .semibold))
-                                        .foregroundStyle(BRColors.onSurface)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(profile?.displayName ?? (Localization.isEnglish ? "Unknown" : "알 수 없음"))
+                                            .font(.system(size: 15, weight: .semibold))
+                                            .foregroundStyle(BRColors.onSurface)
+
+                                        if let date = cell.completedAt[memberID] {
+                                            Text(Self.dateFormatter.string(from: date))
+                                                .font(.system(size: 11, weight: .medium))
+                                                .foregroundStyle(BRColors.onSurfaceMuted)
+                                        }
+                                    }
 
                                     if memberID == currentMemberID {
                                         Text(Localization.Home.me)

@@ -101,7 +101,7 @@ final class AuthService: @unchecked Sendable {
 
         let newMember = Member(
             id: user.uid,
-            displayName: user.displayName ?? "사용자",
+            displayName: user.displayName ?? (Localization.isEnglish ? "User" : "사용자"),
             profileImageURL: user.photoURL?.absoluteString,
             email: user.email ?? ""
         )

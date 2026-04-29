@@ -648,6 +648,12 @@ struct SettingsView: View {
                                             UIApplication.shared.open(url)
                                         }
                                     }
+
+                                    settingRow(label: Localization.Settings.support, icon: "envelope") {
+                                        if let url = URL(string: "https://gotgam100.github.io/BingoRingo/support.html") {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
                                 }
                             }
                         }

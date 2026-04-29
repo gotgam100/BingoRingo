@@ -61,7 +61,7 @@ struct EmailAuthSheet: View {
                         VStack(spacing: 16) {
                             // 이메일
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("이메일")
+                                Text("e-mail")
                                     .font(.system(size: 12, weight: .bold))
                                     .foregroundStyle(BRColors.onSurfaceMuted)
                                     .tracking(0.5)
@@ -79,10 +79,15 @@ struct EmailAuthSheet: View {
 
                             // 비밀번호
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("비밀번호")
-                                    .font(.system(size: 12, weight: .bold))
-                                    .foregroundStyle(BRColors.onSurfaceMuted)
-                                    .tracking(0.5)
+                                HStack(spacing: 5) {
+                                    Text("비밀번호")
+                                        .font(.system(size: 12, weight: .bold))
+                                        .foregroundStyle(BRColors.onSurfaceMuted)
+                                        .tracking(0.5)
+                                    Text("Password")
+                                        .font(.system(size: 10, weight: .medium))
+                                        .foregroundStyle(BRColors.onSurfaceMuted.opacity(0.5))
+                                }
                                 SecureField("6자 이상 입력", text: $password)
                                     .focused($focusedField, equals: .password)
                                     .font(.system(size: 16, weight: .semibold))
@@ -96,10 +101,15 @@ struct EmailAuthSheet: View {
                             // 비밀번호 확인 (회원가입만)
                             if isSignUp {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    Text("비밀번호 확인")
-                                        .font(.system(size: 12, weight: .bold))
-                                        .foregroundStyle(BRColors.onSurfaceMuted)
-                                        .tracking(0.5)
+                                    HStack(spacing: 5) {
+                                        Text("비밀번호 확인")
+                                            .font(.system(size: 12, weight: .bold))
+                                            .foregroundStyle(BRColors.onSurfaceMuted)
+                                            .tracking(0.5)
+                                        Text("Confirm")
+                                            .font(.system(size: 10, weight: .medium))
+                                            .foregroundStyle(BRColors.onSurfaceMuted.opacity(0.5))
+                                    }
                                     SecureField("비밀번호 다시 입력", text: $passwordConfirm)
                                         .focused($focusedField, equals: .passwordConfirm)
                                         .font(.system(size: 16, weight: .semibold))
@@ -195,9 +205,16 @@ struct EmailAuthSheet: View {
                             HStack(spacing: 4) {
                                 Text(isSignUp ? "이미 계정이 있어요?" : "계정이 없어요?")
                                     .foregroundStyle(BRColors.onSurfaceMuted)
-                                Text(isSignUp ? "로그인" : "회원가입")
-                                    .foregroundStyle(BRColors.primary)
-                                    .fontWeight(.bold)
+                                HStack(spacing: 3) {
+                                    Text(isSignUp ? "로그인" : "회원가입")
+                                    if !isSignUp {
+                                        Text("Sign Up")
+                                            .font(.system(size: 12, weight: .medium))
+                                            .opacity(0.7)
+                                    }
+                                }
+                                .foregroundStyle(BRColors.primary)
+                                .fontWeight(.bold)
                             }
                             .font(.system(size: 14))
                         }

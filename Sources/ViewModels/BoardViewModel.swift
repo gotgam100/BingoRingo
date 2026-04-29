@@ -97,8 +97,10 @@ final class BoardViewModel: ObservableObject {
         var cell = board.cell(row: row, col: col)
         if cell.completedBy.contains(memberID) {
             cell.completedBy.removeAll { $0 == memberID }
+            cell.completedAt.removeValue(forKey: memberID)
         } else {
             cell.completedBy.append(memberID)
+            cell.completedAt[memberID] = Date()
         }
         board.setCell(cell, row: row, col: col)
         self.board = board
