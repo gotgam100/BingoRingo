@@ -123,6 +123,10 @@ struct HomeView: View {
                 memberProfiles = fetched
             }
         }
+        .onChange(of: authViewModel.currentMember) { _, member in
+            guard let member, let id = member.id else { return }
+            memberProfiles[id] = member
+        }
     }
 
     // MARK: - Header
@@ -622,12 +626,12 @@ struct SettingsView: View {
                                     }
 
                                     settingRow(label: Localization.Settings.appStore, icon: "star.fill") {
-                                        if let url = URL(string: "itms-apps://apps.apple.com/app/id6504009900") {
+                                        if let url = URL(string: "itms-apps://apps.apple.com/app/id6764120536") {
                                             UIApplication.shared.open(url)
                                         }
                                     }
 
-                                    settingRowInfo(label: Localization.Settings.appVersion, value: "1.0.0", icon: "info.circle.fill")
+                                    settingRowInfo(label: Localization.Settings.appVersion, value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "", icon: "info.circle.fill")
                                 }
                             }
 
@@ -764,6 +768,8 @@ struct PremiumPurchasePopup: View {
     @ObservedObject var premiumManager: PremiumManager
     @Binding var isPresented: Bool
     @State private var errorMessage: String? = nil
+    @State private var restoreAlertMessage: String? = nil
+    @State private var showRestoreAlert: Bool = false
 
     private var priceLabel: String {
         if let product = premiumManager.product {
@@ -903,11 +909,28 @@ struct PremiumPurchasePopup: View {
                     }
 
                     Button {
-                        Task { await premiumManager.restorePurchases() }
+                        Task {
+                            let restored = await premiumManager.restorePurchases()
+                            if restored {
+                                restoreAlertMessage = Localization.isEnglish
+                                    ? "Premium has been restored."
+                                    : "프리미엄이 복원되었습니다."
+                            } else {
+                                restoreAlertMessage = Localization.isEnglish
+                                    ? "No purchase history found."
+                                    : "구매 내역을 찾을 수 없습니다."
+                            }
+                            showRestoreAlert = true
+                        }
                     } label: {
                         Text(Localization.Settings.restorePurchase)
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(BRColors.onSurfaceMuted)
+                    }
+                    .alert(restoreAlertMessage ?? "", isPresented: $showRestoreAlert) {
+                        Button(Localization.Settings.close, role: .cancel) {
+                            if premiumManager.isPremium { isPresented = false }
+                        }
                     }
                 }
             }

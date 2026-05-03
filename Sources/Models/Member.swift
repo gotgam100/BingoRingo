@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Member: Identifiable, Codable {
+struct Member: Identifiable, Codable, Equatable {
     @DocumentID var id: String?
     var displayName: String
     var profileImageURL: String?

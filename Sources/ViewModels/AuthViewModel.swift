@@ -72,7 +72,6 @@ final class AuthViewModel: NSObject, ObservableObject {
                     self.isLoggedIn = true
                 } catch {
                     self.errorMessage = "로그인 실패: \(error.localizedDescription)"
-                    print("❌ Apple Sign In error: \(error)")
                 }
                 self.isLoading = false
             }
@@ -80,7 +79,6 @@ final class AuthViewModel: NSObject, ObservableObject {
         case .failure(let error):
             if (error as NSError).code != ASAuthorizationError.canceled.rawValue {
                 errorMessage = "로그인 실패: \(error.localizedDescription)"
-                print("❌ Apple auth error: \(error)")
             }
         }
     }
@@ -135,7 +133,7 @@ final class AuthViewModel: NSObject, ObservableObject {
             try await FirestoreService.shared.updateMember(member)
             self.currentMember = member
         } catch {
-            print("❌ profile update error: \(error)")
+            errorMessage = error.localizedDescription
         }
     }
 

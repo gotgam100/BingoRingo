@@ -5,9 +5,6 @@ import FirebaseFirestore
 final class GroupViewModel: ObservableObject {
     @Published var groups: [BingoGroup] = []
     @Published var isLoading: Bool = false
-    @Published var showCreateGroup: Bool = false
-    @Published var showJoinGroup: Bool = false
-
     private var listener: ListenerRegistration?
 
     func fetchGroups(for memberID: String) {

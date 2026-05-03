@@ -15,53 +15,26 @@ final class AuthService: @unchecked Sendable {
         return try await fetchOrCreateMember(from: result.user)
     }
 
+    @MainActor
     func signInWithGoogle() async throws -> Member {
-        return try await withCheckedThrowingContinuation { [weak self] continuation in
-            guard let self = self else {
-                continuation.resume(throwing: AuthError.noRootViewController)
-                return
-            }
-
-            Task { @MainActor [weak self] in
-                guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                      let rootVC = windowScene.windows.first?.rootViewController else {
-                    continuation.resume(throwing: AuthError.noRootViewController)
-                    return
-                }
-
-                // GIDSignIn completion handler 기반 API - async/await 대체 함수 없음 (라이브러리 제한)
-                nonisolated(unsafe) let _ = GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { [weak self] result, error in
-                    if let error = error {
-                        continuation.resume(throwing: error)
-                        return
-                    }
-
-                    guard let result = result, let idToken = result.user.idToken?.tokenString else {
-                        continuation.resume(throwing: AuthError.noToken)
-                        return
-                    }
-
-                    let credential = GoogleAuthProvider.credential(
-                        withIDToken: idToken,
-                        accessToken: result.user.accessToken.tokenString
-                    )
-
-                    Task { [weak self] in
-                        do {
-                            let authResult = try await Auth.auth().signIn(with: credential)
-                            guard let self = self else {
-                                continuation.resume(throwing: AuthError.noRootViewController)
-                                return
-                            }
-                            let member = try await self.fetchOrCreateMember(from: authResult.user)
-                            continuation.resume(returning: member)
-                        } catch {
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = windowScene.windows.first?.rootViewController else {
+            throw AuthError.noRootViewController
         }
+
+        let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
+
+        guard let idToken = result.user.idToken?.tokenString else {
+            throw AuthError.noToken
+        }
+
+        let credential = GoogleAuthProvider.credential(
+            withIDToken: idToken,
+            accessToken: result.user.accessToken.tokenString
+        )
+
+        let authResult = try await Auth.auth().signIn(with: credential)
+        return try await fetchOrCreateMember(from: authResult.user)
     }
 
     func signInWithEmail(email: String, password: String) async throws -> Member {

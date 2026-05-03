@@ -37,9 +37,7 @@ final class PremiumManager: ObservableObject {
         do {
             let products = try await Product.products(for: [productID])
             self.product = products.first
-        } catch {
-            print("❌ StoreKit 상품 로드 실패: \(error)")
-        }
+        } catch { }
     }
 
     // MARK: - 구매 상태 확인 (앱 시작 시)
@@ -94,12 +92,13 @@ final class PremiumManager: ObservableObject {
 
     // MARK: - 구매 복원
 
-    func restorePurchases() async {
+    func restorePurchases() async -> Bool {
         do {
             try await AppStore.sync()
             await refreshPurchaseStatus()
+            return isPremium
         } catch {
-            print("❌ 복원 실패: \(error)")
+            return false
         }
     }
 

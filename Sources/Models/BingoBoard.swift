@@ -5,7 +5,6 @@ struct BingoBoard: Identifiable, Codable {
     var title: String
     var size: Int = 5
     var cells: [BingoCell]          // 1D 배열, index = row * size + col
-    var rewards: [BingoReward]
     var memberIDs: [String]
     var leaderID: String
     var createdAt: Date = Date()

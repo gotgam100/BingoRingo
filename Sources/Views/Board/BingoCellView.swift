@@ -16,28 +16,29 @@ struct BingoCellView: View {
     private var completedCount: Int { cell.completedBy.count }
     private var totalCount: Int { memberIDs.count }
     private var ratio: CGFloat { totalCount > 0 ? CGFloat(completedCount) / CGFloat(totalCount) : 0 }
+    private var friendCompletedNotMe: Bool { completedCount > 0 && !isCompletedByMe }
 
     private var bgColor: Color {
-        if isFullyCompleted  { return completedLineColor ?? BRColors.primary }
-        if isCompletedByMe   { return BRColors.primaryMid }
-        if completedCount > 0 { return BRColors.primaryDim }
+        if isFullyCompleted       { return completedLineColor ?? BRColors.primary }
+        if friendCompletedNotMe   { return BRColors.primaryMid }
+        if isCompletedByMe        { return BRColors.primaryDim }
         return Color(hex: "#FFF8F0")
     }
 
     private var textColor: Color {
-        if isFullyCompleted { return .white }
-        if isCompletedByMe  { return .white }
+        if isFullyCompleted     { return .white }
+        if friendCompletedNotMe { return .white }
         return BRColors.onSurface
     }
 
     private var progressBarColor: Color {
-        if isFullyCompleted { return BRColors.surfaceHigh }
-        if isCompletedByMe  { return Color.white.opacity(0.6) }
+        if isFullyCompleted     { return BRColors.surfaceHigh }
+        if friendCompletedNotMe { return Color.white.opacity(0.6) }
         return BRColors.primaryMid
     }
 
     private var progressTrackColor: Color {
-        if isFullyCompleted || isCompletedByMe {
+        if isFullyCompleted || friendCompletedNotMe {
             return Color.white.opacity(0.2)
         }
         return BRColors.primaryDim
@@ -52,14 +53,20 @@ struct BingoCellView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // 미션 텍스트
-                Text(cell.title.count > 8 ? String(cell.title.prefix(8)) + "..." : cell.title)
-                    .font(.system(size: max(size * 0.15, 9), weight: .bold, design: .rounded))
-                    .foregroundStyle(textColor)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.4)
-                    .padding(.horizontal, size * 0.08)
+                // 미션 텍스트 or 빈 셀 연필 아이콘
+                if cell.title.isEmpty {
+                    Image(systemName: "pencil")
+                        .font(.system(size: max(size * 0.22, 11), weight: .medium))
+                        .foregroundStyle(BRColors.onSurfaceMuted.opacity(0.35))
+                } else {
+                    Text(cell.title.count > 8 ? String(cell.title.prefix(8)) + "..." : cell.title)
+                        .font(.system(size: max(size * 0.15, 9), weight: .bold, design: .rounded))
+                        .foregroundStyle(textColor)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.4)
+                        .padding(.horizontal, size * 0.08)
+                }
 
                 Spacer()
 
@@ -105,8 +112,8 @@ struct BingoCellView: View {
                         .foregroundStyle(.white)
                 }
                 .offset(x: -size * 0.04, y: size * 0.04)
-            } else if isCompletedByMe {
-                // 내가 완료, 타인 미완료: 반투명 ghost 체크마크
+            } else if friendCompletedNotMe {
+                // 친구 완료, 내가 미완료: 반투명 ghost 체크마크
                 ZStack {
                     Circle()
                         .fill(Color.white.opacity(0.55))
@@ -114,6 +121,17 @@ struct BingoCellView: View {
                     Image(systemName: "checkmark")
                         .font(.system(size: size * 0.1, weight: .bold))
                         .foregroundStyle(BRColors.primary.opacity(0.7))
+                }
+                .offset(x: -size * 0.04, y: size * 0.04)
+            } else if isCompletedByMe {
+                // 내가 완료, 친구 미완료: 매우 연한 체크마크
+                ZStack {
+                    Circle()
+                        .fill(BRColors.primaryMid.opacity(0.25))
+                        .frame(width: size * 0.24, height: size * 0.24)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: size * 0.1, weight: .bold))
+                        .foregroundStyle(BRColors.primary.opacity(0.35))
                 }
                 .offset(x: -size * 0.04, y: size * 0.04)
             }
@@ -140,13 +158,15 @@ struct BingoCellView: View {
                     Label(Localization.CellDetail.editMission, systemImage: "pencil")
                 }
             }
-            Button {
-                onToggle()
-            } label: {
-                Label(
-                    isCompletedByMe ? Localization.CellDetail.cancelButton : Localization.CellDetail.checkButton,
-                    systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
-                )
+            if !cell.title.isEmpty {
+                Button {
+                    onToggle()
+                } label: {
+                    Label(
+                        isCompletedByMe ? Localization.CellDetail.cancelButton : Localization.CellDetail.checkButton,
+                        systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
+                    )
+                }
             }
         }
     }

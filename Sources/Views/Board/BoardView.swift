@@ -257,11 +257,16 @@ struct BoardView: View {
                             )
                         }
                         if !boardVM.group.allBingoReward.isEmpty {
+                            let allCellsComplete: Bool = {
+                                guard let board = boardVM.board else { return false }
+                                let memberIDs = boardVM.group.memberIDs
+                                return board.cells.allSatisfy { $0.isCompleted(for: memberIDs) }
+                            }()
                             RewardMilestoneCard(
                                 index: -1,
                                 reward: boardVM.group.allBingoReward,
                                 isAllBingo: true,
-                                state: boardVM.group.isCompleted ? .achieved : .pending
+                                state: allCellsComplete ? .achieved : .pending
                             )
                         }
                         Spacer()
@@ -656,7 +661,6 @@ struct BingoCelebrationOverlay: View {
         ZStack {
             Color.black.opacity(0.45)
                 .ignoresSafeArea()
-                .onTapGesture { animateOut() }
 
             ConfettiView(count: 60)
                 .ignoresSafeArea()
@@ -697,9 +701,7 @@ struct BingoCelebrationOverlay: View {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                 scale = 1; opacity = 1
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                animateOut()
-            }
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
     }
 
@@ -777,6 +779,7 @@ struct GameCompleteOverlay: View {
             withAnimation(.spring(response: 0.45, dampingFraction: 0.72)) {
                 scale = 1; opacity = 1
             }
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
     }
 }

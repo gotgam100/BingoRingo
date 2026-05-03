@@ -18,7 +18,8 @@ final class BoardViewModel: ObservableObject {
 
     private var boardListener: ListenerRegistration?
     private var groupListener: ListenerRegistration?
-    private var previousCompletedCount: Int = -1  // -1 = 미초기화
+    private var previousCompletedCount: Int = -1   // -1 = 미초기화
+    private var previousAllCellsComplete: Bool = false
 
     init(group: BingoGroup) {
         self.group = group
@@ -120,9 +121,7 @@ final class BoardViewModel: ObservableObject {
 
         do {
             try await FirestoreService.shared.updateBoard(board)
-        } catch {
-            print("❌ Cell title update error: \(error)")
-        }
+        } catch { }
     }
 
     func updateRewards(_ rewards: [String], allBingoReward: String) async {
@@ -183,25 +182,24 @@ final class BoardViewModel: ObservableObject {
         completedLineCells = cellMap
 
         let newCount = lines.count
-        let target = group.boardSize
+        let allCellsComplete = board.cells.allSatisfy { $0.isCompleted(for: memberIDs) }
 
         // 첫 로드 시엔 축하 없이 초기화
         guard previousCompletedCount != -1 else {
             previousCompletedCount = newCount
+            previousAllCellsComplete = allCellsComplete
             return
         }
 
-        if newCount > previousCompletedCount {
-            if newCount >= target {
-                // 전체 완성
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.showGameComplete = true
-                }
-            } else {
-                // 새 빙고 달성
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.newBingoCelebration = newCount
-                }
+        if allCellsComplete && !previousAllCellsComplete {
+            // 모든 셀 전원 완료 → 전체 완성
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.showGameComplete = true
+            }
+        } else if newCount > previousCompletedCount {
+            // 새 빙고 줄 달성
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.newBingoCelebration = newCount
             }
         } else if newCount < previousCompletedCount {
             // 빙고가 취소됨 (멤버 추가 등으로 인해)
@@ -212,6 +210,8 @@ final class BoardViewModel: ObservableObject {
                 }
             }
         }
+
+        previousAllCellsComplete = allCellsComplete
         previousCompletedCount = newCount
     }
 
@@ -221,16 +221,14 @@ final class BoardViewModel: ObservableObject {
         let cells = (0..<count).map { _ in BingoCell(title: "") }
         let newBoard = BingoBoard(
             title: group.name, size: size, cells: cells,
-            rewards: [], memberIDs: group.memberIDs, leaderID: group.leaderID
+            memberIDs: group.memberIDs, leaderID: group.leaderID
         )
         self.board = newBoard
         Task {
             do {
                 try await FirestoreService.shared.createBoard(newBoard)
                 try await FirestoreService.shared.updateGroupBoardID(groupID: group.id, boardID: newBoard.id)
-            } catch {
-                print("❌ Board creation error: \(error)")
-            }
+            } catch { }
         }
     }
 
