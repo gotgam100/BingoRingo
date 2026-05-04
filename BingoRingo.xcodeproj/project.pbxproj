@@ -28,6 +28,7 @@
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
 		54B9F28C2FA84E4D0019D2F1 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */; };
+		3659A8A227B54EB18325F1C9 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0288ABC67B2342E596F0FED9 /* ImageCache.swift */; };
 		54C0FBE32F9D314C00CD4421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54C0FBE22F9D314C00CD4421 /* Assets.xcassets */; };
 		54E7F7C90BB54CD5B75E2395 /* Paperlogy-5Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D67AA27ED24900BD9C6CCE /* Paperlogy-5Medium.ttf */; };
 		54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */; };
@@ -74,6 +75,7 @@
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		54B9F2882F9E14400019D2F1 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		0288ABC67B2342E596F0FED9 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		54C0FBE22F9D314C00CD4421 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingo.entitlements; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */,
+				0288ABC67B2342E596F0FED9 /* ImageCache.swift */,
 				815968D9D89F8A21022B4973 /* AuthService.swift */,
 				152FC9140586ABDBA50FC102 /* FirestoreService.swift */,
 				915968D9D89F8A21022B4974 /* PremiumManager.swift */,
@@ -435,6 +438,7 @@
 				AAC72F15FC214A97BFCBBE99 /* PremiumManager.swift in Sources */,
 				18D85AA7FA704DCBA16824DA /* EditGroupSheet.swift in Sources */,
 				54B9F28C2FA84E4D0019D2F1 /* StorageService.swift in Sources */,
+				3659A8A227B54EB18325F1C9 /* ImageCache.swift in Sources */,
 				F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */,
 				116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */,
 				3062AABAECF0AC1F5068AB0A /* GroupViewModel.swift in Sources */,

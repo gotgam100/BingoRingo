@@ -1,6 +1,6 @@
 import Foundation
 
-struct BingoCell: Identifiable, Codable {
+struct BingoCell: Identifiable, Codable, Equatable {
     var id: String = UUID().uuidString
     var title: String
     var description: String = ""
