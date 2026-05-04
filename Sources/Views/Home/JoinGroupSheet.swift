@@ -137,12 +137,12 @@ struct JoinGroupSheet: View {
         isLoading = true
         do {
             guard var group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
-                errorMessage = "초대 코드를 찾을 수 없어요."
+                errorMessage = Localization.isEnglish ? "Invite code not found." : "초대 코드를 찾을 수 없어요."
                 isLoading = false
                 return
             }
             if group.memberIDs.count >= 10 {
-                errorMessage = "10명까지만 함께 할 수 있습니다"
+                errorMessage = Localization.isEnglish ? "This room is full (max 10 members)." : "방이 꽉 찼어요. (최대 10명)"
                 isLoading = false
                 return
             }
