@@ -42,19 +42,15 @@ struct UserGuideView: View {
                                           text: "Only the leader can edit missions and set rewards. Tap the 'Edit Reward' button to set bingo rewards."),
                                 GuideItem(symbol: "star.fill",
                                           text: "The 'Current Goal' section shows your next reward milestone and tracks progress."),
-                                GuideItem(symbol: "hand.tap.fill",
-                                          text: "Tap a cell to mark a mission as complete (or undo it)."),
-                                GuideItem(symbol: "contextualmenu.and.cursorarrow",
-                                          text: "Long-press a cell to quickly edit the mission (leader only) or toggle completion.")
+                                GuideItem(symbol: "camera.fill",
+                                          text: "Tap a cell to open the mission detail. Upload a proof photo to automatically mark the mission as complete.")
                             ] : [
                                 GuideItem(symbol: "crown.fill",
                                           text: "방장만 미션을 수정하고 보상을 설정할 수 있어요. '보상 수정' 버튼을 눌러 빙고 달성 보상을 입력해보세요."),
                                 GuideItem(symbol: "star.fill",
                                           text: "'현재 목표' 섹션에서 다음 보상 목표와 진행 상황을 한눈에 확인할 수 있어요."),
-                                GuideItem(symbol: "hand.tap.fill",
-                                          text: "셀을 탭하면 미션 완료 체크 또는 취소를 할 수 있어요."),
-                                GuideItem(symbol: "contextualmenu.and.cursorarrow",
-                                          text: "셀을 길게 누르면 미션 수정(방장 전용) 또는 완료 체크를 빠르게 할 수 있어요.")
+                                GuideItem(symbol: "camera.fill",
+                                          text: "셀을 탭하면 미션 상세 창으로 진입해요. 인증 사진을 등록하면 자동으로 미션이 완료돼요.")
                             ]
                         )
 

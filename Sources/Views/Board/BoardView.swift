@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseAuth
 
 struct BoardView: View {
     @StateObject private var boardVM: BoardViewModel
@@ -32,7 +33,9 @@ struct BoardView: View {
         Color(hex: "#FF9500"), Color(hex: "#C8184B"), Color(hex: "#00B4D8"), Color(hex: "#8B2BE2"),
     ]
 
-    private var memberID: String { authViewModel.currentMember?.id ?? "" }
+    private var memberID: String {
+        authViewModel.currentMember?.id ?? Auth.auth().currentUser?.uid ?? ""
+    }
     private var isLeader: Bool { boardVM.group.leaderID == memberID }
 
     init(group: BingoGroup, allGroups: [BingoGroup] = []) {
@@ -57,8 +60,8 @@ struct BoardView: View {
                             .padding(.top, 20)
 
                         Text(Localization.isEnglish
-                             ? "Tap to view details, hold to complete. Only the leader can edit."
-                             : "항목을 선택하거나 꾹 눌러서 완료하세요. 방장만 수정이 가능합니다.")
+                             ? "Tap a mission to view details and complete with proof photo."
+                             : "미션을 탭하면 상세 창에서 인증 사진과 함께 완료할 수 있어요.")
                             .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(BRColors.onSurfaceMuted)
                             .multilineTextAlignment(.center)
@@ -112,10 +115,18 @@ struct BoardView: View {
             }
         }
         .onAppear { boardVM.loadBoard() }
+        .onChange(of: boardVM.board) {
+            // 보드 데이터 도착 즉시 모든 인증사진 백그라운드 프리패치
+            guard let board = boardVM.board else { return }
+            let urls = board.cells.flatMap { $0.proofImageURLs.values }
+            CachedAsyncImage.prefetch(urls: urls)
+        }
         .sheet(item: $selectedIndex) { index in
             if let board = boardVM.board {
                 CellDetailView(
                     cell: board.cell(row: index.row, col: index.col),
+                    row: index.row,
+                    col: index.col,
                     memberIDs: boardVM.group.memberIDs,
                     currentMemberID: memberID,
                     boardVM: boardVM
@@ -325,10 +336,7 @@ struct BoardView: View {
                                     .map { Self.lineColors[$0 % Self.lineColors.count] },
                                 size: cellSize,
                                 onTap: { selectedIndex = CellIndex(row: row, col: col) },
-                                onEdit: { editingIndex = CellIndex(row: row, col: col) },
-                                onToggle: {
-                                    Task { await boardVM.toggleCell(row: row, col: col, memberID: memberID) }
-                                }
+                                onEdit: { editingIndex = CellIndex(row: row, col: col) }
                             )
                         }
                     }

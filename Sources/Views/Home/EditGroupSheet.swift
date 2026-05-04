@@ -11,6 +11,7 @@ struct EditGroupSheet: View {
 
     @State private var groupName: String
     @State private var isLoading = false
+    @State private var isDeleting = false
     @State private var errorMessage: String?
     @State private var showDeleteConfirm = false
     @State private var showLeaveConfirm = false
@@ -79,9 +80,17 @@ struct EditGroupSheet: View {
             .alert(Localization.EditGroup.deleteBingoTitle, isPresented: $showDeleteConfirm) {
                 Button(Localization.EditGroup.deleteButtonText, role: .destructive) {
                     Task {
-                        try? await FirestoreService.shared.deleteGroup(groupID: group.id)
-                        onChanged()
-                        dismiss()
+                        isDeleting = true
+                        do {
+                            try await FirestoreService.shared.deleteGroup(groupID: group.id)
+                            onChanged()
+                            dismiss()
+                        } catch {
+                            errorMessage = Localization.isEnglish
+                                ? "Failed to delete. Please try again."
+                                : "삭제에 실패했어요. 다시 시도해주세요."
+                        }
+                        isDeleting = false
                     }
                 }
                 Button(Localization.EditGroup.cancel, role: .cancel) {}
@@ -91,9 +100,17 @@ struct EditGroupSheet: View {
             .alert(Localization.EditGroup.leaveBingoTitle, isPresented: $showLeaveConfirm) {
                 Button(Localization.EditGroup.leaveButtonText, role: .destructive) {
                     Task {
-                        try? await FirestoreService.shared.leaveGroup(groupID: group.id, memberID: memberID)
-                        onChanged()
-                        dismiss()
+                        isDeleting = true
+                        do {
+                            try await FirestoreService.shared.leaveGroup(groupID: group.id, memberID: memberID)
+                            onChanged()
+                            dismiss()
+                        } catch {
+                            errorMessage = Localization.isEnglish
+                                ? "Failed to leave. Please try again."
+                                : "나가기에 실패했어요. 다시 시도해주세요."
+                        }
+                        isDeleting = false
                     }
                 }
                 Button(Localization.EditGroup.cancel, role: .cancel) {}

@@ -15,7 +15,8 @@ enum Localization {
         static var joinWithCode: String { isEnglish ? "Join with Code" : "초대 코드로 참여" }
         static var inviteCodeCopied: String { isEnglish ? "Invite code copied!" : "초대링크가 복사되었어요" }
         static var viewBingoInfo: String { isEnglish ? "View bingo info" : "빙고 정보 확인" }
-        static var copyInviteCode: String { isEnglish ? "Copy invite code" : "초대링크 복사" }
+        static var copyInviteCode: String { isEnglish ? "Copy invite code" : "초대 코드 복사" }
+        static var shareInvite: String { isEnglish ? "Share invite link" : "초대 링크 공유" }
         static var members: String { isEnglish ? "Members" : "멤버" }
         static var boardSize: String { isEnglish ? "Board Size" : "보드 크기" }
         static var leader: String { isEnglish ? "Leader" : "방장" }

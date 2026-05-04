@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import FirebaseFirestore
 
 @MainActor
@@ -97,6 +98,13 @@ final class BoardViewModel: ObservableObject {
         guard var board else { return }
         var cell = board.cell(row: row, col: col)
         if cell.completedBy.contains(memberID) {
+            // 완료 취소 시 인증 사진도 자동 삭제
+            if cell.proofImageURLs[memberID] != nil {
+                await StorageService.shared.deleteProofImage(
+                    groupID: group.id, cellID: cell.id, memberID: memberID
+                )
+                cell.proofImageURLs.removeValue(forKey: memberID)
+            }
             cell.completedBy.removeAll { $0 == memberID }
             cell.completedAt.removeValue(forKey: memberID)
         } else {
@@ -108,6 +116,32 @@ final class BoardViewModel: ObservableObject {
         detectCompletedLines(board: board)
         try? await FirestoreService.shared.updateBoard(board)
         try? await FirestoreService.shared.updateGroupLines(groupID: group.id, count: completedLines.count)
+    }
+
+    // MARK: - 인증 사진
+
+    func uploadProofImage(row: Int, col: Int, memberID: String, image: UIImage) async throws {
+        guard var board else { return }
+        var cell = board.cell(row: row, col: col)
+        let url = try await StorageService.shared.uploadProofImage(
+            image, groupID: group.id, cellID: cell.id, memberID: memberID
+        )
+        cell.proofImageURLs[memberID] = url
+        board.setCell(cell, row: row, col: col)
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
+    func deleteProofImage(row: Int, col: Int, memberID: String) async {
+        guard var board else { return }
+        var cell = board.cell(row: row, col: col)
+        await StorageService.shared.deleteProofImage(
+            groupID: group.id, cellID: cell.id, memberID: memberID
+        )
+        cell.proofImageURLs.removeValue(forKey: memberID)
+        board.setCell(cell, row: row, col: col)
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
     }
 
     func updateCellTitle(row: Int, col: Int, title: String, description: String = "") async {

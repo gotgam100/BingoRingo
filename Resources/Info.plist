@@ -15,11 +15,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.1.1</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>미션 인증 사진을 촬영하기 위해 카메라에 접근합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>미션 인증 사진을 업로드하기 위해 사진 라이브러리에 접근합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Cafe24Nyangi-B-v1.0.ttf</string>

@@ -9,7 +9,6 @@ struct BingoCellView: View {
     let size: CGFloat
     let onTap: () -> Void
     let onEdit: () -> Void
-    let onToggle: () -> Void
 
     private var isCompletedByMe: Bool { cell.completedBy.contains(currentMemberID) }
     private var isFullyCompleted: Bool { cell.isCompleted(for: memberIDs) }
@@ -144,28 +143,17 @@ struct BingoCellView: View {
         )
         .animation(.spring(duration: 0.25), value: completedCount)
         .onTapGesture {
-            if cell.title.isEmpty && isLeader {
-                onEdit()
+            if cell.title.isEmpty {
+                if isLeader { onEdit() }
+                // 미션 미등록 셀: 비리더는 진입 불가
             } else {
                 onTap()
             }
         }
         .contextMenu {
-            if isLeader {
-                Button {
-                    onEdit()
-                } label: {
+            if isLeader && !cell.title.isEmpty {
+                Button { onEdit() } label: {
                     Label(Localization.CellDetail.editMission, systemImage: "pencil")
-                }
-            }
-            if !cell.title.isEmpty {
-                Button {
-                    onToggle()
-                } label: {
-                    Label(
-                        isCompletedByMe ? Localization.CellDetail.cancelButton : Localization.CellDetail.checkButton,
-                        systemImage: isCompletedByMe ? "xmark.circle" : "checkmark.circle.fill"
-                    )
                 }
             }
         }

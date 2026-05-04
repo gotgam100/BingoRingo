@@ -13,6 +13,7 @@ struct HomeView: View {
     @State private var showPremiumAlert = false
     @State private var editingGroup: BingoGroup?
     @State private var copiedCode: String?
+    @State private var shareGroup: BingoGroup?
     @State private var memberProfiles: [String: Member] = [:]
 
     private var memberID: String {
@@ -83,6 +84,12 @@ struct HomeView: View {
                 EditGroupSheet(group: group, memberID: memberID) {
                     groupVM.fetchGroups(for: memberID)
                 }
+            }
+            .sheet(item: $shareGroup) { group in
+                let message = Localization.isEnglish
+                    ? "Join my BingoRingo! 🎯\n\nInvite Code: \(group.inviteCode)\n\nDownload BingoRingo 👇\nhttps://apps.apple.com/app/id6764120536"
+                    : "빙고링고에 같이 참여해요! 🎯\n\n초대 코드: \(group.inviteCode)\n\n빙고링고 다운로드 👇\nhttps://apps.apple.com/app/id6764120536"
+                ShareSheet(items: [message])
             }
             .alert(Localization.CreateGroup.premiumRequired, isPresented: $showPremiumAlert) {
                 Button(Localization.CreateGroup.buyInSettings) {
@@ -261,6 +268,12 @@ struct HomeView: View {
                             }
                         } label: {
                             Label(Localization.Home.copyInviteCode, systemImage: "doc.on.doc")
+                        }
+
+                        Button {
+                            shareGroup = group
+                        } label: {
+                            Label(Localization.Home.shareInvite, systemImage: "square.and.arrow.up")
                         }
                     }
                 }
@@ -960,4 +973,16 @@ struct PremiumPurchasePopup: View {
         .background(BRColors.surfaceLow)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
+}
+
+// MARK: - ShareSheet
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
