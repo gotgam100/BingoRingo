@@ -9,10 +9,14 @@ final class BoardViewModel: ObservableObject {
     @Published var completedLines: [BingoReward] = []
     @Published var memberProfiles: [String: Member] = [:]
 
-    // 축하 트리거
+    // 축하 트리거 (live — overlay에 직접 반영)
     @Published var newBingoCelebration: Int? = nil   // 새 빙고 달성 시 현재 줄 수
     @Published var showGameComplete: Bool = false     // 전체 완성
     @Published var showBingoResetToast: Bool = false  // 빙고 재설정 알림
+
+    // 보류 중인 축하 (시트가 열려 있을 때 발동된 경우 → 시트 닫힌 후 승격)
+    @Published var pendingBingoCelebration: Int? = nil
+    @Published var pendingGameComplete: Bool = false
 
     // 완성된 줄에 속하는 셀 인덱스 → 라인 번호 (나중 라인이 겹치면 덮어씀)
     @Published var completedLineCells: [Int: Int] = [:]
@@ -144,6 +148,49 @@ final class BoardViewModel: ObservableObject {
         try? await FirestoreService.shared.updateBoard(board)
     }
 
+    // MARK: - 이모티콘 반응
+
+    func toggleReaction(row: Int, col: Int, photoOwnerID: String,
+                        reactorID: String, emoji: String) async {
+        guard var board else { return }
+        let key = BingoBoard.interactionKey(cellID: board.cell(row: row, col: col).id, ownerID: photoOwnerID)
+        var reactions = board.cellReactions[key] ?? [:]
+        if reactions[reactorID] == emoji { reactions.removeValue(forKey: reactorID) }
+        else { reactions[reactorID] = emoji }
+        if reactions.isEmpty { board.cellReactions.removeValue(forKey: key) }
+        else { board.cellReactions[key] = reactions }
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
+    // MARK: - 댓글
+
+    func addComment(row: Int, col: Int, photoOwnerID: String,
+                    authorID: String, text: String) async {
+        guard var board else { return }
+        let trimmed = String(text.trimmingCharacters(in: .whitespaces).prefix(100))
+        guard !trimmed.isEmpty else { return }
+        let key = BingoBoard.interactionKey(cellID: board.cell(row: row, col: col).id, ownerID: photoOwnerID)
+        var comments = board.cellComments[key] ?? []
+        guard comments.count < 30 else { return }
+        comments.append(CellComment(authorMemberID: authorID, text: trimmed))
+        board.cellComments[key] = comments
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
+    func deleteComment(row: Int, col: Int, photoOwnerID: String,
+                       commentID: String) async {
+        guard var board else { return }
+        let key = BingoBoard.interactionKey(cellID: board.cell(row: row, col: col).id, ownerID: photoOwnerID)
+        var comments = board.cellComments[key] ?? []
+        comments.removeAll { $0.id == commentID }
+        if comments.isEmpty { board.cellComments.removeValue(forKey: key) }
+        else { board.cellComments[key] = comments }
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
     func updateCellTitle(row: Int, col: Int, title: String, description: String = "") async {
         guard var board else { return }
 
@@ -162,6 +209,23 @@ final class BoardViewModel: ObservableObject {
         try? await FirestoreService.shared.updateGroupRewards(
             groupID: group.id, rewards: rewards, allBingoReward: allBingoReward
         )
+    }
+
+    /// 보류 중인 축하를 실제 overlay로 승격시킨다.
+    /// BoardView가 시트가 닫혔을 때(onDismiss) 또는 pending 값 변화 감지 시 호출.
+    func triggerPendingCelebration() {
+        if let count = pendingBingoCelebration {
+            pendingBingoCelebration = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.newBingoCelebration = count
+            }
+        }
+        if pendingGameComplete {
+            pendingGameComplete = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.showGameComplete = true
+            }
+        }
     }
 
     func markCompleted() async {
@@ -226,14 +290,14 @@ final class BoardViewModel: ObservableObject {
         }
 
         if allCellsComplete && !previousAllCellsComplete {
-            // 모든 셀 전원 완료 → 전체 완성
+            // 모든 셀 전원 완료 → 전체 완성 (시트 닫힌 후 실제 발동은 BoardView가 결정)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                self.showGameComplete = true
+                self.pendingGameComplete = true
             }
         } else if newCount > previousCompletedCount {
-            // 새 빙고 줄 달성
+            // 새 빙고 줄 달성 (시트 닫힌 후 실제 발동은 BoardView가 결정)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                self.newBingoCelebration = newCount
+                self.pendingBingoCelebration = newCount
             }
         } else if newCount < previousCompletedCount {
             // 빙고가 취소됨 (멤버 추가 등으로 인해)

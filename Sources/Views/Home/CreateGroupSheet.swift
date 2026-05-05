@@ -21,7 +21,6 @@ struct CreateGroupSheet: View {
         [
             (3, "3×3", Localization.CreateGroup.sizeFast),
             (4, "4×4", Localization.CreateGroup.sizeClassic),
-            (5, "5×5", Localization.CreateGroup.sizeEpic),
         ]
     }
 

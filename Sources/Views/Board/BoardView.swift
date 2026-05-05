@@ -36,7 +36,6 @@ struct BoardView: View {
     private var memberID: String {
         authViewModel.currentMember?.id ?? Auth.auth().currentUser?.uid ?? ""
     }
-    private var isLeader: Bool { boardVM.group.leaderID == memberID }
 
     init(group: BingoGroup, allGroups: [BingoGroup] = []) {
         _boardVM = StateObject(wrappedValue: BoardViewModel(group: group))
@@ -121,7 +120,19 @@ struct BoardView: View {
             let urls = board.cells.flatMap { $0.proofImageURLs.values }
             CachedAsyncImage.prefetch(urls: urls)
         }
-        .sheet(item: $selectedIndex) { index in
+        // 시트가 열려있지 않을 때 pending 축하가 발생하면 즉시 발동 (다른 멤버의 실시간 업데이트 등)
+        .onChange(of: boardVM.pendingBingoCelebration) {
+            guard selectedIndex == nil else { return }
+            boardVM.triggerPendingCelebration()
+        }
+        .onChange(of: boardVM.pendingGameComplete) {
+            guard selectedIndex == nil, boardVM.pendingGameComplete else { return }
+            boardVM.triggerPendingCelebration()
+        }
+        .sheet(item: $selectedIndex, onDismiss: {
+            // 시트 닫힌 후 보류 중인 빙고 축하를 발동
+            boardVM.triggerPendingCelebration()
+        }) { index in
             if let board = boardVM.board {
                 CellDetailView(
                     cell: board.cell(row: index.row, col: index.col),
@@ -150,8 +161,7 @@ struct BoardView: View {
             RewardEditSheet(
                 rewards: boardVM.group.lineRewards,
                 allBingoReward: boardVM.group.allBingoReward,
-                size: boardVM.group.boardSize,
-                isReadOnly: !isLeader
+                size: boardVM.group.boardSize
             ) { updated, allBingo in
                 Task { await boardVM.updateRewards(updated, allBingoReward: allBingo) }
             }
@@ -238,9 +248,9 @@ struct BoardView: View {
                 Spacer()
                 Button { showRewardEdit = true } label: {
                     HStack(spacing: 4) {
-                        Image(systemName: isLeader ? "pencil" : "eye")
+                        Image(systemName: "pencil")
                             .font(.system(size: 11, weight: .bold))
-                        Text(isLeader ? Localization.Board.editReward : Localization.Board.viewReward)
+                        Text(Localization.Board.editReward)
                             .font(.system(size: 11, weight: .bold))
                     }
                     .foregroundStyle(BRColors.cyan)
@@ -252,7 +262,7 @@ struct BoardView: View {
             }
 
             if !hasAnyReward {
-                Text(isLeader ? Localization.Board.rewardHintLeader : Localization.Board.rewardHintMember)
+                Text(Localization.Board.rewardHintLeader)
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(BRColors.onSurfaceMuted)
                     .padding(.vertical, 4)
@@ -331,7 +341,6 @@ struct BoardView: View {
                                 cell: board.cell(row: row, col: col),
                                 memberIDs: boardVM.group.memberIDs,
                                 currentMemberID: memberID,
-                                isLeader: isLeader,
                                 completedLineColor: boardVM.completedLineCells[idx]
                                     .map { Self.lineColors[$0 % Self.lineColors.count] },
                                 size: cellSize,

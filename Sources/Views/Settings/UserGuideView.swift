@@ -39,18 +39,52 @@ struct UserGuideView: View {
                             title: isEnglish ? "Bingo Board" : "빙고 화면",
                             items: isEnglish ? [
                                 GuideItem(symbol: "crown.fill",
-                                          text: "Only the leader can edit missions and set rewards. Tap the 'Edit Reward' button to set bingo rewards."),
+                                          text: "All members can edit missions and set rewards. Tap the 'Edit Reward' button to set bingo rewards."),
                                 GuideItem(symbol: "star.fill",
                                           text: "The 'Current Goal' section shows your next reward milestone and tracks progress."),
                                 GuideItem(symbol: "camera.fill",
                                           text: "Tap a cell to open the mission detail. Upload a proof photo to automatically mark the mission as complete.")
                             ] : [
                                 GuideItem(symbol: "crown.fill",
-                                          text: "방장만 미션을 수정하고 보상을 설정할 수 있어요. '보상 수정' 버튼을 눌러 빙고 달성 보상을 입력해보세요."),
+                                          text: "모든 참여자가 미션을 수정하고 보상을 설정할 수 있어요. '보상 수정' 버튼을 눌러 빙고 달성 보상을 입력해보세요."),
                                 GuideItem(symbol: "star.fill",
                                           text: "'현재 목표' 섹션에서 다음 보상 목표와 진행 상황을 한눈에 확인할 수 있어요."),
                                 GuideItem(symbol: "camera.fill",
                                           text: "셀을 탭하면 미션 상세 창으로 진입해요. 인증 사진을 등록하면 자동으로 미션이 완료돼요.")
+                            ]
+                        )
+
+                        // 미션 화면
+                        guideSection(
+                            icon: "photo.fill",
+                            title: isEnglish ? "Mission Screen" : "미션 화면",
+                            items: isEnglish ? [
+                                GuideItem(symbol: "camera.fill",
+                                          text: "Upload a proof photo to complete the mission. Your photo is automatically marked as complete once uploaded."),
+                                GuideItem(symbol: "bubble.left.and.bubble.right.fill",
+                                          text: "Try adding reactions and comments to others' photos. Express your feelings with emojis and share your thoughts!")
+                            ] : [
+                                GuideItem(symbol: "camera.fill",
+                                          text: "인증 사진을 올려 미션을 완료해요. 사진이 업로드되면 자동으로 미션이 완료돼요."),
+                                GuideItem(symbol: "bubble.left.and.bubble.right.fill",
+                                          text: "상대방의 사진에 반응과 댓글을 달아보세요. 이모지로 감정을 표현하고 댓글로 생각을 나눠요!")
+                            ]
+                        )
+
+                        // 모두 함께 방 관리
+                        guideSection(
+                            icon: "people.fill",
+                            title: isEnglish ? "Manage Room Together" : "모두 함께 방 관리",
+                            items: isEnglish ? [
+                                GuideItem(symbol: "checkmark.circle.fill",
+                                          text: "All members, not just the leader, can manage the room together."),
+                                GuideItem(symbol: "pencil.circle.fill",
+                                          text: "Edit missions and set rewards for your bingo.")
+                            ] : [
+                                GuideItem(symbol: "checkmark.circle.fill",
+                                          text: "방장 아닌 참여자도 모두 함께 방을 관리 할 수 있어요."),
+                                GuideItem(symbol: "pencil.circle.fill",
+                                          text: "미션을 수정하고 빙고 보상을 설정할 수 있어요.")
                             ]
                         )
 

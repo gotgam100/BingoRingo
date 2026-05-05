@@ -21,6 +21,7 @@
 		26A9DB720223C666E329F373 /* BingoGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9560BE2C6593094F4CF47276 /* BingoGroup.swift */; };
 		2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4815FF300FBFBD6546F6BFCC /* BRTypography.swift */; };
 		3062AABAECF0AC1F5068AB0A /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A785C6D0D253B83BA0235192 /* GroupViewModel.swift */; };
+		3659A8A227B54EB18325F1C9 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0288ABC67B2342E596F0FED9 /* ImageCache.swift */; };
 		457F78CB232FE88BD172D6AF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195835304BD87F3DC6DA80E4 /* RootView.swift */; };
 		49D4FA5FE4E39E5636DAB19A /* CellDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0482C3C895C6A6213AF0A500 /* CellDetailView.swift */; };
 		4A10E6D5464D4E31963E38A2 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6AC498B425D44DF9863956AB /* GoogleSignIn */; };
@@ -28,7 +29,6 @@
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
 		54B9F28C2FA84E4D0019D2F1 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */; };
-		3659A8A227B54EB18325F1C9 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0288ABC67B2342E596F0FED9 /* ImageCache.swift */; };
 		54C0FBE32F9D314C00CD4421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54C0FBE22F9D314C00CD4421 /* Assets.xcassets */; };
 		54E7F7C90BB54CD5B75E2395 /* Paperlogy-5Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D67AA27ED24900BD9C6CCE /* Paperlogy-5Medium.ttf */; };
 		54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */; };
@@ -63,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		0162A5F65B955987766F46B8 /* BRShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRShapes.swift; sourceTree = "<group>"; };
+		0288ABC67B2342E596F0FED9 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		03A148DFD5FD4934B38F9DE6 /* Paperlogy-1Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Paperlogy-1Thin.ttf"; path = "Resources/Fonts/Paperlogy-1Thin.ttf"; sourceTree = "<group>"; };
 		0482C3C895C6A6213AF0A500 /* CellDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellDetailView.swift; sourceTree = "<group>"; };
 		10395079EAF31452DE60104B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		54B9F2882F9E14400019D2F1 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		0288ABC67B2342E596F0FED9 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		54C0FBE22F9D314C00CD4421 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingo.entitlements; sourceTree = "<group>"; };
@@ -475,7 +475,7 @@
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
@@ -485,7 +485,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bingoringo.app;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -627,7 +627,7 @@
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
@@ -637,7 +637,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bingoringo.app;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

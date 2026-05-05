@@ -8,6 +8,10 @@ struct BingoBoard: Identifiable, Codable, Equatable {
     var memberIDs: [String]
     var leaderID: String
     var createdAt: Date = Date()
+    // key: "cellID|photoOwnerMemberID" → [reactorMemberID: emoji]
+    var cellReactions: [String: [String: String]] = [:]
+    // key: "cellID|photoOwnerMemberID" → [CellComment]
+    var cellComments: [String: [CellComment]] = [:]
 
     /// 안전한 셀 접근 — 인덱스 범위 초과 시 빈 셀 반환
     func cell(row: Int, col: Int) -> BingoCell {
@@ -22,10 +26,14 @@ struct BingoBoard: Identifiable, Codable, Equatable {
         cells[index] = cell
     }
 
+    static func interactionKey(cellID: String, ownerID: String) -> String {
+        "\(cellID)|\(ownerID)"
+    }
+
     // MARK: - Firestore 역호환: 키 누락 + 타입 불일치 모두 기본값으로 처리
 
     enum CodingKeys: String, CodingKey {
-        case id, title, size, cells, memberIDs, leaderID, createdAt
+        case id, title, size, cells, memberIDs, leaderID, createdAt, cellReactions, cellComments
     }
 
     init(from decoder: Decoder) throws {
@@ -37,6 +45,9 @@ struct BingoBoard: Identifiable, Codable, Equatable {
         memberIDs = (try? c.decode([String].self,    forKey: .memberIDs)) ?? []
         leaderID  = (try? c.decode(String.self,      forKey: .leaderID))  ?? ""
         createdAt = (try? c.decode(Date.self,        forKey: .createdAt)) ?? Date()
+
+        cellReactions = (try? c.decode([String: [String: String]].self, forKey: .cellReactions)) ?? [:]
+        cellComments  = (try? c.decode([String: [CellComment]].self,    forKey: .cellComments))  ?? [:]
 
         // cells: 디코딩 실패 시 size×size 개의 빈 셀로 복구
         let decoded = (try? c.decode([BingoCell].self, forKey: .cells)) ?? []
@@ -70,5 +81,7 @@ struct BingoBoard: Identifiable, Codable, Equatable {
         try c.encode(memberIDs, forKey: .memberIDs)
         try c.encode(leaderID, forKey: .leaderID)
         try c.encode(createdAt, forKey: .createdAt)
+        try c.encode(cellReactions, forKey: .cellReactions)
+        try c.encode(cellComments, forKey: .cellComments)
     }
 }

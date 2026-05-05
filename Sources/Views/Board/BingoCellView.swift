@@ -4,7 +4,6 @@ struct BingoCellView: View {
     let cell: BingoCell
     let memberIDs: [String]
     let currentMemberID: String
-    let isLeader: Bool
     let completedLineColor: Color?
     let size: CGFloat
     let onTap: () -> Void
@@ -144,14 +143,13 @@ struct BingoCellView: View {
         .animation(.spring(duration: 0.25), value: completedCount)
         .onTapGesture {
             if cell.title.isEmpty {
-                if isLeader { onEdit() }
-                // 미션 미등록 셀: 비리더는 진입 불가
+                onEdit()
             } else {
                 onTap()
             }
         }
         .contextMenu {
-            if isLeader && !cell.title.isEmpty {
+            if !cell.title.isEmpty {
                 Button { onEdit() } label: {
                     Label(Localization.CellDetail.editMission, systemImage: "pencil")
                 }

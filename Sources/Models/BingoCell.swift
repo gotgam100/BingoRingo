@@ -1,5 +1,37 @@
 import Foundation
 
+// MARK: - 이모티콘 팔레트
+
+enum ReactionPalette {
+    static let emojis = ["🔥", "❤️", "😂", "👍", "😮", "💪", "😇", "🥺", "😥", "👎"]
+}
+
+// MARK: - 인증사진 댓글
+
+struct CellComment: Identifiable, Codable, Equatable {
+    var id: String = UUID().uuidString
+    var authorMemberID: String
+    var text: String
+    var createdAt: Date = Date()
+
+    enum CodingKeys: String, CodingKey { case id, authorMemberID, text, createdAt }
+
+    init(authorMemberID: String, text: String) {
+        self.authorMemberID = authorMemberID
+        self.text = text
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id             = (try? c.decode(String.self, forKey: .id))             ?? UUID().uuidString
+        authorMemberID = (try? c.decode(String.self, forKey: .authorMemberID)) ?? ""
+        text           = (try? c.decode(String.self, forKey: .text))           ?? ""
+        createdAt      = (try? c.decode(Date.self,   forKey: .createdAt))      ?? Date()
+    }
+}
+
+// MARK: - 빙고 셀
+
 struct BingoCell: Identifiable, Codable, Equatable {
     var id: String = UUID().uuidString
     var title: String

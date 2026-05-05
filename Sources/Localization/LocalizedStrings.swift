@@ -129,6 +129,12 @@ enum Localization {
         static var checkButton: String { isEnglish ? "Mark Complete" : "완료 체크" }
         static var editMission: String { isEnglish ? "Edit Mission" : "미션 수정" }
         static var save: String { isEnglish ? "Save" : "저장하기" }
+        static var reactions: String { isEnglish ? "Reactions" : "반응" }
+        static var comments: String { isEnglish ? "Comments" : "댓글" }
+        static var commentPlaceholder: String { isEnglish ? "Add a comment..." : "댓글 달기..." }
+        static var deleteComment: String { isEnglish ? "Delete" : "삭제" }
+        static var noComments: String { isEnglish ? "Be the first to comment!" : "첫 댓글을 남겨보세요!" }
+        static var send: String { isEnglish ? "Send" : "전송" }
     }
 
     enum EditGroup {

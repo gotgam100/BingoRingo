@@ -20,6 +20,10 @@ struct CellDetailView: View {
     @State private var currentPhotoIndex = 0
     @State private var showCompletionToast = false
     @State private var showCancellationToast = false
+    @State private var commentText = ""
+    @FocusState private var commentFocused: Bool
+    @State private var showEmojiPicker = false
+    @State private var showReactionViewer = false
 
     init(cell: BingoCell, row: Int, col: Int, memberIDs: [String], currentMemberID: String,
          boardVM: BoardViewModel, onToggle: @escaping () -> Void) {
@@ -50,6 +54,23 @@ struct CellDetailView: View {
 
     // 사진 프레임 1:1 크기 (화면 너비 기반)
     private var photoSize: CGFloat { min(UIScreen.main.bounds.width - 48, 340) }
+
+    private var currentOwnerID: String {
+        guard currentPhotoIndex < photoSlideMembers.count else { return "" }
+        return photoSlideMembers[currentPhotoIndex]
+    }
+
+    private var interactionKey: String {
+        BingoBoard.interactionKey(cellID: currentCell.id, ownerID: currentOwnerID)
+    }
+
+    private var reactionsForCurrentPhoto: [String: String] {
+        boardVM.board?.cellReactions[interactionKey] ?? [:]
+    }
+
+    private var commentsForCurrentPhoto: [CellComment] {
+        boardVM.board?.cellComments[interactionKey] ?? []
+    }
 
     /// 슬라이드에 표시할 멤버: 나 우선 + 완료/사진 올린 멤버
     private var photoSlideMembers: [String] {
@@ -110,6 +131,12 @@ struct CellDetailView: View {
                         photoSection
                             .padding(.top, 20)
 
+                        // ── 댓글 (사진이 있을 때만) ──
+                        if currentCell.proofImageURLs[currentOwnerID] != nil {
+                            commentSection
+                                .padding(.top, 16)
+                        }
+
                         // 업로드 에러
                         if let error = uploadError {
                             Text(error)
@@ -122,6 +149,7 @@ struct CellDetailView: View {
                         Spacer(minLength: 40)
                     }
                 }
+                .scrollDismissesKeyboard(.interactively)
 
                 // ── 사진 소스 선택 중앙 오버레이 ──
                 if showSourceMenu {
@@ -131,6 +159,16 @@ struct CellDetailView: View {
                 // ── 삭제 확인 중앙 오버레이 ──
                 if showDeleteConfirm {
                     deleteConfirmOverlay
+                }
+
+                // ── 이모지 반응 피커 ──
+                if showEmojiPicker {
+                    emojiPickerOverlay
+                }
+
+                // ── 반응 목록 뷰어 (내 사진용) ──
+                if showReactionViewer {
+                    reactionViewerOverlay
                 }
 
                 // ── 미션 완료 토스트 ──
@@ -221,6 +259,12 @@ struct CellDetailView: View {
             )
             .fullScreenCover(item: $fullScreenURL) { urlString in
                 FullScreenPhotoView(urlString: urlString)
+            }
+            .onChange(of: currentPhotoIndex) {
+                commentText = ""
+                commentFocused = false
+                showEmojiPicker = false
+                showReactionViewer = false
             }
             .onAppear {
                 // 뷰 등장 시 현재 셀의 모든 인증사진을 백그라운드에서 미리 로드
@@ -495,6 +539,11 @@ struct CellDetailView: View {
             }
             .frame(width: photoSize, height: photoSize)
             .clipShape(RoundedRectangle(cornerRadius: 18))
+            .overlay(alignment: .bottomLeading) {
+                if proofURL != nil {
+                    photoReactionOverlay(for: mid)
+                }
+            }
 
             // 멤버 정보
             HStack(spacing: 10) {
@@ -532,6 +581,295 @@ struct CellDetailView: View {
                 }
             }
             .padding(.top, 10)
+        }
+    }
+
+    // MARK: - 사진 프레임 내 반응 오버레이 (좌하단)
+
+    private func photoReactionOverlay(for ownerID: String) -> some View {
+        let key = BingoBoard.interactionKey(cellID: currentCell.id, ownerID: ownerID)
+        let reactions = boardVM.board?.cellReactions[key] ?? [:]
+        let aggregated: [(String, Int)] = ReactionPalette.emojis.compactMap { emoji in
+            let count = reactions.values.filter { $0 == emoji }.count
+            return count > 0 ? (emoji, count) : nil
+        }
+        let isOwnPhoto = ownerID == currentMemberID
+
+        return VStack(alignment: .leading, spacing: 6) {
+            // 집계된 이모지 chips
+            if !aggregated.isEmpty {
+                HStack(spacing: 5) {
+                    ForEach(aggregated, id: \.0) { emoji, count in
+                        Text(count > 1 ? "\(emoji) \(count)" : emoji)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.black.opacity(0.5))
+                            .clipShape(Capsule())
+                    }
+                }
+            }
+
+            // 반응 버튼 — 내 사진: 반응 목록 보기 / 타인 사진: 이모지 피커 열기
+            Button {
+                if isOwnPhoto { showReactionViewer = true }
+                else { showEmojiPicker = true }
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: isOwnPhoto ? "face.smiling" : "face.smiling")
+                        .font(.system(size: 13, weight: .semibold))
+                    Text(Localization.isEnglish ? "React" : "반응")
+                        .font(.system(size: 13, weight: .semibold))
+                }
+                .foregroundStyle(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(Color.black.opacity(0.5))
+                .clipShape(Capsule())
+            }
+        }
+        .padding(12)
+    }
+
+    // MARK: - 이모지 피커 오버레이
+
+    private var emojiPickerOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.45)
+                .ignoresSafeArea()
+                .onTapGesture { showEmojiPicker = false }
+
+            VStack(spacing: 16) {
+                Text(Localization.CellDetail.reactions)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(BRColors.onSurface)
+
+                let myReaction = reactionsForCurrentPhoto[currentMemberID]
+                let cols = Array(repeating: GridItem(.flexible(), spacing: 8), count: 5)
+                LazyVGrid(columns: cols, spacing: 8) {
+                    ForEach(ReactionPalette.emojis, id: \.self) { emoji in
+                        let isSelected = myReaction == emoji
+                        Button {
+                            Task {
+                                await boardVM.toggleReaction(
+                                    row: row, col: col,
+                                    photoOwnerID: currentOwnerID,
+                                    reactorID: currentMemberID,
+                                    emoji: emoji
+                                )
+                            }
+                            showEmojiPicker = false
+                        } label: {
+                            Text(emoji)
+                                .font(.system(size: 28))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(isSelected ? BRColors.primaryDim : BRColors.surfaceLow)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .strokeBorder(isSelected ? BRColors.primary : Color.clear, lineWidth: 2)
+                                )
+                        }
+                        .animation(.spring(duration: 0.2), value: isSelected)
+                    }
+                }
+            }
+            .padding(24)
+            .background(BRColors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(color: .black.opacity(0.18), radius: 24, y: 8)
+            .padding(.horizontal, 36)
+        }
+    }
+
+    // MARK: - 반응 목록 뷰어 (내 사진용)
+
+    private var reactionViewerOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.45)
+                .ignoresSafeArea()
+                .onTapGesture { showReactionViewer = false }
+
+            VStack(spacing: 16) {
+                Text(Localization.isEnglish ? "Reactions" : "반응")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(BRColors.onSurface)
+
+                let reactions = reactionsForCurrentPhoto
+                if reactions.isEmpty {
+                    Text(Localization.isEnglish ? "No reactions yet." : "아직 반응이 없어요.")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                        .padding(.vertical, 8)
+                } else {
+                    VStack(spacing: 0) {
+                        ForEach(Array(reactions.keys).sorted(), id: \.self) { reactorID in
+                            let emoji = reactions[reactorID] ?? ""
+                            let profile = boardVM.memberProfiles[reactorID]
+                            HStack(spacing: 12) {
+                                ZStack {
+                                    Circle().fill(BRColors.primaryDim).frame(width: 36, height: 36)
+                                    Text(profile?.profileEmoji ?? "😀").font(.system(size: 18))
+                                }
+                                Text(profile?.displayName ?? (Localization.isEnglish ? "Unknown" : "알 수 없음"))
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(BRColors.onSurface)
+                                Spacer()
+                                Text(emoji).font(.system(size: 24))
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            if reactorID != Array(reactions.keys).sorted().last {
+                                Divider().padding(.leading, 64).opacity(0.5)
+                            }
+                        }
+                    }
+                    .background(BRColors.surfaceLow)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+
+                Button { showReactionViewer = false } label: {
+                    Text(Localization.isEnglish ? "Close" : "닫기")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(BRColors.primary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(BRColors.primaryDim)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
+            .padding(24)
+            .background(BRColors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(color: .black.opacity(0.18), radius: 24, y: 8)
+            .padding(.horizontal, 36)
+        }
+    }
+
+    // MARK: - 댓글 섹션
+
+    private var commentSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(Localization.CellDetail.comments)
+                .font(.system(size: 15, weight: .bold))
+                .foregroundStyle(BRColors.onSurface)
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+
+            if commentsForCurrentPhoto.isEmpty {
+                Text(Localization.CellDetail.noComments)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(BRColors.onSurfaceMuted)
+                    .padding(.horizontal, 24)
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(commentsForCurrentPhoto) { comment in
+                        commentRow(comment: comment)
+                        if comment.id != commentsForCurrentPhoto.last?.id {
+                            Divider()
+                                .padding(.leading, 58)
+                                .opacity(0.5)
+                        }
+                    }
+                }
+                .background(BRColors.surfaceLow)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .padding(.horizontal, 24)
+            }
+
+            // 댓글 입력창
+            HStack(spacing: 10) {
+                TextField(Localization.CellDetail.commentPlaceholder, text: $commentText)
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.black)
+                    .focused($commentFocused)
+                    .submitLabel(.send)
+                    .onSubmit { sendComment() }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(BRColors.surfaceLow)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+
+                Button {
+                    sendComment()
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 38, height: 38)
+                        .background(commentText.trimmingCharacters(in: .whitespaces).isEmpty
+                                    ? BRColors.surfaceContainer : BRColors.primary)
+                        .clipShape(Circle())
+                }
+                .disabled(commentText.trimmingCharacters(in: .whitespaces).isEmpty)
+                .animation(.spring(duration: 0.2), value: commentText.isEmpty)
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 16)
+        }
+    }
+
+    private func commentRow(comment: CellComment) -> some View {
+        let profile = boardVM.memberProfiles[comment.authorMemberID]
+        let isMe = comment.authorMemberID == currentMemberID
+
+        return HStack(alignment: .top, spacing: 10) {
+            ZStack {
+                Circle().fill(BRColors.primaryDim).frame(width: 32, height: 32)
+                Text(profile?.profileEmoji ?? "😀").font(.system(size: 16))
+            }
+
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 6) {
+                    Text(profile?.displayName ?? (Localization.isEnglish ? "Unknown" : "알 수 없음"))
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundStyle(BRColors.onSurface)
+                    Text(Self.dateFormatter.string(from: comment.createdAt))
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                }
+                Text(comment.text)
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundStyle(BRColors.onSurface)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Spacer()
+
+            if isMe {
+                Button {
+                    Task {
+                        await boardVM.deleteComment(
+                            row: row, col: col,
+                            photoOwnerID: currentOwnerID,
+                            commentID: comment.id
+                        )
+                    }
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.system(size: 13))
+                        .foregroundStyle(BRColors.tertiary.opacity(0.6))
+                }
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+    }
+
+    private func sendComment() {
+        let trimmed = commentText.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+        commentText = ""
+        commentFocused = false
+        Task {
+            await boardVM.addComment(
+                row: row, col: col,
+                photoOwnerID: currentOwnerID,
+                authorID: currentMemberID,
+                text: trimmed
+            )
         }
     }
 }
