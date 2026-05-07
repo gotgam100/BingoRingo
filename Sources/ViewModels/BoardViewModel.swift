@@ -109,8 +109,18 @@ final class BoardViewModel: ObservableObject {
                 )
                 cell.proofImageURLs.removeValue(forKey: memberID)
             }
+            let key = BingoBoard.interactionKey(cellID: cell.id, ownerID: memberID)
             cell.completedBy.removeAll { $0 == memberID }
             cell.completedAt.removeValue(forKey: memberID)
+            board.cellReactions.removeValue(forKey: key)
+            board.cellComments.removeValue(forKey: key)
+            board.setCell(cell, row: row, col: col)
+            self.board = board
+            detectCompletedLines(board: board)
+            try? await FirestoreService.shared.updateBoard(board)
+            try? await FirestoreService.shared.removeInteractions(boardID: board.id, interactionKey: key)
+            try? await FirestoreService.shared.updateGroupLines(groupID: group.id, count: completedLines.count)
+            return
         } else {
             cell.completedBy.append(memberID)
             cell.completedAt[memberID] = Date()
@@ -139,13 +149,21 @@ final class BoardViewModel: ObservableObject {
     func deleteProofImage(row: Int, col: Int, memberID: String) async {
         guard var board else { return }
         var cell = board.cell(row: row, col: col)
+        let key = BingoBoard.interactionKey(cellID: cell.id, ownerID: memberID)
         await StorageService.shared.deleteProofImage(
             groupID: group.id, cellID: cell.id, memberID: memberID
         )
         cell.proofImageURLs.removeValue(forKey: memberID)
+        cell.completedBy.removeAll { $0 == memberID }
+        cell.completedAt.removeValue(forKey: memberID)
+        board.cellReactions.removeValue(forKey: key)
+        board.cellComments.removeValue(forKey: key)
         board.setCell(cell, row: row, col: col)
         self.board = board
+        detectCompletedLines(board: board)
         try? await FirestoreService.shared.updateBoard(board)
+        try? await FirestoreService.shared.removeInteractions(boardID: board.id, interactionKey: key)
+        try? await FirestoreService.shared.updateGroupLines(groupID: group.id, count: completedLines.count)
     }
 
     // MARK: - 이모티콘 반응
@@ -174,6 +192,21 @@ final class BoardViewModel: ObservableObject {
         var comments = board.cellComments[key] ?? []
         guard comments.count < 30 else { return }
         comments.append(CellComment(authorMemberID: authorID, text: trimmed))
+        board.cellComments[key] = comments
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
+    func editComment(row: Int, col: Int, photoOwnerID: String,
+                     commentID: String, newText: String) async {
+        guard var board else { return }
+        let trimmed = String(newText.trimmingCharacters(in: .whitespaces).prefix(100))
+        guard !trimmed.isEmpty else { return }
+        let key = BingoBoard.interactionKey(cellID: board.cell(row: row, col: col).id, ownerID: photoOwnerID)
+        var comments = board.cellComments[key] ?? []
+        if let idx = comments.firstIndex(where: { $0.id == commentID }) {
+            comments[idx].text = trimmed
+        }
         board.cellComments[key] = comments
         self.board = board
         try? await FirestoreService.shared.updateBoard(board)

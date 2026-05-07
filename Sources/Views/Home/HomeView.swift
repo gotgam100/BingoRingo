@@ -539,7 +539,9 @@ struct SettingsView: View {
                                                 Text(Localization.Settings.premiumTitle)
                                                     .font(.system(size: 16, weight: .bold))
                                                     .foregroundStyle(BRColors.onSurface)
-                                                Text(Localization.Settings.premiumDesc)
+                                                Text(Localization.isEnglish
+                                                    ? "Unlimited bingo creation, $0.99"
+                                                    : Localization.Settings.premiumDesc)
                                                     .font(.system(size: 12, weight: .medium))
                                                     .foregroundStyle(BRColors.onSurfaceMuted)
                                             }
@@ -594,6 +596,9 @@ struct SettingsView: View {
                                     Menu {
                                         Button {
                                             selectedLanguage = "한글"
+                                            if let uid = Auth.auth().currentUser?.uid {
+                                                Task { try? await FirestoreService.shared.updateLanguage(memberID: uid, language: "한글") }
+                                            }
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                                 dismiss()
                                             }
@@ -607,6 +612,9 @@ struct SettingsView: View {
                                         }
                                         Button {
                                             selectedLanguage = "English"
+                                            if let uid = Auth.auth().currentUser?.uid {
+                                                Task { try? await FirestoreService.shared.updateLanguage(memberID: uid, language: "English") }
+                                            }
                                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                                 dismiss()
                                             }
@@ -787,10 +795,10 @@ struct PremiumPurchasePopup: View {
     private var priceLabel: String {
         if let product = premiumManager.product {
             return Localization.isEnglish
-                ? "Buy for \(product.displayPrice)"
+                ? "Buy for $0.99"
                 : "\(product.displayPrice)으로 구매"
         }
-        return Localization.isEnglish ? Localization.Settings.buyNow : "1,100원으로 구매"
+        return Localization.isEnglish ? "Buy for $0.99" : "1,100원으로 구매"
     }
 
     private var isPurchasing: Bool {
@@ -840,7 +848,7 @@ struct PremiumPurchasePopup: View {
 
                         HStack {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(premiumManager.product?.displayPrice ?? (Localization.isEnglish ? "-" : "1,100원"))
+                                Text(Localization.isEnglish ? "$0.99" : (premiumManager.product?.displayPrice ?? "1,100원"))
                                     .font(Paperlogy.black(28))
                                     .foregroundStyle(BRColors.primary)
                                 Text(Localization.Settings.oneTimePurchase)

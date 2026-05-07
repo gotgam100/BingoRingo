@@ -59,7 +59,7 @@ enum Localization {
         static var support: String { isEnglish ? "Support" : "고객지원" }
         static var premium: String { isEnglish ? "Premium" : "프리미엄" }
         static var premiumTitle: String { isEnglish ? "BingoRingo Premium" : "BingoRingo 프리미엄" }
-        static var premiumDesc: String { isEnglish ? "Unlimited bingo creation, 1,100 won" : "빙고 무제한 생성, 1,100원" }
+        static var premiumDesc: String { "빙고 무제한 생성, 1,100원" }
         static var premiumMember: String { isEnglish ? "✓ Premium Member" : "✓ 프리미엄 회원" }
         static var purchaseDate: String { isEnglish ? "Purchase Date: " : "구매일: " }
         static var close: String { isEnglish ? "Close" : "닫기" }
@@ -169,5 +169,20 @@ enum Localization {
         static var deleteAccount: String { isEnglish ? "Delete Account" : "계정 삭제" }
         static var deleteAccountConfirm: String { isEnglish ? "Delete your account?" : "계정을 삭제할까요?" }
         static var deleteAccountMessage: String { isEnglish ? "All data will be permanently deleted and cannot be recovered." : "모든 데이터가 영구 삭제되며 복구할 수 없어요." }
+    }
+
+    enum RoomSettings {
+        static var title: String { isEnglish ? "Room Settings" : "방설정" }
+        static var inviteCode: String { isEnglish ? "Invite Code" : "초대 코드" }
+        static var copy: String { isEnglish ? "Copy" : "복사" }
+        static var copied: String { isEnglish ? "Copied!" : "복사 완료" }
+        static var notifications: String { isEnglish ? "Notifications" : "알림 설정" }
+        static var notifMissionComplete: String { isEnglish ? "Mission completion" : "미션 완료 알림" }
+        static var notifBingoAchieved: String { isEnglish ? "Bingo achievement" : "빙고 달성 알림" }
+        static var notifReactionComment: String { isEnglish ? "Reactions & comments" : "반응 / 댓글 알림" }
+        static var notifNewMember: String { isEnglish ? "New member joined" : "새 멤버 참여 알림" }
+        static var systemNotifDisabled: String { isEnglish ? "System notifications are disabled." : "iOS 시스템 알림이 꺼져 있어요." }
+        static var openSystemSettings: String { isEnglish ? "Open Settings" : "설정 앱 열기" }
+        static var close: String { isEnglish ? "Close" : "닫기" }
     }
 }

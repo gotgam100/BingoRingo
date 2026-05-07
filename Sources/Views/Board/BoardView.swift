@@ -8,8 +8,8 @@ struct BoardView: View {
     @State private var selectedIndex: CellIndex?
     @State private var editingIndex: CellIndex?
     @State private var showRewardEdit = false
-    @State private var copiedInviteCode: String?
     @State private var navigateTo: BingoGroup? = nil
+    @State private var showRoomSettings = false
 
     let allGroups: [BingoGroup]
 
@@ -101,14 +101,10 @@ struct BoardView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    UIPasteboard.general.string = boardVM.group.inviteCode
-                    copiedInviteCode = boardVM.group.inviteCode
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        copiedInviteCode = nil
-                    }
+                    showRoomSettings = true
                 } label: {
-                    Image(systemName: "link.circle")
-                        .font(.system(size: 15, weight: .semibold))
+                    Image(systemName: "ellipsis.circle.fill")
+                        .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(BRColors.primary)
                 }
             }
@@ -166,6 +162,14 @@ struct BoardView: View {
                 Task { await boardVM.updateRewards(updated, allBingoReward: allBingo) }
             }
         }
+        .sheet(isPresented: $showRoomSettings) {
+            RoomSettingsSheet(
+                groupID: boardVM.group.id,
+                groupName: boardVM.group.name,
+                inviteCode: boardVM.group.inviteCode,
+                memberID: memberID
+            )
+        }
         .overlay {
             if let count = boardVM.newBingoCelebration {
                 BingoCelebrationOverlay(count: count) {
@@ -206,26 +210,6 @@ struct BoardView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(BRColors.tertiary.opacity(0.08))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(16)
-                }
-                .transition(.move(edge: .top).combined(with: .opacity))
-            }
-        }
-        .overlay(alignment: .top) {
-            if copiedInviteCode != nil {
-                VStack {
-                    HStack(spacing: 8) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BRColors.primary)
-                        Text(Localization.Board.inviteCodeCopied)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(BRColors.primary)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(BRColors.primary.opacity(0.08))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(16)
                 }

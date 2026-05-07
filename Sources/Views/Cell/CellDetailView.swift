@@ -21,6 +21,7 @@ struct CellDetailView: View {
     @State private var showCompletionToast = false
     @State private var showCancellationToast = false
     @State private var commentText = ""
+    @State private var editingCommentID: String? = nil
     @FocusState private var commentFocused: Bool
     @State private var showEmojiPicker = false
     @State private var showReactionViewer = false
@@ -359,11 +360,8 @@ struct CellDetailView: View {
 
                 Button {
                     showDeleteConfirm = false
-                    let wasCompleted = isCompletedByMe
                     Task {
                         await boardVM.deleteProofImage(row: row, col: col, memberID: currentMemberID)
-                        // 사진 삭제 시 완료 상태도 자동 취소
-                        if wasCompleted { onToggle() }
                         withAnimation(.spring(duration: 0.3)) { showCancellationToast = true }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
                             withAnimation(.spring(duration: 0.3)) { showCancellationToast = false }
@@ -839,18 +837,29 @@ struct CellDetailView: View {
             Spacer()
 
             if isMe {
-                Button {
-                    Task {
-                        await boardVM.deleteComment(
-                            row: row, col: col,
-                            photoOwnerID: currentOwnerID,
-                            commentID: comment.id
-                        )
+                HStack(spacing: 10) {
+                    Button {
+                        commentText = comment.text
+                        editingCommentID = comment.id
+                        commentFocused = true
+                    } label: {
+                        Image(systemName: "pencil")
+                            .font(.system(size: 13))
+                            .foregroundStyle(BRColors.primary.opacity(0.6))
                     }
-                } label: {
-                    Image(systemName: "trash")
-                        .font(.system(size: 13))
-                        .foregroundStyle(BRColors.tertiary.opacity(0.6))
+                    Button {
+                        Task {
+                            await boardVM.deleteComment(
+                                row: row, col: col,
+                                photoOwnerID: currentOwnerID,
+                                commentID: comment.id
+                            )
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                            .font(.system(size: 13))
+                            .foregroundStyle(BRColors.tertiary.opacity(0.6))
+                    }
                 }
             }
         }
@@ -861,15 +870,26 @@ struct CellDetailView: View {
     private func sendComment() {
         let trimmed = commentText.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
+        let editID = editingCommentID
         commentText = ""
         commentFocused = false
+        editingCommentID = nil
         Task {
-            await boardVM.addComment(
-                row: row, col: col,
-                photoOwnerID: currentOwnerID,
-                authorID: currentMemberID,
-                text: trimmed
-            )
+            if let editID {
+                await boardVM.editComment(
+                    row: row, col: col,
+                    photoOwnerID: currentOwnerID,
+                    commentID: editID,
+                    newText: trimmed
+                )
+            } else {
+                await boardVM.addComment(
+                    row: row, col: col,
+                    photoOwnerID: currentOwnerID,
+                    authorID: currentMemberID,
+                    text: trimmed
+                )
+            }
         }
     }
 }

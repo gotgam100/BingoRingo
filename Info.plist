@@ -13,15 +13,19 @@
 	<key>CFBundleName</key>
 	<string>BingoRingo</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.2</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>미션 인증 사진을 촬영하기 위해 카메라에 접근합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>미션 인증 사진을 업로드하기 위해 사진 라이브러리에 접근합니다.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Paperlogy-1Thin.ttf</string>

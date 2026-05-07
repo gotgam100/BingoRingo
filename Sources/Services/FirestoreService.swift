@@ -40,6 +40,13 @@ final class FirestoreService {
         try db.collection("boards").document(board.id).setData(from: board, merge: true)
     }
 
+    func removeInteractions(boardID: String, interactionKey: String) async throws {
+        try await db.collection("boards").document(boardID).updateData([
+            "cellReactions.\(interactionKey)": FieldValue.delete(),
+            "cellComments.\(interactionKey)": FieldValue.delete()
+        ])
+    }
+
     func listenToBoard(id: String, onChange: @escaping (BingoBoard) -> Void) -> ListenerRegistration {
         db.collection("boards").document(id).addSnapshotListener { snapshot, _ in
             guard let board = try? snapshot?.data(as: BingoBoard.self) else { return }
@@ -117,6 +124,47 @@ final class FirestoreService {
 
     func deleteMember(id: String) async throws {
         try await db.collection("members").document(id).delete()
+    }
+
+    // MARK: - FCM Token
+
+    func updateFCMToken(memberID: String, token: String) async throws {
+        try await db.collection("members").document(memberID).updateData([
+            "fcmToken": token,
+            "fcmTokenUpdatedAt": Date()
+        ])
+    }
+
+    func updateLanguage(memberID: String, language: String) async throws {
+        try await db.collection("members").document(memberID).updateData([
+            "language": language
+        ])
+    }
+
+    func clearFCMToken(memberID: String) async throws {
+        try await db.collection("members").document(memberID).updateData([
+            "fcmToken": FieldValue.delete(),
+            "fcmTokenUpdatedAt": FieldValue.delete()
+        ])
+    }
+
+    // MARK: - Notification Settings (방별 × 멤버별)
+
+    func fetchNotificationSettings(groupID: String, memberID: String) async throws -> NotificationSettings {
+        let ref = db.collection("groups").document(groupID)
+            .collection("memberSettings").document(memberID)
+        let snapshot = try await ref.getDocument()
+        if snapshot.exists, let settings = try? snapshot.data(as: NotificationSettings.self) {
+            return settings
+        }
+        return NotificationSettings()  // 기본값: 모든 알림 on
+    }
+
+    func saveNotificationSettings(_ settings: NotificationSettings,
+                                   groupID: String, memberID: String) async throws {
+        let ref = db.collection("groups").document(groupID)
+            .collection("memberSettings").document(memberID)
+        try ref.setData(from: settings, merge: true)
     }
 
 }

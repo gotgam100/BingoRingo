@@ -30,7 +30,16 @@ final class AuthViewModel: NSObject, ObservableObject {
         guard currentMember == nil else { return }
         if let member = try? await FirestoreService.shared.fetchMember(id: user.uid) {
             self.currentMember = member
+            await registerForNotifications(memberID: user.uid)
         }
+    }
+
+    /// 로그인 성공 시 호출 — 알림 권한 요청 + 보류 중이던 FCM 토큰 저장 + 언어 동기화
+    private func registerForNotifications(memberID: String) async {
+        await NotificationService.shared.requestPermission()
+        await NotificationService.shared.flushPendingToken(memberID: memberID)
+        let language = UserDefaults.standard.string(forKey: "appLanguage") ?? "한글"
+        try? await FirestoreService.shared.updateLanguage(memberID: memberID, language: language)
     }
 
     deinit {
@@ -70,6 +79,7 @@ final class AuthViewModel: NSObject, ObservableObject {
                     let member = try await AuthService.shared.signInWithApple(credential: credential)
                     self.currentMember = member
                     self.isLoggedIn = true
+                    if let id = member.id { await self.registerForNotifications(memberID: id) }
                 } catch {
                     self.errorMessage = "로그인 실패: \(error.localizedDescription)"
                 }
@@ -90,6 +100,7 @@ final class AuthViewModel: NSObject, ObservableObject {
                 let member = try await AuthService.shared.signInWithGoogle()
                 self.currentMember = member
                 self.isLoggedIn = true
+                if let id = member.id { await self.registerForNotifications(memberID: id) }
             } catch {
                 self.errorMessage = error.localizedDescription
             }
@@ -104,6 +115,7 @@ final class AuthViewModel: NSObject, ObservableObject {
                 let member = try await AuthService.shared.signInWithEmail(email: email, password: password)
                 self.currentMember = member
                 self.isLoggedIn = true
+                if let id = member.id { await self.registerForNotifications(memberID: id) }
             } catch {
                 self.errorMessage = error.localizedDescription
             }
@@ -118,6 +130,7 @@ final class AuthViewModel: NSObject, ObservableObject {
                 let member = try await AuthService.shared.signUpWithEmail(email: email, password: password)
                 self.currentMember = member
                 self.isLoggedIn = true
+                if let id = member.id { await self.registerForNotifications(memberID: id) }
             } catch {
                 self.errorMessage = error.localizedDescription
             }
@@ -138,6 +151,11 @@ final class AuthViewModel: NSObject, ObservableObject {
     }
 
     func signOut() {
+        // 단일 기기 멀티 계정 시나리오: 로그아웃 시 FCM 토큰을 제거하여
+        // 다음 사용자에게 잘못된 알림이 가지 않도록 한다.
+        if let memberID = currentMember?.id {
+            Task { await NotificationService.shared.clearFCMToken(memberID: memberID) }
+        }
         try? AuthService.shared.signOut()
         PremiumManager.shared.resetStatus()
         currentMember = nil
@@ -146,6 +164,9 @@ final class AuthViewModel: NSObject, ObservableObject {
 
     func deleteAccount() async {
         isLoading = true
+        if let memberID = currentMember?.id {
+            await NotificationService.shared.clearFCMToken(memberID: memberID)
+        }
         do {
             try await AuthService.shared.deleteAccount()
             PremiumManager.shared.resetStatus()

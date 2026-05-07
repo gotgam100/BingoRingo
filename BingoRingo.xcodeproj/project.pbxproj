@@ -28,7 +28,12 @@
 		4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57E586D3453F55689A9A71F8 /* FirebaseAuth */; };
 		4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EA807482A9F2D9C268E5D /* AuthViewModel.swift */; };
 		4D367B8302ACC1B17D69C4AD /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = D722ED58D4549AB471422674 /* Member.swift */; };
+		5443D0D72FAC49AE00D188C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443D0D62FAC49AE00D188C8 /* AppDelegate.swift */; };
+		5443D0D92FAC49C200D188C8 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443D0D82FAC49C200D188C8 /* NotificationSettings.swift */; };
+		5443D0DB2FAC49DD00D188C8 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443D0DA2FAC49DD00D188C8 /* NotificationService.swift */; };
+		5443D0DD2FAC49EF00D188C8 /* RoomSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5443D0DC2FAC49EF00D188C8 /* RoomSettingsSheet.swift */; };
 		54B9F28C2FA84E4D0019D2F1 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */; };
+		54B9F28E2FABA5200019D2F1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 54B9F28D2FABA5200019D2F1 /* FirebaseMessaging */; };
 		54C0FBE32F9D314C00CD4421 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54C0FBE22F9D314C00CD4421 /* Assets.xcassets */; };
 		54E7F7C90BB54CD5B75E2395 /* Paperlogy-5Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D67AA27ED24900BD9C6CCE /* Paperlogy-5Medium.ttf */; };
 		54F7B5122F96AF7500A46F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */; };
@@ -74,8 +79,13 @@
 		46FBFAF45319882CE27AB706 /* BingoCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingoCellView.swift; sourceTree = "<group>"; };
 		4815FF300FBFBD6546F6BFCC /* BRTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BRTypography.swift; sourceTree = "<group>"; };
 		4B8C6944975C50A0FE3B2C9C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		5443D0D62FAC49AE00D188C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5443D0D82FAC49C200D188C8 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
+		5443D0DA2FAC49DD00D188C8 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		5443D0DC2FAC49EF00D188C8 /* RoomSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSettingsSheet.swift; sourceTree = "<group>"; };
 		54B9F2882F9E14400019D2F1 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		54B9F28B2FA84E4D0019D2F1 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		54B9F28F2FABA5730019D2F1 /* BingoRingoDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingoDebug.entitlements; sourceTree = "<group>"; };
 		54C0FBE22F9D314C00CD4421 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54F7B5112F96AF7500A46F0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Resources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingoRingo.entitlements; sourceTree = "<group>"; };
@@ -121,6 +131,7 @@
 			files = (
 				4A523038678A58BDA19AD948 /* FirebaseAuth in Frameworks */,
 				F604333CC86214018081263B /* FirebaseFirestore in Frameworks */,
+				54B9F28E2FABA5200019D2F1 /* FirebaseMessaging in Frameworks */,
 				CACBE9F12D76D3D073065F7B /* FirebaseStorage in Frameworks */,
 				22735FE6A23F7DE1A14E3C96 /* FirebaseAnalytics in Frameworks */,
 				4A10E6D5464D4E31963E38A2 /* GoogleSignIn in Frameworks */,
@@ -158,6 +169,7 @@
 		1315B4C6021CDD08DE1BA80A = {
 			isa = PBXGroup;
 			children = (
+				54B9F28F2FABA5730019D2F1 /* BingoRingoDebug.entitlements */,
 				54B9F2882F9E14400019D2F1 /* Products.storekit */,
 				54C0FBE22F9D314C00CD4421 /* Assets.xcassets */,
 				54F7B5132F96AFF400A46F0A /* BingoRingo.entitlements */,
@@ -204,6 +216,7 @@
 				46FBFAF45319882CE27AB706 /* BingoCellView.swift */,
 				BA8BF8AAD3394344BB248062 /* ConfettiView.swift */,
 				D4C86A6C096E6C8FFEC9E13D /* BoardView.swift */,
+				5443D0DC2FAC49EF00D188C8 /* RoomSettingsSheet.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -216,6 +229,7 @@
 				9560BE2C6593094F4CF47276 /* BingoGroup.swift */,
 				5F5ED555CF418547066B2B68 /* BingoReward.swift */,
 				D722ED58D4549AB471422674 /* Member.swift */,
+				5443D0D82FAC49C200D188C8 /* NotificationSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +242,7 @@
 				815968D9D89F8A21022B4973 /* AuthService.swift */,
 				152FC9140586ABDBA50FC102 /* FirestoreService.swift */,
 				915968D9D89F8A21022B4974 /* PremiumManager.swift */,
+				5443D0DA2FAC49DD00D188C8 /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -267,6 +282,7 @@
 				598FBFF0DF4981FDC1DF607D /* BingoRingoApp.swift */,
 				10395079EAF31452DE60104B /* ContentView.swift */,
 				195835304BD87F3DC6DA80E4 /* RootView.swift */,
+				5443D0D62FAC49AE00D188C8 /* AppDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -345,6 +361,7 @@
 				6F2CE1540DC853E62BD6F4BC /* FirebaseAnalytics */,
 				6AC498B425D44DF9863956AB /* GoogleSignIn */,
 				95AE1E0D138F40E5BF9AC6F0 /* GoogleSignInSwift */,
+				54B9F28D2FABA5200019D2F1 /* FirebaseMessaging */,
 			);
 			productName = BingoRingo;
 			productReference = 8FEA6D32DE0D3C066DE3F796 /* BingoRingo.app */;
@@ -420,11 +437,13 @@
 				BB1F8A2AFC5E2D4B9E7C3F91 /* LocalizedStrings.swift in Sources */,
 				4AE2578EDE583CC3447AD918 /* AuthViewModel.swift in Sources */,
 				825A48D9EC19FB2474D5EE38 /* BRColors.swift in Sources */,
+				5443D0DB2FAC49DD00D188C8 /* NotificationService.swift in Sources */,
 				8EF5E49DF500BF8979303A70 /* BRShapes.swift in Sources */,
 				2E17A616CDFB3CF5F2A68614 /* BRTypography.swift in Sources */,
 				6F6EB6324A1CD8FC5C170B11 /* BingoBoard.swift in Sources */,
 				58B97FE764231816B68B9647 /* BingoCell.swift in Sources */,
 				54F7B5162F96C4E800A46F0A /* CellEditSheet.swift in Sources */,
+				5443D0D92FAC49C200D188C8 /* NotificationSettings.swift in Sources */,
 				04620A6D75C613ED4E7543B6 /* BingoCellView.swift in Sources */,
 				FE147C9744774F0E8DBAB0C3 /* ConfettiView.swift in Sources */,
 				26A9DB720223C666E329F373 /* BingoGroup.swift in Sources */,
@@ -438,6 +457,7 @@
 				AAC72F15FC214A97BFCBBE99 /* PremiumManager.swift in Sources */,
 				18D85AA7FA704DCBA16824DA /* EditGroupSheet.swift in Sources */,
 				54B9F28C2FA84E4D0019D2F1 /* StorageService.swift in Sources */,
+				5443D0DD2FAC49EF00D188C8 /* RoomSettingsSheet.swift in Sources */,
 				3659A8A227B54EB18325F1C9 /* ImageCache.swift in Sources */,
 				F95902CF24F6B90B227C76CD /* CreateGroupSheet.swift in Sources */,
 				116C53EE175B9C138D98080A /* FirestoreService.swift in Sources */,
@@ -448,6 +468,7 @@
 				609BF4B559E7457B877FC798 /* EmailAuthSheet.swift in Sources */,
 				7852C7858C649415169742F3 /* OnboardingView.swift in Sources */,
 				457F78CB232FE88BD172D6AF /* RootView.swift in Sources */,
+				5443D0D72FAC49AE00D188C8 /* AppDelegate.swift in Sources */,
 				FA1B2C3D4E5F6A7B8C9D0E1F /* UserGuideView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,10 +493,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BingoRingoDebug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
@@ -485,7 +506,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bingoringo.app;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -627,7 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = BingoRingo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = SB2Z6HL579;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
@@ -637,7 +658,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bingoringo.app;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -691,6 +712,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		54B9F28D2FABA5200019D2F1 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		57E586D3453F55689A9A71F8 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 730EBFB792EAE5FEE50D7F38 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
