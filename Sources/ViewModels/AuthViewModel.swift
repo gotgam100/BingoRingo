@@ -38,6 +38,7 @@ final class AuthViewModel: NSObject, ObservableObject {
     private func registerForNotifications(memberID: String) async {
         await NotificationService.shared.requestPermission()
         await NotificationService.shared.flushPendingToken(memberID: memberID)
+        await NotificationService.shared.syncCurrentToken(memberID: memberID)
         let language = UserDefaults.standard.string(forKey: "appLanguage") ?? "한글"
         try? await FirestoreService.shared.updateLanguage(memberID: memberID, language: language)
     }

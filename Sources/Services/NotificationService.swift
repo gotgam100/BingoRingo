@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import UserNotifications
 import FirebaseAuth
+import FirebaseMessaging
 
 /// 푸시 알림 권한 / FCM 토큰 / 방별 알림 설정 관리
 @MainActor
@@ -67,11 +68,24 @@ final class NotificationService {
     /// 로그인 직후 호출 — 보류 중이던 토큰을 현재 사용자의 Member 문서에 저장
     func flushPendingToken(memberID: String) async {
         guard let token = pendingToken else { return }
+        pendingToken = nil
         do {
             try await FirestoreService.shared.updateFCMToken(memberID: memberID, token: token)
         } catch {
             #if DEBUG
             print("FCM 토큰 flush 실패: \(error)")
+            #endif
+        }
+    }
+
+    /// FCM SDK에서 현재 토큰을 직접 읽어 저장 — 콜백 타이밍과 무관하게 항상 최신 토큰 동기화
+    func syncCurrentToken(memberID: String) async {
+        guard let token = Messaging.messaging().fcmToken else { return }
+        do {
+            try await FirestoreService.shared.updateFCMToken(memberID: memberID, token: token)
+        } catch {
+            #if DEBUG
+            print("FCM 토큰 동기화 실패: \(error)")
             #endif
         }
     }

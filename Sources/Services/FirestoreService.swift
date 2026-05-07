@@ -129,10 +129,10 @@ final class FirestoreService {
     // MARK: - FCM Token
 
     func updateFCMToken(memberID: String, token: String) async throws {
-        try await db.collection("members").document(memberID).updateData([
+        try await db.collection("members").document(memberID).setData([
             "fcmToken": token,
-            "fcmTokenUpdatedAt": Date()
-        ])
+            "fcmTokenUpdatedAt": FieldValue.serverTimestamp()
+        ], merge: true)
     }
 
     func updateLanguage(memberID: String, language: String) async throws {
