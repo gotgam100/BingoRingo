@@ -181,6 +181,23 @@ final class BoardViewModel: ObservableObject {
         try? await FirestoreService.shared.updateBoard(board)
     }
 
+    // MARK: - 댓글 반응
+
+    func toggleCommentReaction(row: Int, col: Int, photoOwnerID: String,
+                               commentID: String, reactorID: String, emoji: String) async {
+        guard var board else { return }
+        let key = BingoBoard.interactionKey(cellID: board.cell(row: row, col: col).id, ownerID: photoOwnerID)
+        var comments = board.cellComments[key] ?? []
+        guard let idx = comments.firstIndex(where: { $0.id == commentID }) else { return }
+        var reactions = comments[idx].reactions
+        if reactions[reactorID] == emoji { reactions.removeValue(forKey: reactorID) }
+        else { reactions[reactorID] = emoji }
+        comments[idx].reactions = reactions
+        board.cellComments[key] = comments
+        self.board = board
+        try? await FirestoreService.shared.updateBoard(board)
+    }
+
     // MARK: - 댓글
 
     func addComment(row: Int, col: Int, photoOwnerID: String,

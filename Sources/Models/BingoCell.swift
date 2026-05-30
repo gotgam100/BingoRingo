@@ -13,8 +13,10 @@ struct CellComment: Identifiable, Codable, Equatable {
     var authorMemberID: String
     var text: String
     var createdAt: Date = Date()
+    // key: reactorMemberID → emoji
+    var reactions: [String: String] = [:]
 
-    enum CodingKeys: String, CodingKey { case id, authorMemberID, text, createdAt }
+    enum CodingKeys: String, CodingKey { case id, authorMemberID, text, createdAt, reactions }
 
     init(authorMemberID: String, text: String) {
         self.authorMemberID = authorMemberID
@@ -27,6 +29,7 @@ struct CellComment: Identifiable, Codable, Equatable {
         authorMemberID = (try? c.decode(String.self, forKey: .authorMemberID)) ?? ""
         text           = (try? c.decode(String.self, forKey: .text))           ?? ""
         createdAt      = (try? c.decode(Date.self,   forKey: .createdAt))      ?? Date()
+        reactions      = (try? c.decode([String: String].self, forKey: .reactions)) ?? [:]
     }
 }
 

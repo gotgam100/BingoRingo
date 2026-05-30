@@ -25,6 +25,7 @@ struct CellDetailView: View {
     @FocusState private var commentFocused: Bool
     @State private var showEmojiPicker = false
     @State private var showReactionViewer = false
+    @State private var reactingCommentID: String? = nil
 
     init(cell: BingoCell, row: Int, col: Int, memberIDs: [String], currentMemberID: String,
          boardVM: BoardViewModel, onToggle: @escaping () -> Void) {
@@ -172,6 +173,11 @@ struct CellDetailView: View {
                     reactionViewerOverlay
                 }
 
+                // ── 댓글 반응 이모지 피커 ──
+                if reactingCommentID != nil {
+                    commentReactionPickerOverlay
+                }
+
                 // ── 미션 완료 토스트 ──
                 if showCompletionToast {
                     VStack {
@@ -266,6 +272,7 @@ struct CellDetailView: View {
                 commentFocused = false
                 showEmojiPicker = false
                 showReactionViewer = false
+                reactingCommentID = nil
             }
             .onAppear {
                 // 뷰 등장 시 현재 셀의 모든 인증사진을 백그라운드에서 미리 로드
@@ -746,6 +753,63 @@ struct CellDetailView: View {
         }
     }
 
+    // MARK: - 댓글 반응 이모지 피커 오버레이
+
+    private var commentReactionPickerOverlay: some View {
+        let targetComment = commentsForCurrentPhoto.first { $0.id == reactingCommentID }
+        let myReaction = targetComment?.reactions[currentMemberID]
+
+        return ZStack {
+            Color.black.opacity(0.45)
+                .ignoresSafeArea()
+                .onTapGesture { reactingCommentID = nil }
+
+            VStack(spacing: 16) {
+                Text(Localization.isEnglish ? "React to comment" : "댓글에 반응")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(BRColors.onSurface)
+
+                let cols = Array(repeating: GridItem(.flexible(), spacing: 8), count: 5)
+                LazyVGrid(columns: cols, spacing: 8) {
+                    ForEach(ReactionPalette.emojis, id: \.self) { emoji in
+                        let isSelected = myReaction == emoji
+                        Button {
+                            if let commentID = reactingCommentID {
+                                Task {
+                                    await boardVM.toggleCommentReaction(
+                                        row: row, col: col,
+                                        photoOwnerID: currentOwnerID,
+                                        commentID: commentID,
+                                        reactorID: currentMemberID,
+                                        emoji: emoji
+                                    )
+                                }
+                            }
+                            reactingCommentID = nil
+                        } label: {
+                            Text(emoji)
+                                .font(.system(size: 28))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(isSelected ? BRColors.primaryDim : BRColors.surfaceLow)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .strokeBorder(isSelected ? BRColors.primary : Color.clear, lineWidth: 2)
+                                )
+                        }
+                        .animation(.spring(duration: 0.2), value: isSelected)
+                    }
+                }
+            }
+            .padding(24)
+            .background(BRColors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(color: .black.opacity(0.18), radius: 24, y: 8)
+            .padding(.horizontal, 36)
+        }
+    }
+
     // MARK: - 댓글 섹션
 
     private var commentSection: some View {
@@ -832,12 +896,24 @@ struct CellDetailView: View {
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(BRColors.onSurface)
                     .fixedSize(horizontal: false, vertical: true)
+
+                // 댓글 반응 칩
+                commentReactionChips(for: comment)
             }
 
             Spacer()
 
-            if isMe {
-                HStack(spacing: 10) {
+            HStack(spacing: 10) {
+                // 반응 버튼 (모든 댓글에 표시)
+                Button {
+                    reactingCommentID = comment.id
+                } label: {
+                    Image(systemName: "face.smiling")
+                        .font(.system(size: 13))
+                        .foregroundStyle(BRColors.onSurfaceMuted)
+                }
+
+                if isMe {
                     Button {
                         commentText = comment.text
                         editingCommentID = comment.id
@@ -865,6 +941,46 @@ struct CellDetailView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
+    }
+
+    // 댓글별 반응 집계 칩 (탭 시 내 반응 토글)
+    @ViewBuilder
+    private func commentReactionChips(for comment: CellComment) -> some View {
+        let aggregated: [(String, Int)] = ReactionPalette.emojis.compactMap { emoji in
+            let count = comment.reactions.values.filter { $0 == emoji }.count
+            return count > 0 ? (emoji, count) : nil
+        }
+        if !aggregated.isEmpty {
+            HStack(spacing: 5) {
+                ForEach(aggregated, id: \.0) { emoji, count in
+                    let mine = comment.reactions[currentMemberID] == emoji
+                    Button {
+                        Task {
+                            await boardVM.toggleCommentReaction(
+                                row: row, col: col,
+                                photoOwnerID: currentOwnerID,
+                                commentID: comment.id,
+                                reactorID: currentMemberID,
+                                emoji: emoji
+                            )
+                        }
+                    } label: {
+                        Text(count > 1 ? "\(emoji) \(count)" : emoji)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(BRColors.onSurface)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(mine ? BRColors.primaryDim : BRColors.surfaceContainer)
+                            .clipShape(Capsule())
+                            .overlay(
+                                Capsule()
+                                    .strokeBorder(mine ? BRColors.primary : Color.clear, lineWidth: 1.5)
+                            )
+                    }
+                }
+            }
+            .padding(.top, 2)
+        }
     }
 
     private func sendComment() {
