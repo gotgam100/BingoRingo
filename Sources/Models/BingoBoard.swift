@@ -26,6 +26,14 @@ struct BingoBoard: Identifiable, Codable, Equatable {
         cells[index] = cell
     }
 
+    /// 셀 ID로 찾아서 수정 — 서버 최신 판에 적용할 때 위치 대신 ID로 정확히 찾기 위함
+    @discardableResult
+    mutating func updateCell(id cellID: String, _ body: (inout BingoCell) -> Void) -> Bool {
+        guard let index = cells.firstIndex(where: { $0.id == cellID }) else { return false }
+        body(&cells[index])
+        return true
+    }
+
     static func interactionKey(cellID: String, ownerID: String) -> String {
         "\(cellID)|\(ownerID)"
     }

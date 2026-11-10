@@ -52,10 +52,26 @@ final class AuthService: @unchecked Sendable {
         try Auth.auth().signOut()
     }
 
+    /// Firebase는 로그인한 지 오래되면(약 5분) 계정 삭제를 거부한다.
+    /// 데이터를 지우기 전에 미리 확인해서, 데이터만 지워지고 계정은 남는 상태를 막는다.
+    var needsRecentLoginForDeletion: Bool {
+        guard let lastSignIn = currentUser?.metadata.lastSignInDate else { return true }
+        return Date().timeIntervalSince(lastSignIn) > 4 * 60
+    }
+
     func deleteAccount() async throws {
         guard let user = Auth.auth().currentUser else { return }
+        // 1. 참여 중인 방에서 빠지기 (남은 멤버들이 빙고를 계속 달성할 수 있도록)
+        try await FirestoreService.shared.removeMemberFromAllGroups(memberID: user.uid)
+        // 2. 회원 정보 삭제 → 3. 로그인 계정 삭제 (Firestore 권한이 필요하므로 이 순서)
         try await FirestoreService.shared.deleteMember(id: user.uid)
         try await user.delete()
+    }
+
+    static func isRequiresRecentLogin(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == AuthErrorDomain
+            && nsError.code == AuthErrorCode.requiresRecentLogin.rawValue
     }
 
     enum AuthError: LocalizedError {

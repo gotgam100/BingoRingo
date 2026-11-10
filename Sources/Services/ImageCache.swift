@@ -1,4 +1,5 @@
 import SwiftUI
+import CryptoKit
 
 // MARK: - 메모리 + 디스크 이중 이미지 캐시
 
@@ -9,7 +10,9 @@ final class ImageCacheStore {
 
     private init() {
         let base = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        diskDir = base.appendingPathComponent("ProofImageCache", isDirectory: true)
+        // 예전 캐시는 앱을 켤 때마다 파일 이름이 달라져 재사용되지 않고 쌓이기만 했으므로 한 번 정리
+        try? FileManager.default.removeItem(at: base.appendingPathComponent("ProofImageCache", isDirectory: true))
+        diskDir = base.appendingPathComponent("ProofImageCache_v2", isDirectory: true)
         try? FileManager.default.createDirectory(at: diskDir, withIntermediateDirectories: true)
     }
 
@@ -34,7 +37,11 @@ final class ImageCacheStore {
         }
     }
 
-    private func filename(for url: String) -> String { "\(url.hashValue).jpg" }
+    /// URL → 항상 같은 파일 이름 (String.hashValue는 앱 실행마다 바뀌어서 디스크 캐시가 맞지 않았음)
+    private func filename(for url: String) -> String {
+        let digest = SHA256.hash(data: Data(url.utf8))
+        return digest.map { String(format: "%02x", $0) }.joined() + ".jpg"
+    }
 }
 
 // MARK: - 캐시 연동 비동기 이미지 뷰

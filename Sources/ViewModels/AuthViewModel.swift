@@ -154,9 +154,17 @@ final class AuthViewModel: NSObject, ObservableObject {
     func signOut() {
         // 단일 기기 멀티 계정 시나리오: 로그아웃 시 FCM 토큰을 제거하여
         // 다음 사용자에게 잘못된 알림이 가지 않도록 한다.
-        if let memberID = currentMember?.id {
-            Task { await NotificationService.shared.clearFCMToken(memberID: memberID) }
+        // 토큰 삭제는 로그인 권한이 필요하므로 반드시 로그아웃 "전에" 끝낸다.
+        let memberID = currentMember?.id
+        Task {
+            if let memberID {
+                await NotificationService.shared.clearFCMToken(memberID: memberID)
+            }
+            self.finishSignOut()
         }
+    }
+
+    private func finishSignOut() {
         try? AuthService.shared.signOut()
         PremiumManager.shared.resetStatus()
         currentMember = nil
@@ -164,17 +172,31 @@ final class AuthViewModel: NSObject, ObservableObject {
     }
 
     func deleteAccount() async {
-        isLoading = true
-        if let memberID = currentMember?.id {
+        guard let memberID = currentMember?.id else { return }
+
+        // 로그인한 지 오래됐으면 아무것도 지우지 않고 재로그인부터 요청
+        if AuthService.shared.needsRecentLoginForDeletion {
             await NotificationService.shared.clearFCMToken(memberID: memberID)
+            finishSignOut()
+            errorMessage = Localization.Profile.reloginToDelete
+            return
         }
+
+        isLoading = true
+        await NotificationService.shared.clearFCMToken(memberID: memberID)
         do {
             try await AuthService.shared.deleteAccount()
             PremiumManager.shared.resetStatus()
             currentMember = nil
             isLoggedIn = false
         } catch {
-            errorMessage = error.localizedDescription
+            if AuthService.isRequiresRecentLogin(error) {
+                // 드물게 사전 확인을 통과했는데도 거부된 경우: 로그아웃 후 재로그인 안내
+                finishSignOut()
+                errorMessage = Localization.Profile.reloginToDelete
+            } else {
+                errorMessage = error.localizedDescription
+            }
         }
         isLoading = false
     }

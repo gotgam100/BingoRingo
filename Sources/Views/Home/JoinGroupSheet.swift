@@ -136,19 +136,17 @@ struct JoinGroupSheet: View {
         guard !memberID.isEmpty else { return }
         isLoading = true
         do {
-            guard var group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
+            guard let group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
                 errorMessage = Localization.isEnglish ? "Invite code not found." : "초대 코드를 찾을 수 없어요."
                 isLoading = false
                 return
             }
-            if group.memberIDs.count >= 10 {
+            // 방 문서 전체를 덮어쓰지 않고 멤버 목록에 나만 추가 (동시 참여 시에도 서로 빠지지 않음)
+            let result = try await FirestoreService.shared.joinGroup(groupID: group.id, memberID: memberID)
+            if result == .full {
                 errorMessage = Localization.isEnglish ? "This room is full (max 10 members)." : "방이 꽉 찼어요. (최대 10명)"
                 isLoading = false
                 return
-            }
-            if !group.memberIDs.contains(memberID) {
-                group.memberIDs.append(memberID)
-                try await FirestoreService.shared.createGroup(group)
             }
             onJoined()
             dismiss()

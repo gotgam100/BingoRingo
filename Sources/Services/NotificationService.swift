@@ -91,13 +91,23 @@ final class NotificationService {
     }
 
     /// 로그아웃 직전 호출 — 단일 기기 멀티 계정 시나리오 대응
+    /// 오프라인이면 서버 응답이 오지 않으므로 최대 3초만 기다린다 (로그아웃이 멈추지 않도록).
     func clearFCMToken(memberID: String) async {
-        do {
-            try await FirestoreService.shared.clearFCMToken(memberID: memberID)
-        } catch {
-            #if DEBUG
-            print("FCM 토큰 제거 실패: \(error)")
-            #endif
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                do {
+                    try await FirestoreService.shared.clearFCMToken(memberID: memberID)
+                } catch {
+                    #if DEBUG
+                    print("FCM 토큰 제거 실패: \(error)")
+                    #endif
+                }
+            }
+            group.addTask {
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+            }
+            await group.next()
+            group.cancelAll()
         }
     }
 

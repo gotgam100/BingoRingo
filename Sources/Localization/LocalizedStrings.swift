@@ -169,6 +169,7 @@ enum Localization {
         static var deleteAccount: String { isEnglish ? "Delete Account" : "계정 삭제" }
         static var deleteAccountConfirm: String { isEnglish ? "Delete your account?" : "계정을 삭제할까요?" }
         static var deleteAccountMessage: String { isEnglish ? "All data will be permanently deleted and cannot be recovered." : "모든 데이터가 영구 삭제되며 복구할 수 없어요." }
+        static var reloginToDelete: String { isEnglish ? "For your security, please sign in again and then delete your account." : "보안을 위해 다시 로그인한 뒤 계정 삭제를 진행해주세요." }
     }
 
     enum RoomSettings {

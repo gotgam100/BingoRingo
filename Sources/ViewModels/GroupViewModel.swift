@@ -33,13 +33,11 @@ final class GroupViewModel: ObservableObject {
     }
 
     func joinGroup(inviteCode: String, memberID: String) async throws {
-        guard var group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
+        guard let group = try await FirestoreService.shared.fetchGroup(byInviteCode: inviteCode) else {
             throw GroupError.notFound
         }
-        guard group.memberIDs.count < 10 else { throw GroupError.full }
-        guard !group.memberIDs.contains(memberID) else { return }
-        group.memberIDs.append(memberID)
-        try await FirestoreService.shared.createGroup(group)
+        let result = try await FirestoreService.shared.joinGroup(groupID: group.id, memberID: memberID)
+        if result == .full { throw GroupError.full }
     }
 
     deinit {
